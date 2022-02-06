@@ -1,0 +1,82 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:body>
+
+	<h1>Articoli</h1>
+
+</h:body>
+
+<p:dataGrid var="articolo" value="#{articoliBean.allArticoli}"
+	columns="3" layout="grid" rows="12" paginator="true" id="artic"
+	paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+	rowsPerPageTemplate="6,12,16">
+
+	<f:facet name="header">
+            Articoli in vendita
+        </f:facet>
+
+	<p:panel header="#{articolo.titolo_articolo}" style="text-align:center">
+		<h:panelGrid columns="1" style="width:100%">
+			<p:graphicImage name="img/articoli/#{articolo.indirizzo_immagine}"
+				title="articolo" style="width: 100px; height: 100px;" />
+			<h:outputText value="#{articolo.descrizione_articolo}" width="100"
+				height="100" />
+			<p:commandLink update="menuForm:tabView:articoloDetail"
+				oncomplete="PF('articoloDettaglio').show()"
+				title="Visualizza Dettagli">
+				<h:outputText value="Altro..." styleClass="pi pi-search"
+					style="margin:0 auto;" />
+				<f:setPropertyActionListener value="#{articolo}"
+					target="#{articoliBean.articoloSelezionato}" />
+			</p:commandLink>
+		</h:panelGrid>
+	</p:panel>
+
+</p:dataGrid>
+
+<p:dialog header="Informazioni Sull'Articolo"
+	widgetVar="articoloDettaglio" showEffect="fade" hideEffect="fade"
+	resizable="true">
+	<p:outputPanel id="articoloDetail" style="text-align:center;">
+		<p:panelGrid columns="2"
+			rendered="#{articoliBean.articoloSelezionato != null }"
+			columnClasses="label,value">
+			<f:facet name="header">
+
+				<p:graphicImage name="img/articoli/#{articoliBean.articoloSelezionato.indirizzo_immagine}"
+					title="verniceNera" style="width:250px; height:250px"/>
+			</f:facet>
+
+
+			<h:outputText value="Prezzo:" />
+			<h:outputText
+				value="€ #{articoliBean.articoloSelezionato.prezzo_unitario}" />
+
+			<h:outputText value="Marca:" />
+			<h:outputText
+				value="#{articoliBean.articoloSelezionato.marchio}" />
+
+			<h:outputText value="Quantità Disponibile: " />
+			<h:outputText
+				value="#{ articoliBean.articoloSelezionato.quantita_disponibile}" />
+
+			<h:outputText value="Colore:" />
+			<h:outputText value="#{articoliBean.articoloSelezionato.colore}"
+				style="color:#{articoliBean.articoloSelezionato.colore}" />
+
+			<h:outputText value="Descrizione:" />
+			<h:outputText
+				value="#{articoliBean.articoloSelezionato.descrizione_articolo}" />
+
+			<h:outputText value="Categoria:" />
+			<h:outputText
+				value="#{articoliBean.articoloSelezionato.categoriaDiAppartenenza.nome_categoria}" />
+		</p:panelGrid>
+	</p:outputPanel>
+</p:dialog>
+
+</html>

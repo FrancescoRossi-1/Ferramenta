@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+	<h:outputStylesheet name="/css/style.css" library="css" />
+</h:head>
+
+<h:body>
+
+	<header>
+
+		<div>
+			<h1>Ferramenta</h1>
+		</div>
+
+	</header>
+
+
+	<h:form id="menuForm">
+		<p:outputPanel rendered="#{sessionBean.errorMessage != null}"
+			id="messaggioSuccesso" style="margin-left: auto; margin-right: auto;">
+			<p:staticMessage severity="error" summary="ERRORE!"
+				detail="#{sessionBean.errorMessage} " />
+		</p:outputPanel>
+		<p:outputPanel rendered="#{sessionBean.successMessage != null}"
+			id="messaggioErrore" style="margin-left: auto; margin-right: auto;">
+			<p:staticMessage severity="info" summary="Successo!"
+				detail="#{sessionBean.successMessage}" />
+		</p:outputPanel>
+		<p:tabView id="tabView" activeIndex="#{menuBean.tabIndex}">
+			<p:ajax event="tabChange"
+				listener="#{menuBean.onTabChangeInserimento}" />
+			<p:tab title="Home" id="tabHome">
+				<ui:include src="/pages/homepage.xhtml" />
+			</p:tab>
+			<p:tab title="Login" id="tabLogin"
+				rendered="#{sessionBean.loggedUser eq null}">
+				<ui:include src="/pages/login.xhtml" />
+			</p:tab>
+			<p:tab title="Registrati" id="tabRegistrazione"
+				rendered="#{sessionBean.loggedUser eq null}">
+				<ui:include src="/pages/signup.xhtml" />
+			</p:tab>
+			<p:tab title="Categorie" id="tabCategorie"
+				rendered="#{sessionBean.loggedUser != null}" icon="pi pi-star">
+				<ui:include src="/pages/categorie.xhtml" />
+			</p:tab>
+			<p:tab title="Articoli" id="tabArticoli" icon="pi pi-star"
+				rendered="#{sessionBean.loggedUser != null}">
+				<ui:include src="/pages/articoli.xhtml" />
+			</p:tab>
+			<p:tab title="Area Riservata" id="tabAreaRiservata" icon="pi pi-star"
+				rendered="#{sessionBean.loggedUser.isAdmin}">
+				<ui:include src="/pages/areaRiservata.xhtml" />
+			</p:tab>
+			<p:tab title="Logout" icon="pi pi-star" id="tabLogout"
+				rendered="#{sessionBean.loggedUser != null}">
+			</p:tab>
+		</p:tabView>
+	</h:form>
+	<footer>
+
+		<div>
+			<h1>Ferramenta</h1>
+		</div>
+
+	</footer>
+
+</h:body>
+</html>

@@ -1,0 +1,122 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+		<p:panel id="panelSignUp">
+			<p:panelGrid id="gridSignUp" cellpadding="2"
+				style="margin-left: auto; margin-right: auto;">
+				<p:row>
+					<p:column colspan="1">
+						<p:outputLabel for="nomeSignUp" value="Nome" />
+					</p:column>
+					<p:column colspan="2">
+						<p:inputText id="nomeSignUp" value="#{signUpBean.user.nome}"
+							 />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<p:outputLabel for="cognomeSignUp" value="Cognome" />
+					</p:column>
+					<p:column colspan="2">
+						<p:inputText id="cognomeSignUp" value="#{signUpBean.user.cognome}"
+							 />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<p:outputLabel for="emailSignUp" value="Email"  />
+					</p:column>
+					<p:column colspan="2">
+						<p:inputText id="emailSignUp" value="#{signUpBean.user.email}"
+							 />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<p:outputLabel for="passwordSignUp" value="Password"
+							 />
+					</p:column>
+					<p:column colspan="2">
+						<p:password id="passwordSignUp"
+							value="#{signUpBean.user.password}" feedback="true"
+							 />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<p:outputLabel for="dataNascitaSignUp" value="Data Di Nascita" />
+					</p:column>
+					<p:column colspan="2">
+						<p:datePicker id="dataNascitaSignUp" pattern="dd/MM/yyyy"
+							value="#{signUpBean.user.data_nascita}" autocomplete="off"
+							 />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<p:outputLabel for="codFiscaleSignUp" value="Codice Fiscale" />
+					</p:column>
+					<p:column colspan="2">
+						<p:inputText id="codFiscaleSignUp"
+							value="#{signUpBean.user.codice_fiscale}"/>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<p:outputLabel for="provinciaSignUp" value="Provincia" />
+					</p:column>
+					<p:column colspan="2">
+						<p:selectOneMenu id="provinciaSignUp"
+							value="#{signUpBean.user.indirizzoResidenza.provinciaDiAppartenenza.id_province}">
+							<f:selectItem itemLabel="Seleziona una scelta" itemValue="0" />
+							<f:selectItems value="#{signUpBean.provinceEstrapolate}"
+								var="item" itemLabel="#{item.nome_province}"
+								itemValue="#{item.id_province}" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<p:outputLabel for="viaSignUp" value="Via" />
+					</p:column>
+					<p:column colspan="2">
+						<p:inputText id="viaSignUp"
+							value="#{signUpBean.user.indirizzoResidenza.via}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<p:outputLabel for="nCivicoSignUp" value="Numero Civico" />
+					</p:column>
+					<p:column colspan="2">
+						<p:inputText id="nCivicoSignUp"
+							value="#{signUpBean.user.indirizzoResidenza.n_civico}"
+							 />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<p:outputLabel for="capSignUp" value="CAP" />
+					</p:column>
+					<p:column colspan="2">
+						<p:inputText id="capSignUp"
+							value="#{signUpBean.user.indirizzoResidenza.cap}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="3">
+						<p:commandButton value="Registrati" id="registrazione"
+							actionListener="#{signUpBean.registraUtente}"
+							style="margin-right:20px;" styleClass="ui-priority-primary" update="@form"/>
+						<p:commandButton value="Pulisci Campi" id="pulisciCampiSignUp"
+						ajax="false" actionListener="#{signUpBean.pulisciCampi}"
+							style="margin-right:20px;" styleClass="ui-priority-primary" async="true"  update="@form"/>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</p:panel>
+</h:body>
+</html>
