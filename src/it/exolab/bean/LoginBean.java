@@ -51,7 +51,8 @@ public class LoginBean implements Serializable {
 			
 		} catch ( UtenteNonEsistente une ) {
 			
-			sessionBean.setErrorMessage(une.getMessage());
+			sessionBean.setErrorMessage(une.getMessage());	
+			log.info(une.getMessage(), une);
 			
 		} catch ( Exception e ) {
 			

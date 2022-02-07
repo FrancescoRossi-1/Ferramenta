@@ -8,13 +8,13 @@
 
 	<h1>Area Riservata Admin</h1>
 
-	<p:panelMenu style="width:300px">
+	<p:panelMenu style="width:300px;margin-left:auto;margin-right:auto;">
 		<p:submenu label="Gestione Articoli">
 			<p:menuitem value="Aggiungi Articolo"
 				action="#{areaRiservataBean.showAddArticoli}"
 				update="menuForm:tabView:panelAddArticoli" icon="pi pi-save" />
-			<p:menuitem value="Visualizza Articoli" action="#{areaRiservataBean.showViewArticoli}"
-				icon="pi pi-refresh" />
+			<p:menuitem value="Visualizza Articoli"
+				action="#{areaRiservataBean.showViewArticoli}" icon="pi pi-refresh" />
 		</p:submenu>
 		<p:submenu label="Gestione Utenti">
 			<p:menuitem value="Visualizza Utenti"
@@ -22,14 +22,14 @@
 				icon="pi pi-times" />
 		</p:submenu>
 		<p:separator />
-		<p:submenu label="Gestione Ordini" >
+		<p:submenu label="Gestione Ordini">
 			<p:menuitem value="Visualizza Ordini"
 				action="#{areaRiservataBean.showViewOrdini}" />
 		</p:submenu>
 	</p:panelMenu>
-
-	<p:panel id="panelAddArticoli"
-		rendered="#{areaRiservataBean.viewAddArticoli}">
+	
+	<p:panel id="panelAddArticoli" rendered="#{areaRiservataBean.viewAddArticoli}">
+	<h2>Aggiungi articolo</h2>
 		<p:panelGrid id="gridAddArticoli" cellpadding="2"
 			style="margin-left: auto; margin-right: auto;">
 			<p:row>
@@ -47,9 +47,9 @@
 						value="Descrizione Articolo:" />
 				</p:column>
 				<p:column colspan="2">
-					<p:textEditor id="descrizioneArticolo"
-						value="#{areaRiservataBean.addArticolo.titolo_articolo}"
-						height="150" width="200" style="margin-bottom:10px" />
+					<p:inputText id="descrizioneArticolo"
+						value="#{areaRiservataBean.addArticolo.descrizione_articolo}"
+						style="margin-bottom:10px" />
 				</p:column>
 			</p:row>
 			<p:row>
@@ -61,6 +61,7 @@
 				</p:column>
 			</p:row>
 		</p:panelGrid>
+
 	</p:panel>
 
 </h:body>

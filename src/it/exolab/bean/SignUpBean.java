@@ -22,7 +22,7 @@ import it.exolab.exception.UtenteEsistente;
 import it.exolab.service.SignUpService;
 
 @SuppressWarnings( "deprecation" )
-@ManagedBean()
+@ManagedBean
 @SessionScoped
 public class SignUpBean implements Serializable {
 	

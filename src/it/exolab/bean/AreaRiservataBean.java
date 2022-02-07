@@ -51,6 +51,13 @@ public class AreaRiservataBean implements Serializable {
 		viewArticoli = false;
 		viewUtenti = false;
 		viewOrdini = false;
+		
+		log.info("-->Finito Add Articoli, viewAddArticoli="+viewAddArticoli);
+		
+	}
+	
+	public void insertArticolo() {
+		log.info("--> Inserimento articolo.");
 	}
 	
 	public void showViewArticoli() {
