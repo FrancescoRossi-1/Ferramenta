@@ -4,10 +4,13 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
+import org.primefaces.model.file.UploadedFile;
 
 import it.exolab.dao.ArticoloDAO;
 import it.exolab.dao.CategoriaDAO;
@@ -29,6 +32,8 @@ public class AreaRiservataBean implements Serializable {
 	List<Articolo> allArticoli;
 	List<Utente> allUtenti;
 	List<Categoria> allCategorie;
+	
+	private UploadedFile imageFile;
 	
 	private Boolean viewAddArticoli;
 	private Boolean viewArticoli;
@@ -61,6 +66,17 @@ public class AreaRiservataBean implements Serializable {
 		allCategorie.forEach(cat -> log.info(cat));
 		
 		
+	}
+	
+	public void uploadImage() {
+		
+		log.info("Immagine ->  " + imageFile);
+		
+        if (imageFile != null) {
+        	
+            FacesMessage message = new FacesMessage("Successful", imageFile.getFileName() + " is uploaded.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
 	}
 	
 	public void insertArticolo() {
@@ -112,20 +128,28 @@ public class AreaRiservataBean implements Serializable {
 		this.addArticolo = addArticolo;
 	}
 
-	public List<Articolo> getallArticoli() {
+	public List<Articolo> getAllArticoli() {
 		return allArticoli;
 	}
 
-	public void setallArticoli(List<Articolo> allArticoli) {
+	public void setAllArticoli(List<Articolo> allArticoli) {
 		this.allArticoli = allArticoli;
 	}
 
-	public List<Utente> getallUtenti() {
+	public List<Utente> getAllUtenti() {
 		return allUtenti;
 	}
 
-	public void setallUtenti(List<Utente> allUtenti) {
+	public void setAllUtenti(List<Utente> allUtenti) {
 		this.allUtenti = allUtenti;
+	}
+
+	public UploadedFile getImageFile() {
+		return imageFile;
+	}
+
+	public void setImageFile(UploadedFile imageFile) {
+		this.imageFile = imageFile;
 	}
 
 	public List<Categoria> getAllCategorie() {

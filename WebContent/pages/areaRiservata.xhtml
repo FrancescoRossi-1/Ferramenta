@@ -60,7 +60,8 @@
 				<p:column>
 					<p:fileUpload id="fileImmagine"
 						value="#{areaRiservataBean.addArticolo.imageFile}" mode="simple"
-						skinSimple="true" />
+						skinSimple="false" />
+						 <p:commandButton value="Carica Immagine" ajax="false" action="#{areaRiservataBean.uploadImage}" disabled="false" />
 				</p:column>
 			</p:row>
 			<p:row>

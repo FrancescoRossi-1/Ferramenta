@@ -1,7 +1,5 @@
 package it.exolab.dto;
 
-import org.primefaces.model.file.UploadedFile;
-
 import lombok.Data;
 import lombok.ToString;
 
@@ -18,7 +16,6 @@ public class Articolo {
 	private Integer quantita_disponibile;
 	private Double prezzo_unitario;
 	private Categoria categoriaDiAppartenenza;
-	private UploadedFile imageFile;
 	
 	public Articolo() {
 		categoriaDiAppartenenza = new Categoria();
