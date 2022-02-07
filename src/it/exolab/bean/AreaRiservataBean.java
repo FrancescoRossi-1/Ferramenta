@@ -8,11 +8,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import org.apache.log4j.Logger;
-import org.primefaces.PrimeFaces;
 
 import it.exolab.dao.ArticoloDAO;
+import it.exolab.dao.CategoriaDAO;
 import it.exolab.dao.UtenteDAO;
 import it.exolab.dto.Articolo;
+import it.exolab.dto.Categoria;
 import it.exolab.dto.Utente;
 
 @SuppressWarnings("deprecation")
@@ -25,8 +26,9 @@ public class AreaRiservataBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Articolo addArticolo;
-	List<Articolo> viewAllArticoli;
-	List<Utente> viewAllUtenti;
+	List<Articolo> allArticoli;
+	List<Utente> allUtenti;
+	List<Categoria> allCategorie;
 	
 	private Boolean viewAddArticoli;
 	private Boolean viewArticoli;
@@ -52,19 +54,25 @@ public class AreaRiservataBean implements Serializable {
 		viewArticoli = false;
 		viewUtenti = false;
 		viewOrdini = false;
-				
-		PrimeFaces.current().ajax().update("menuForm:tabView:panelAddArticoli");
 		
-		log.info("-->Finito Add Articoli, viewAddArticoli="+viewAddArticoli);
+		//Preparati tutte le categorie;
+		allCategorie = CategoriaDAO.getInstance().findAllCategorie();
+		log.info("allCategorie->");
+		allCategorie.forEach(cat -> log.info(cat));
+		
+		
 	}
 	
 	public void insertArticolo() {
 		log.info("--> Inserimento articolo.");
+		
+		log.info(addArticolo.toString());
+		
 	}
 	
 	public void showViewArticoli() {
 		log.info("-->View Articoli");
-		viewAllArticoli = ArticoloDAO.getInstance().selectAllArticoli();
+		allArticoli = ArticoloDAO.getInstance().selectAllArticoli();
 		
 		viewAddArticoli = false;
 		viewArticoli = true;
@@ -75,7 +83,7 @@ public class AreaRiservataBean implements Serializable {
 	public void showViewUtenti() {
 		
 		log.info("-->View Utenti");
-		viewAllUtenti = UtenteDAO.getInstance().selectAllUtenti();
+		allUtenti = UtenteDAO.getInstance().selectAllUtenti();
 		
 		viewAddArticoli = false;
 		viewArticoli = false;
@@ -104,20 +112,28 @@ public class AreaRiservataBean implements Serializable {
 		this.addArticolo = addArticolo;
 	}
 
-	public List<Articolo> getViewAllArticoli() {
-		return viewAllArticoli;
+	public List<Articolo> getallArticoli() {
+		return allArticoli;
 	}
 
-	public void setViewAllArticoli(List<Articolo> viewAllArticoli) {
-		this.viewAllArticoli = viewAllArticoli;
+	public void setallArticoli(List<Articolo> allArticoli) {
+		this.allArticoli = allArticoli;
 	}
 
-	public List<Utente> getViewAllUtenti() {
-		return viewAllUtenti;
+	public List<Utente> getallUtenti() {
+		return allUtenti;
 	}
 
-	public void setViewAllUtenti(List<Utente> viewAllUtenti) {
-		this.viewAllUtenti = viewAllUtenti;
+	public void setallUtenti(List<Utente> allUtenti) {
+		this.allUtenti = allUtenti;
+	}
+
+	public List<Categoria> getAllCategorie() {
+		return allCategorie;
+	}
+
+	public void setAllCategorie(List<Categoria> allCategorie) {
+		this.allCategorie = allCategorie;
 	}
 
 	public Boolean getViewAddArticoli() {

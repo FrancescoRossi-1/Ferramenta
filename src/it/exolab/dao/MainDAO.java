@@ -1,6 +1,7 @@
 package it.exolab.dao;
 
 import it.exolab.mapper.ArticoloMapper;
+import it.exolab.mapper.CategoriaMapper;
 import it.exolab.mapper.IndirizzoMapper;
 import it.exolab.mapper.ProvinciaMapper;
 import it.exolab.mapper.UtenteMapper;
@@ -24,6 +25,10 @@ public class MainDAO {
 		return SqlMapFactory.instance().getMapper(ArticoloMapper.class);
 	}
 	
+	public static CategoriaMapper getCategoriaMapper() {
+		return SqlMapFactory.instance().getMapper(CategoriaMapper.class);
+	}
+	
 	public static void closeTransaction() {
 		SqlMapFactory.instance().closeSession();
 	}
@@ -31,8 +36,6 @@ public class MainDAO {
 	public static void beginTransaction() {
 		SqlMapFactory.instance().openSession();
 	}
-
-
 
 
 }

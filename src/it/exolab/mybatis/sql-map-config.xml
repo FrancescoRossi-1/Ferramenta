@@ -22,8 +22,9 @@
 
 	<mappers>
 		<mapper class="it.exolab.mapper.UtenteMapper" />
-		<mapper class="it.exolab.mapper.ArticoloMapper" />
-		<mapper class="it.exolab.mapper.ProvinciaMapper" />
 		<mapper class="it.exolab.mapper.IndirizzoMapper" />
+		<mapper class="it.exolab.mapper.ProvinciaMapper" />
+		<mapper class="it.exolab.mapper.ArticoloMapper" />
+		<mapper class="it.exolab.mapper.CategoriaMapper" />
 	</mappers>
 </configuration>
