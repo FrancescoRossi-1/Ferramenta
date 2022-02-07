@@ -17,39 +17,6 @@ public class Indirizzo {
 		provinciaDiAppartenenza = new Provincia();
 	}
 
-	public Long getId_indirizzo() {
-		return id_indirizzo;
-	}
-	public void setId_indirizzo(Long id_indirizzo) {
-		this.id_indirizzo = id_indirizzo;
-	}
-	public String getVia() {
-		return via;
-	}
-	public void setVia(String via) {
-		this.via = via;
-	}
-	public String getN_civico() {
-		return n_civico;
-	}
-
-	public void setN_civico(String n_civico) {
-		this.n_civico = n_civico;
-	}
-
-	public String getCap() {
-		return cap;
-	}
-	public void setCap(String cap) {
-		this.cap = cap;
-	}
-	public Provincia getProvinciaDiAppartenenza() {
-		return provinciaDiAppartenenza;
-	}
-	public void setProvinciaDiAppartenenza(Provincia provinciaDiAppartenenza) {
-		this.provinciaDiAppartenenza = provinciaDiAppartenenza;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
