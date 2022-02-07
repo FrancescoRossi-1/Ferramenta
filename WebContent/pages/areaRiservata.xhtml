@@ -8,128 +8,28 @@
 
 	<h1>Area Riservata Admin</h1>
 
-	<p:panelMenu style="width:300px;margin-left:auto;margin-right:auto;">
-		<p:submenu label="Gestione Articoli">
-			<p:menuitem value="Aggiungi Articolo"
-				action="#{areaRiservataBean.showAddArticoli}" icon="pi pi-save"
-				ajax="false" />
-			<p:menuitem value="Visualizza Articoli"
-				action="#{areaRiservataBean.showViewArticoli}" icon="pi pi-refresh" />
-		</p:submenu>
-		<p:submenu label="Gestione Utenti">
-			<p:menuitem value="Visualizza Utenti"
-				action="#{areaRiservataBean.showViewUtenti}" ajax="false"
-				icon="pi pi-times" />
-		</p:submenu>
-		<p:separator />
-		<p:submenu label="Gestione Ordini">
-			<p:menuitem value="Visualizza Ordini"
-				action="#{areaRiservataBean.showViewOrdini}" />
-		</p:submenu>
-	</p:panelMenu>
+	<p:accordionPanel style="width:90%;margin-left:auto;margin-right:auto;">
+		<p:tab title="Aggiungi Articolo">
+			<ui:include src="/addArticoli.xhtml" />
+		</p:tab>
+		<p:tab title="Gestisci Articoli">
 
-	<p:panel id="panelAddArticoli"
-		rendered="#{areaRiservataBean.viewAddArticoli}">
-		<h2>Aggiungi articolo</h2>
-		<p:panelGrid id="gridAddArticoli" cellpadding="2"
-			style="margin-left: auto; margin-right: auto;">
-			<p:row>
-				<p:column colspan="1">
-					<p:outputLabel for="titoloArticolo" value="Titolo articolo:" />
-				</p:column>
-				<p:column colspan="2">
-					<p:inputText id="titoloArticolo"
-						value="#{areaRiservataBean.addArticolo.titolo_articolo}" />
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column colspan="1">
-					<p:outputLabel for="descrizioneArticolo"
-						value="Descrizione Articolo:" />
-				</p:column>
-				<p:column colspan="2">
-					<p:inputText id="descrizioneArticolo"
-						value="#{areaRiservataBean.addArticolo.descrizione_articolo}"
-						style="margin-bottom:10px" />
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column>
-					<p:outputLabel for="fileImmagine" value="Immagine:" />
-				</p:column>
-				<p:column>
-					<p:fileUpload id="fileImmagine"
-						value="#{areaRiservataBean.addArticolo.imageFile}" mode="simple"
-						skinSimple="false" />
-						 <p:commandButton value="Carica Immagine" ajax="false" action="#{areaRiservataBean.uploadImage}" disabled="false" />
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column>
-					<p:outputLabel for="quantitaDisponibile"
-						value="Quantità disponibile:" />
-				</p:column>
-				<p:column>
-					<p:inputText id="quantitaDisponibile"
-						value="#{areaRiservataBean.addArticolo.quantita_disponibile}"
-						style="margin-bottom:10px" />
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column>
-					<p:outputLabel for="prezzo" value="Prezzo: €" />
-				</p:column>
-				<p:column>
-					<p:inputText id="prezzo"
-						value="#{areaRiservataBean.addArticolo.prezzo_unitario}"
-						style="margin-bottom:10px" />
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column>
-					<p:outputLabel for="categoriaAddArticolo" value="Categoria:" />
-				</p:column>
-				<p:column>
-					<p:selectOneMenu id="categoriaAddArticolo"
-						value="#{areaRiservataBean.addArticolo.categoriaDiAppartenenza.id_categoria}">
-						<f:selectItem itemLabel="Seleziona una categoria." itemValue="#{null}" />
-						<f:selectItems value="#{areaRiservataBean.allCategorie}"
-							var="item" itemLabel="#{item.nome_categoria}" 
-							itemValue="#{item.id_categoria}" />
-					</p:selectOneMenu>
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column>
-					<p:outputLabel for="marhioAddArticolo" value="Marchio:" />
-				</p:column>
-				<p:column>
-					<p:inputText id="marhioAddArticolo"
-						value="#{areaRiservataBean.addArticolo.marchio}"
-						style="margin-bottom:10px" />
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column>
-					<p:outputLabel for="coloreAddArticolo" value="Colore:" />
-				</p:column>
-				<p:column>
-					<p:inputText id="coloreAddArticolo"
-						value="#{areaRiservataBean.addArticolo.colore}"
-						style="margin-bottom:10px" />
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column colspan="3">
-					<p:commandButton value="Aggiungi Articolo" id="aggiungiArticolo"
-						actionListener="#{areaRiservataBean.insertArticolo}"
-						style="margin-right:20px;" styleClass="ui-priority-primary" update="@form"
-						/>
-				</p:column>
-			</p:row>
-		</p:panelGrid>
+		</p:tab>
+		<p:tab title="Visualizza Utenti">
 
-	</p:panel>
+		</p:tab>
+		<p:tab title="Gestisci Utenti">
+
+		</p:tab>
+		<p:tab title="Visualizza Ordini">
+
+		</p:tab>
+		<p:tab title="Gestisci Ordini">
+
+		</p:tab>
+	</p:accordionPanel>
+
+
 
 </h:body>
 

@@ -29,55 +29,23 @@ public class AreaRiservataBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Articolo addArticolo;
+	
 	List<Articolo> allArticoli;
 	List<Utente> allUtenti;
 	List<Categoria> allCategorie;
 	
-	private UploadedFile imageFile;
-	
-	private Boolean viewAddArticoli;
-	private Boolean viewArticoli;
-	private Boolean viewUtenti;
-	private Boolean viewOrdini;
-	
 	@PostConstruct
 	public void init() {
-		log.info("--->Init");
-		viewAddArticoli = false;
-		viewArticoli = false;
-		viewUtenti = false;
-		viewOrdini = false;
+		//estrapola tutti gli articoli
+		allArticoli = ArticoloDAO.getInstance().selectAllArticoli(); 
+		
+		//estrapola tutti gli utenti
+		allUtenti = UtenteDAO.getInstance().selectAllUtenti();
+		
+		//estrapola tutti gli ordini
+		//TODO 
 	}
-	
-	public void showAddArticoli() {
-		
-		log.info("-->Add Articoli");
-		
-		addArticolo = new Articolo();
-		
-		viewAddArticoli = true;
-		viewArticoli = false;
-		viewUtenti = false;
-		viewOrdini = false;
-		
-		//Preparati tutte le categorie;
-		allCategorie = CategoriaDAO.getInstance().findAllCategorie();
-		log.info("allCategorie->");
-		allCategorie.forEach(cat -> log.info(cat));
-		
-		
-	}
-	
-	public void uploadImage() {
-		
-		log.info("Immagine ->  " + imageFile);
-		
-        if (imageFile != null) {
-        	
-            FacesMessage message = new FacesMessage("Successful", imageFile.getFileName() + " is uploaded.");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-        }
-	}
+
 	
 	public void insertArticolo() {
 		log.info("--> Inserimento articolo.");
@@ -85,40 +53,7 @@ public class AreaRiservataBean implements Serializable {
 		log.info(addArticolo.toString());
 		
 	}
-	
-	public void showViewArticoli() {
-		log.info("-->View Articoli");
-		allArticoli = ArticoloDAO.getInstance().selectAllArticoli();
-		
-		viewAddArticoli = false;
-		viewArticoli = true;
-		viewUtenti = false;
-		viewOrdini = false;
-	}
-	
-	public void showViewUtenti() {
-		
-		log.info("-->View Utenti");
-		allUtenti = UtenteDAO.getInstance().selectAllUtenti();
-		
-		viewAddArticoli = false;
-		viewArticoli = false;
-		viewUtenti = true;
-		viewOrdini = false;
-		
-	}
-	
-	public void showViewOrdini() {
-		
-		log.info("-->View ordini");
-		//TODO select ordini
-		
-		viewAddArticoli = false;
-		viewArticoli = false;
-		viewUtenti = false;
-		viewOrdini = true;
-		
-	}
+
 
 	public Articolo getAddArticolo() {
 		return addArticolo;
@@ -144,13 +79,6 @@ public class AreaRiservataBean implements Serializable {
 		this.allUtenti = allUtenti;
 	}
 
-	public UploadedFile getImageFile() {
-		return imageFile;
-	}
-
-	public void setImageFile(UploadedFile imageFile) {
-		this.imageFile = imageFile;
-	}
 
 	public List<Categoria> getAllCategorie() {
 		return allCategorie;
@@ -160,38 +88,7 @@ public class AreaRiservataBean implements Serializable {
 		this.allCategorie = allCategorie;
 	}
 
-	public Boolean getViewAddArticoli() {
-		return viewAddArticoli;
-	}
 
-	public void setViewAddArticoli(Boolean viewAddArticoli) {
-		this.viewAddArticoli = viewAddArticoli;
-	}
-
-	public Boolean getViewArticoli() {
-		return viewArticoli;
-	}
-
-	public void setViewArticoli(Boolean viewArticoli) {
-		this.viewArticoli = viewArticoli;
-	}
-
-	public Boolean getViewUtenti() {
-		return viewUtenti;
-	}
-
-	public void setViewUtenti(Boolean viewUtenti) {
-		this.viewUtenti = viewUtenti;
-	}
-
-	public Boolean getViewOrdini() {
-		return viewOrdini;
-	}
-
-	public void setViewOrdini(Boolean viewOrdini) {
-		this.viewOrdini = viewOrdini;
-	}
-	
 	
 	
 
