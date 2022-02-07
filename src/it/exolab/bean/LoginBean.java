@@ -12,6 +12,7 @@ import org.primefaces.PrimeFaces;
 
 import it.exolab.constants.Constants;
 import it.exolab.dto.Utente;
+import it.exolab.exception.CampoRichiesto;
 import it.exolab.exception.UtenteNonEsistente;
 import it.exolab.service.LoginService;
 
@@ -43,11 +44,15 @@ public class LoginBean implements Serializable {
 		
 		try {
 			
+			LoginService.checkParameters(loginUser);
 			LoginService.checkUser(loginUser);
 			loginUser = LoginService.selectUser(loginUser);
 			log.info("Utente Estrapolato: " + loginUser);
 			sessionBean.setLoggedUser(loginUser);
 			sessionBean.setSuccessMessage(Constants.Messages.LOGIN_AVVENUTO);
+			
+		} catch ( CampoRichiesto cr ) {
+			sessionBean.setErrorMessage(cr.getMessage());	
 			
 		} catch ( UtenteNonEsistente une ) {
 			

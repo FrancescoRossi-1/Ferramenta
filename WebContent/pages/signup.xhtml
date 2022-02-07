@@ -71,7 +71,7 @@
 					<p:column colspan="2">
 						<p:selectOneMenu id="provinciaSignUp"
 							value="#{signUpBean.user.indirizzoResidenza.provinciaDiAppartenenza.id_province}">
-							<f:selectItem itemLabel="Seleziona una scelta" itemValue="0" />
+							<f:selectItem itemLabel="Seleziona una scelta" itemValue="-1" />
 							<f:selectItems value="#{signUpBean.provinceEstrapolate}"
 								var="item" itemLabel="#{item.nome_province}"
 								itemValue="#{item.id_province}" />

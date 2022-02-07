@@ -13,6 +13,7 @@ public class Constants {
 	public class ExceptionMessages {
 		public static final String FORMATO_ERRATO = "Hai inserito un formato errato per il campo ";
 		public static final String UTENTE_ESISTENTE = "Sei già registrato, loggati";
+		public static final String CAMPO_RICHIESTO = "Non hai inserito il seguente campo richiesto: ";
 		public static final String UNKNOWN_ERROR = "Si è verificato un'errore sconosciuto, riprova";
 		public static final String UTENTE_NON_ESISTENTE = "Hai inserito una combinazione di credenziali errata.";
 	}

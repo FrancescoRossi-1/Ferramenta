@@ -17,6 +17,7 @@ import it.exolab.constants.Constants;
 import it.exolab.dao.ProvinciaDAO;
 import it.exolab.dto.Provincia;
 import it.exolab.dto.Utente;
+import it.exolab.exception.CampoRichiesto;
 import it.exolab.exception.FormatoErrato;
 import it.exolab.exception.UtenteEsistente;
 import it.exolab.service.SignUpService;
@@ -25,17 +26,17 @@ import it.exolab.service.SignUpService;
 @ManagedBean
 @SessionScoped
 public class SignUpBean implements Serializable {
-	
+
 	private static final long serialVersionUID = 7346257810844237669L;
 
 	static Logger log = Logger.getLogger(SignUpBean.class);
 
 	private Utente user = new Utente();
 	private List<Provincia> provinceEstrapolate;
-	
+
 	@ManagedProperty("#{sessionBean}")
 	private SessionBean sessionBean;
-	
+
 	@PostConstruct
 	public void init() {
 		log.info("-->INIT");
@@ -52,6 +53,8 @@ public class SignUpBean implements Serializable {
 			SignUpService.insertUser(user);
 			sessionBean.setSuccessMessage(Constants.Messages.REGISTRAZIONE_AVVENUTA);
 			log.info("--->Utente Registrato.");
+		} catch ( CampoRichiesto cr ) {
+			sessionBean.setErrorMessage(cr.getMessage());
 		} catch ( FormatoErrato fe ) {
 			sessionBean.setErrorMessage(fe.getMessage());
 		} catch ( UtenteEsistente ue ) {
@@ -62,9 +65,9 @@ public class SignUpBean implements Serializable {
 		} finally {
 			PrimeFaces.current().ajax().update("messageDiv");
 		}
-		
+
 	}
-	
+
 	public void pulisciCampi() {
 		this.user = new Utente();
 		log.info("Pulizia effettuata.");
@@ -85,7 +88,7 @@ public class SignUpBean implements Serializable {
 	public void setProvinceEstrapolate(List<Provincia> provinceEstrapolate) {
 		this.provinceEstrapolate = provinceEstrapolate;
 	}
-	
+
 	public SessionBean getSessionBean() {
 		return sessionBean;
 	}

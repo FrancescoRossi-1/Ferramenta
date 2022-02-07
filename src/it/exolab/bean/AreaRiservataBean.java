@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import org.apache.log4j.Logger;
+import org.primefaces.PrimeFaces;
 
 import it.exolab.dao.ArticoloDAO;
 import it.exolab.dao.UtenteDAO;
@@ -51,9 +52,10 @@ public class AreaRiservataBean implements Serializable {
 		viewArticoli = false;
 		viewUtenti = false;
 		viewOrdini = false;
+				
+		PrimeFaces.current().ajax().update("menuForm:tabView:panelAddArticoli");
 		
 		log.info("-->Finito Add Articoli, viewAddArticoli="+viewAddArticoli);
-		
 	}
 	
 	public void insertArticolo() {
