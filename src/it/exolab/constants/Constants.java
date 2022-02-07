@@ -1,5 +1,10 @@
 package it.exolab.constants;
 
+import java.net.URI;
+
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+
 public class Constants {
 
 	public class Regex {
@@ -16,6 +21,8 @@ public class Constants {
 		public static final String CAMPO_RICHIESTO = "Non hai inserito il seguente campo richiesto: ";
 		public static final String UNKNOWN_ERROR = "Si è verificato un'errore sconosciuto, riprova";
 		public static final String UTENTE_NON_ESISTENTE = "Hai inserito una combinazione di credenziali errata.";
+		public static final String NOT_SUPPORTED_IMAGE = "Hai inserito un immagine non supportata, le estensioni supportate sono jpg, png e gif";
+		public static final String FILE_TOO_BIG = "Hai inserito un immagine troppo pesante, le dimensioni massime supportate sono di 150Kb";
 	}
 	
 	public class Messages {
@@ -40,8 +47,16 @@ public class Constants {
 		public static final int ID_TAB_LOGOUT = 4;
 	}
 	
-	public class FileExtension {
+	public static class File {
 		public static final String XHTML = ".xhtml";
+		public static final String[] SUPPORTED_IMAGE_EXTENSIONS = { "jpg", "png", "gif" };
+		public static final Double MAX_SUPPORTED_DIMENSION = 153826.1339092872; //150KB
+	}
+	
+	public static class Paths {
+		public static final ServletContext SERVLET_CONTEXT = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+		public static final String PRODUCT_IMAGES_PATH = SERVLET_CONTEXT.getRealPath("resources/img/articoli");
+		
 	}
 
 }

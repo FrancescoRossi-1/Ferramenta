@@ -34,7 +34,7 @@
 				</p:column>
 				<p:column>
 					<p:fileUpload id="fileImmagine"
-						value="#{areaRiservataBean.imageFile}" mode="simple"
+						value="#{areaRiservataBean.articoloImage}" mode="simple"
 						skinSimple="false" />
 				</p:column>
 			</p:row>
@@ -98,7 +98,7 @@
 				<p:column colspan="3">
 					<p:commandButton value="Aggiungi Articolo" id="aggiungiArticolo"
 						actionListener="#{areaRiservataBean.insertArticolo}"
-						style="margin-right:20px;" styleClass="ui-priority-primary"
+						style="margin-right:20px;" styleClass="ui-priority-primary" ajax="false"
 						update="@form" />
 				</p:column>
 			</p:row>

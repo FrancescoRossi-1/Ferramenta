@@ -17,7 +17,7 @@ public class CategoriaDAO {
 		return instance;
 	}
 
-	public List<Categoria> findAllCategorie() {
+	public List<Categoria> selectAllCategorie() {
 		MainDAO.beginTransaction(); 
 		List<Categoria> allCategorie = MainDAO.getCategoriaMapper().findAllCategorie();
 		MainDAO.closeTransaction();

@@ -13,6 +13,7 @@ import org.primefaces.event.TabChangeEvent;
 
 import it.exolab.constants.Constants;
 
+@SuppressWarnings("deprecation")
 @ManagedBean
 @SessionScoped
 public class MenuBean implements Serializable {
