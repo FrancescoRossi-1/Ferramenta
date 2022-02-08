@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import com.sun.istack.internal.logging.Logger;
+import org.apache.log4j.Logger;
 
 import it.exolab.dto.Utente;
 
@@ -16,11 +16,10 @@ public class SessionBean implements Serializable {
 	
 	private static final long serialVersionUID = -5201806537959508743L;
 
-	
-	//static Logger log = Logger.getLogger(SessionBean.class); 
+	static Logger log = Logger.getLogger(SessionBean.class); 
 	
 	private Utente loggedUser = null; //user in sessione, se null l'utente non è loggato
-	
+
 	private String successMessage = null;
 	private String errorMessage = null;
 	
@@ -29,6 +28,17 @@ public class SessionBean implements Serializable {
 		System.out.println("Logout.");
 		this.loggedUser = null;
 	}
+	
+	public void refreshOrdini() {
+		
+		//TODO SELECT ORDINI
+		
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 
 	public Utente getLoggedUser() {
 		return loggedUser;

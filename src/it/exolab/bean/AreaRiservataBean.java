@@ -1,7 +1,6 @@
 package it.exolab.bean;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -12,21 +11,15 @@ import javax.faces.bean.SessionScoped;
 
 import org.apache.log4j.Logger;
 import org.primefaces.PrimeFaces;
-import org.primefaces.model.file.UploadedFiles;
 
 import it.exolab.constants.Constants;
 import it.exolab.dao.AllegatoDAO;
 import it.exolab.dao.ArticoloDAO;
-import it.exolab.dao.CategoriaDAO;
-import it.exolab.dao.UtenteDAO;
-import it.exolab.dto.Articolo;
-import it.exolab.dto.Categoria;
-import it.exolab.dto.Utente;
+
 import it.exolab.exception.CampoRichiesto;
 import it.exolab.exception.FileImmagineNonSupportato;
 import it.exolab.exception.GenericFileException;
 import it.exolab.exception.OgettoEsistente;
-import it.exolab.service.AllegatiService;
 import it.exolab.service.ArticoliService;
 
 @SuppressWarnings("deprecation")
@@ -40,30 +33,15 @@ public class AreaRiservataBean implements Serializable {
 	
 	@ManagedProperty("#{sessionBean}")
 	private SessionBean sessionBean;
-
-	private Articolo addArticolo;
-	private UploadedFiles articoloImages;
-
-	List<Articolo> allArticoli;
-	List<Utente> allUtenti;
-	List<Categoria> allCategorie;
+	
+	@ManagedProperty("#{articoliBean}")
+	private ArticoliBean articoliBean;
+	
+	@ManagedProperty("#{categorieBean}")
+	private CategorieBean categorieBean;
 
 	@PostConstruct
 	public void init() {
-
-		addArticolo = new Articolo();
-
-		//estrapola tutte le categorie
-		allCategorie = CategoriaDAO.getInstance().selectAllCategorie();
-
-		//estrapola tutti gli articoli
-		allArticoli = ArticoloDAO.getInstance().selectAllArticoli(); 
-
-		//estrapola tutti gli utenti
-		allUtenti = UtenteDAO.getInstance().selectAllUtenti();
-
-		//estrapola tutti gli ordini
-		//TODO 
 	}
 
 
@@ -71,17 +49,20 @@ public class AreaRiservataBean implements Serializable {
 		log.info("--> Inserimento articolo.");
 
 		try {
-			ArticoliService.checkParameters(addArticolo);
-			ArticoliService.checkEquals(addArticolo, allArticoli);
 			
-			AllegatiService.checkImages(articoloImages);
-			ArticoloDAO.getInstance().insertArticolo(addArticolo);
-			AllegatiService.fillImageList(addArticolo,articoloImages);		
-			AllegatoDAO.insertAll(addArticolo.getAllegatiAppartenenti());
-			sessionBean.setSuccessMessage(Constants.Messages.SUCCESFULLY_INSTERTED_PRODUCT);
+			ArticoliService.checkParameters(articoliBean.getAddArticolo());
+			ArticoliService.checkEquals(articoliBean.getAddArticolo(), articoliBean.getAllArticoli());
 			
+			articoliBean.checkImages(articoliBean.getArticoloImages());
 			
-
+			ArticoloDAO.getInstance().insertArticolo(articoliBean.getAddArticolo());
+			
+			articoliBean.fillImageList(articoliBean.getAddArticolo(),articoliBean.getArticoloImages());	
+			AllegatoDAO.insertAll(articoliBean.getAddArticolo().getAllegatiAppartenenti());
+			
+			articoliBean.refreshArticoli();
+			sessionBean.setSuccessMessage(Constants.Messages.SUCCESFULLY_INSTERTED_PRODUCT);		
+			
 		} catch ( CampoRichiesto cr ) {
 			sessionBean.setErrorMessage(cr.getMessage());
 		} catch ( OgettoEsistente oe ) {
@@ -98,6 +79,20 @@ public class AreaRiservataBean implements Serializable {
 		}
 
 	}
+	
+	public void deleteArticolo(Long idArticolo) {
+		
+		try {
+			
+			ArticoloDAO.getInstance().deleteArticoloFromId(idArticolo);
+			articoliBean.refreshArticoli();
+			sessionBean.setSuccessMessage(Constants.Messages.DELETE_ARTICOLO_SUCCESS);
+			
+		} catch ( Exception e ) {
+			
+		}
+		
+	}
 
 
 	public SessionBean getSessionBean() {
@@ -108,45 +103,24 @@ public class AreaRiservataBean implements Serializable {
 		this.sessionBean = sessionBean;
 	}
 
-	public Articolo getAddArticolo() {
-		return addArticolo;
-	}
-
-	public void setAddArticolo(Articolo addArticolo) {
-		this.addArticolo = addArticolo;
-	}
-
-	public UploadedFiles getArticoloImages() {
-		return articoloImages;
-	}
-
-	public void setArticoloImages(UploadedFiles articoloImages) {
-		this.articoloImages = articoloImages;
-	}
-
-	public List<Articolo> getAllArticoli() {
-		return allArticoli;
-	}
-
-	public void setAllArticoli(List<Articolo> allArticoli) {
-		this.allArticoli = allArticoli;
-	}
-
-	public List<Utente> getAllUtenti() {
-		return allUtenti;
-	}
-
-	public void setAllUtenti(List<Utente> allUtenti) {
-		this.allUtenti = allUtenti;
+	public ArticoliBean getArticoliBean() {
+		return articoliBean;
 	}
 
 
-	public List<Categoria> getAllCategorie() {
-		return allCategorie;
+	public void setArticoliBean(ArticoliBean articoliBean) {
+		this.articoliBean = articoliBean;
 	}
 
-	public void setAllCategorie(List<Categoria> allCategorie) {
-		this.allCategorie = allCategorie;
+
+	public CategorieBean getCategorieBean() {
+		return categorieBean;
 	}
+
+
+	public void setCategorieBean(CategorieBean categorieBean) {
+		this.categorieBean = categorieBean;
+	}
+
 
 }

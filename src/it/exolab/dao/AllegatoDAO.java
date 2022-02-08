@@ -3,6 +3,7 @@ package it.exolab.dao;
 import java.util.List;
 
 import it.exolab.dto.Allegato;
+import it.exolab.dto.Articolo;
 import it.exolab.mybatis.SqlMapFactory;
 
 public class AllegatoDAO {
@@ -23,6 +24,14 @@ public class AllegatoDAO {
 		MainDAO.getAllegatoMapper().insertAllAllegati(allegati);
 		SqlMapFactory.instance().commitSession();
 		MainDAO.closeTransaction();
+	}
+
+	public List<Allegato> selectAllAllegatiFromIdArticolo(Articolo articolo) {
+		MainDAO.beginTransaction();
+		List<Allegato> allAllegati = MainDAO.getAllegatoMapper().selectAllByIdArticolo(articolo);
+		SqlMapFactory.instance().commitSession();
+		MainDAO.closeTransaction();
+		return allAllegati;
 	}
 
 }

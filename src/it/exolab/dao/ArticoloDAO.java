@@ -32,6 +32,13 @@ public class ArticoloDAO {
 		MainDAO.getArticoloMapper().insertArticolo(addArticolo);
 		SqlMapFactory.instance().commitSession();
 		MainDAO.closeTransaction();
+	}
+
+	public void deleteArticoloFromId(Long idArticolo) {
+		MainDAO.beginTransaction();
+		MainDAO.getArticoloMapper().deleteArticoloFromId(idArticolo);
+		SqlMapFactory.instance().commitSession();
+		MainDAO.closeTransaction();
 	} 
 
 }

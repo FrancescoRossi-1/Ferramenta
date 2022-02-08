@@ -28,6 +28,7 @@ public class Constants {
 		public static final String REGISTRAZIONE_AVVENUTA = "Registrazione avvenuta con successo!";
 		public static final String LOGIN_AVVENUTO = "Login effettuato con successo";
 		public static final String SUCCESFULLY_INSTERTED_PRODUCT = "Articolo inserito con successo!";
+		public static final String DELETE_ARTICOLO_SUCCESS = "Articolo eliminato con successo!";
 	}
 	
 	public class Tabs {

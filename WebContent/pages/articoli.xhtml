@@ -21,8 +21,9 @@
 
 	<p:panel header="#{articolo.titolo_articolo}" style="text-align:center">
 		<h:panelGrid columns="1" style="width:100%">
-			<!--  <p:graphicImage name=""
-				title="articolo" style="width: 100px; height: 100px;" />-->
+			<img
+				src="data:image/jpg;base64, #{articoliBean.fromImageToString(articolo,0)}"
+				alt="Immagine non trovata" style="width: 100px; height: 100px;" />
 			<h:outputText value="#{articolo.descrizione_articolo}" width="100"
 				height="100" />
 			<p:commandLink update="menuForm:tabView:articoloDetail"
@@ -42,14 +43,22 @@
 	widgetVar="articoloDettaglio" showEffect="fade" hideEffect="fade"
 	resizable="true">
 	<p:outputPanel id="articoloDetail" style="text-align:center;">
+		<p:carousel value="#{articoliBean.stringPhotos}" headerText="Immagini"
+			var="img" itemStyle="height:200px;text-align:center" numVisible="1"
+			easing="easeOutBounce" style="width:300px" circular="true">
+			<h:panelGrid columns="1" style="width:100%"
+				columnClasses="label,value">
+				<f:facet name="header">
+					<img src="data:image/jpg;base64, #{img}" alt="Immagine non trovata"
+						style="width: 300px;" />
+				</f:facet>
+
+			</h:panelGrid>
+		</p:carousel>
 		<p:panelGrid columns="2"
 			rendered="#{articoliBean.articoloSelezionato != null }"
 			columnClasses="label,value">
-			<f:facet name="header">
 
-				<p:graphicImage name="img/articoli/#{articoliBean.articoloSelezionato.indirizzo_immagine}"
-					title="verniceNera" style="width:250px; height:250px"/>
-			</f:facet>
 
 
 			<h:outputText value="Prezzo:" />
@@ -57,8 +66,7 @@
 				value="€ #{articoliBean.articoloSelezionato.prezzo_unitario}" />
 
 			<h:outputText value="Marca:" />
-			<h:outputText
-				value="#{articoliBean.articoloSelezionato.marchio}" />
+			<h:outputText value="#{articoliBean.articoloSelezionato.marchio}" />
 
 			<h:outputText value="Quantità Disponibile: " />
 			<h:outputText

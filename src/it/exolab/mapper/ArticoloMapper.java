@@ -2,6 +2,7 @@ package it.exolab.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Options;
@@ -10,6 +11,7 @@ import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
+import it.exolab.dto.Allegato;
 import it.exolab.dto.Articolo;
 
 public interface ArticoloMapper {
@@ -55,8 +57,16 @@ public interface ArticoloMapper {
 			 + " #{marchio}, " 
 			 + " #{colore} " 
 			 + " ) ";
+	
+	static String DELETE_FROM_ID = " DELETE "  
+			+ "FROM " 
+			+ " ARTICOLI " 
+			+ "WHERE " 
+			+ " id_articolo = #{id_articolo} ";
+	
 
-	@Results({
+
+	@Results( value = {
 		@Result(property = "id_articolo", column = "id_articolo", id = true),
 		@Result(property = "titolo_articolo", column = "titolo_articolo"),
 		@Result(property = "descrizione_articolo", column = "descrizione_articolo"),
@@ -67,7 +77,6 @@ public interface ArticoloMapper {
 		@Result(property = "categoriaDiAppartenenza.id_categoria", column = "id_categoria", id = true),
 		@Result(property = "categoriaDiAppartenenza.nome_categoria", column = "nome_categoria"),
 		@Result(property = "categoriaDiAppartenenza.descrizione_categoria", column = "descrizione_categoria"),
-		@Result(property = "allegatiAppartenenti", column = "id_allegato", javaType = List.class, many = @Many(select= "AllegatoMapper.selectByIdArticolo")),
 	})
 	@Select( SELECT_ALL_ARTICOLI )
 	@ResultType( Articolo.class )
@@ -76,5 +85,8 @@ public interface ArticoloMapper {
 	@Insert( INSERT_ARTICOLO )
 	@Options(useGeneratedKeys = true, keyProperty = "id_articolo", keyColumn = "id_articolo")
 	void insertArticolo(Articolo articolo);
+
+	@Delete ( DELETE_FROM_ID )
+	void deleteArticoloFromId(Long idArticolo);
 
 }

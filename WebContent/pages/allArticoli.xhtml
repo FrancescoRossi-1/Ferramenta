@@ -8,7 +8,7 @@
 
 	<h1>Gestione Articoli</h1>
 
-	<p:dataTable var="articolo" value="#{areaRiservataBean.allArticoli}">
+	<p:dataTable var="articolo" value="#{articoliBean.allArticoli}">
 		<p:column headerText="Id">
 			<h:outputText value="#{articolo.id_articolo}" />
 		</p:column>
@@ -40,6 +40,12 @@
 
 		<p:column headerText="Colore">
 			<h:outputText value="#{articolo.colore}" />
+		</p:column>
+
+		<p:column headerText="Elimina">
+			<p:commandButton value="Elimina" action="#{areaRiservataBean.deleteArticolo(articolo.id_articolo)}">
+			
+			</p:commandButton>
 		</p:column>
 	</p:dataTable>
 

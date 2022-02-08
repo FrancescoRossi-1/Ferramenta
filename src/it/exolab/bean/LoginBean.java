@@ -20,54 +20,55 @@ import it.exolab.service.LoginService;
 @ManagedBean
 @SessionScoped
 public class LoginBean implements Serializable {
-	
+
 	static Logger log = Logger.getLogger(LoginBean.class); 
 
 	private static final long serialVersionUID = 8439937226512877090L;
-	
+
 	private Utente loginUser;
-	
+
 	@ManagedProperty("#{sessionBean}")
 	private SessionBean sessionBean;
-	
+
 	@PostConstruct
 	public void init() {
-		
+
 		log.info("--> Init");
 		loginUser = new Utente();
-		
+
 	}
-	
+
 	public void loginUtente() {
-		
+
 		log.info("--> Login");
-		
+
 		try {
-			
+
 			LoginService.checkParameters(loginUser);
 			LoginService.checkUser(loginUser);
+			
 			loginUser = LoginService.selectUser(loginUser);
-			log.info("Utente Estrapolato: " + loginUser);
+			
 			sessionBean.setLoggedUser(loginUser);
 			sessionBean.setSuccessMessage(Constants.Messages.LOGIN_AVVENUTO);
-			
+
 		} catch ( CampoRichiesto cr ) {
 			sessionBean.setErrorMessage(cr.getMessage());	
-			
+
 		} catch ( UtenteNonEsistente une ) {
-			
+
 			sessionBean.setErrorMessage(une.getMessage());	
 			log.info(une.getMessage(), une);
-			
+
 		} catch ( Exception e ) {
-			
+
 			sessionBean.setErrorMessage(Constants.ExceptionMessages.UNKNOWN_ERROR);
 			log.info(e.getMessage(), e);
-			
+
 		} finally {
 			PrimeFaces.current().ajax().update("messageDiv");
 		}
-		
+
 	}
 
 	public Utente getLoginUser() {
@@ -86,8 +87,8 @@ public class LoginBean implements Serializable {
 	public void setSessionBean(SessionBean sessionBean) {
 		this.sessionBean = sessionBean;
 	}
-	
-	
-	
+
+
+
 
 }

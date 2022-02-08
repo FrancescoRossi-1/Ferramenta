@@ -14,7 +14,7 @@
 				</p:column>
 				<p:column colspan="2">
 					<p:inputText id="titoloArticolo"
-						value="#{areaRiservataBean.addArticolo.titolo_articolo}" />
+						value="#{articoliBean.addArticolo.titolo_articolo}" />
 				</p:column>
 			</p:row>
 			<p:row>
@@ -24,7 +24,7 @@
 				</p:column>
 				<p:column colspan="2">
 					<p:inputText id="descrizioneArticolo"
-						value="#{areaRiservataBean.addArticolo.descrizione_articolo}"
+						value="#{articoliBean.addArticolo.descrizione_articolo}"
 						style="margin-bottom:10px" />
 				</p:column>
 			</p:row>
@@ -34,7 +34,7 @@
 				</p:column>
 				<p:column>
 					<p:fileUpload id="fileImmagine"
-						value="#{areaRiservataBean.articoloImages}" mode="simple"
+						value="#{articoliBean.articoloImages}" mode="simple"
 						skinSimple="false" multiple="true" />
 				</p:column>
 			</p:row>
@@ -45,7 +45,7 @@
 				</p:column>
 				<p:column>
 					<p:inputText id="quantitaDisponibile"
-						value="#{areaRiservataBean.addArticolo.quantita_disponibile}"
+						value="#{articoliBean.addArticolo.quantita_disponibile}"
 						style="margin-bottom:10px" />
 				</p:column>
 			</p:row>
@@ -55,7 +55,7 @@
 				</p:column>
 				<p:column>
 					<p:inputText id="prezzo"
-						value="#{areaRiservataBean.addArticolo.prezzo_unitario}"
+						value="#{articoliBean.addArticolo.prezzo_unitario}"
 						style="margin-bottom:10px" />
 				</p:column>
 			</p:row>
@@ -65,10 +65,10 @@
 				</p:column>
 				<p:column>
 					<p:selectOneMenu id="categoriaAddArticolo"
-						value="#{areaRiservataBean.addArticolo.categoriaDiAppartenenza.id_categoria}">
+						value="#{articoliBean.addArticolo.categoriaDiAppartenenza.id_categoria}">
 						<f:selectItem itemLabel="Seleziona una categoria."
 							itemValue="#{null}" />
-						<f:selectItems value="#{areaRiservataBean.allCategorie}"
+						<f:selectItems value="#{categorieBean.allCategorie}"
 							var="item" itemLabel="#{item.nome_categoria}"
 							itemValue="#{item.id_categoria}" />
 					</p:selectOneMenu>
@@ -80,7 +80,7 @@
 				</p:column>
 				<p:column>
 					<p:inputText id="marhioAddArticolo"
-						value="#{areaRiservataBean.addArticolo.marchio}"
+						value="#{articoliBean.addArticolo.marchio}"
 						style="margin-bottom:10px" />
 				</p:column>
 			</p:row>
@@ -90,7 +90,7 @@
 				</p:column>
 				<p:column>
 					<p:inputText id="coloreAddArticolo"
-						value="#{areaRiservataBean.addArticolo.colore}"
+						value="#{articoliBean.addArticolo.colore}"
 						style="margin-bottom:10px" />
 				</p:column>
 			</p:row>
