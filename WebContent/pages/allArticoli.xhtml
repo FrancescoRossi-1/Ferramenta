@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:body>
+
+	<h1>Gestione Articoli</h1>
+
+	<p:dataTable var="articolo" value="#{areaRiservataBean.allArticoli}">
+		<p:column headerText="Id">
+			<h:outputText value="#{articolo.id_articolo}" />
+		</p:column>
+
+		<p:column headerText="Titolo">
+			<h:outputText value="#{articolo.titolo_articolo}" />
+		</p:column>
+
+		<p:column headerText="Descrizione">
+			<h:outputText value="#{articolo.descrizione_articolo}" />
+		</p:column>
+
+		<p:column headerText="Immagini Articolo">
+			<h:outputText value="#{articolo.descrizione_articolo}" />
+		</p:column>
+
+		<p:column headerText="Prezzo">
+			<h:outputText value="€ #{articolo.prezzo_unitario}" />
+		</p:column>
+
+		<p:column headerText="Categoria">
+			<h:outputText
+				value="#{articolo.categoriaDiAppartenenza.nome_categoria}" />
+		</p:column>
+
+		<p:column headerText="Marchio">
+			<h:outputText value="#{articolo.marchio}" />
+		</p:column>
+
+		<p:column headerText="Colore">
+			<h:outputText value="#{articolo.colore}" />
+		</p:column>
+	</p:dataTable>
+
+</h:body>
+
+</html>

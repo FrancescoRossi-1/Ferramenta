@@ -19,7 +19,7 @@ import it.exolab.dto.Provincia;
 import it.exolab.dto.Utente;
 import it.exolab.exception.CampoRichiesto;
 import it.exolab.exception.FormatoErrato;
-import it.exolab.exception.UtenteEsistente;
+import it.exolab.exception.OgettoEsistente;
 import it.exolab.service.SignUpService;
 
 @SuppressWarnings( "deprecation" )
@@ -57,7 +57,7 @@ public class SignUpBean implements Serializable {
 			sessionBean.setErrorMessage(cr.getMessage());
 		} catch ( FormatoErrato fe ) {
 			sessionBean.setErrorMessage(fe.getMessage());
-		} catch ( UtenteEsistente ue ) {
+		} catch ( OgettoEsistente ue ) {
 			sessionBean.setErrorMessage(ue.getMessage());
 		} catch ( Exception e ) {
 			sessionBean.setErrorMessage(Constants.ExceptionMessages.UNKNOWN_ERROR);

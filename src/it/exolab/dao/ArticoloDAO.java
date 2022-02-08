@@ -3,6 +3,7 @@ package it.exolab.dao;
 import java.util.List;
 
 import it.exolab.dto.Articolo;
+import it.exolab.mybatis.SqlMapFactory;
 
 public class ArticoloDAO {
 	
@@ -24,6 +25,13 @@ public class ArticoloDAO {
 		List<Articolo> allArticoli = MainDAO.getArticoloMapper().selectAllArticolo();
 		MainDAO.closeTransaction();
 		return allArticoli;
+	}
+
+	public void insertArticolo(Articolo addArticolo) {
+		MainDAO.beginTransaction();
+		MainDAO.getArticoloMapper().insertArticolo(addArticolo);
+		SqlMapFactory.instance().commitSession();
+		MainDAO.closeTransaction();
 	} 
 
 }

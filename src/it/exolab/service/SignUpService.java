@@ -11,7 +11,7 @@ import it.exolab.dto.Indirizzo;
 import it.exolab.dto.Utente;
 import it.exolab.exception.CampoRichiesto;
 import it.exolab.exception.FormatoErrato;
-import it.exolab.exception.UtenteEsistente;
+import it.exolab.exception.OgettoEsistente;
 
 public class SignUpService {
 	
@@ -103,12 +103,12 @@ public class SignUpService {
 		user.setIsAdmin(false);
 	}
 
-	public static void insertUser(Utente user) throws UtenteEsistente {
+	public static void insertUser(Utente user) throws OgettoEsistente {
 		
 		Utente extrapolatedUser = UtenteDAO.getInstance().selectUserFromEmail(user);
 
 		if( extrapolatedUser != null ) {
-			throw new UtenteEsistente();
+			throw new OgettoEsistente(extrapolatedUser);
 		}
 
 		Indirizzo indirizzoEstrapolato = IndirizzoDAO.getInstance().selectIndirizzoForEquals(user.getIndirizzoResidenza()); //indirizzo comprensivo di provincia

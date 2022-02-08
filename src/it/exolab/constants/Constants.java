@@ -1,7 +1,5 @@
 package it.exolab.constants;
 
-import java.net.URI;
-
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
@@ -22,12 +20,14 @@ public class Constants {
 		public static final String UNKNOWN_ERROR = "Si è verificato un'errore sconosciuto, riprova";
 		public static final String UTENTE_NON_ESISTENTE = "Hai inserito una combinazione di credenziali errata.";
 		public static final String NOT_SUPPORTED_IMAGE = "Hai inserito un immagine non supportata, le estensioni supportate sono jpg, png e gif";
-		public static final String FILE_TOO_BIG = "Hai inserito un immagine troppo pesante, le dimensioni massime supportate sono di 150Kb";
+		public static final String FILE_TOO_BIG = "Hai inserito un immagine troppo pesante, le dimensioni massime supportate sono di 65Kb";
+		public static final String ARTICOLO_ESISTENTE = "Hai inserito un articolo già presente nel magazzino, riprova.";
 	}
 	
 	public class Messages {
 		public static final String REGISTRAZIONE_AVVENUTA = "Registrazione avvenuta con successo!";
 		public static final String LOGIN_AVVENUTO = "Login effettuato con successo";
+		public static final String SUCCESFULLY_INSTERTED_PRODUCT = "Articolo inserito con successo!";
 	}
 	
 	public class Tabs {
@@ -50,13 +50,11 @@ public class Constants {
 	public static class File {
 		public static final String XHTML = ".xhtml";
 		public static final String[] SUPPORTED_IMAGE_EXTENSIONS = { "jpg", "png", "gif" };
-		public static final Double MAX_SUPPORTED_DIMENSION = 153826.1339092872; //150KB
+		public static final Double MAX_SUPPORTED_DIMENSION = 65534.00; //64KB
 	}
 	
 	public static class Paths {
-		public static final ServletContext SERVLET_CONTEXT = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-		public static final String PRODUCT_IMAGES_PATH = SERVLET_CONTEXT.getRealPath("resources/img/articoli");
-		
+		public static final ServletContext SERVLET_CONTEXT = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();		
 	}
 
 }

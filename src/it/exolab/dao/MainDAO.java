@@ -1,5 +1,6 @@
 package it.exolab.dao;
 
+import it.exolab.mapper.AllegatoMapper;
 import it.exolab.mapper.ArticoloMapper;
 import it.exolab.mapper.CategoriaMapper;
 import it.exolab.mapper.IndirizzoMapper;
@@ -27,6 +28,10 @@ public class MainDAO {
 	
 	public static CategoriaMapper getCategoriaMapper() {
 		return SqlMapFactory.instance().getMapper(CategoriaMapper.class);
+	}
+	
+	public static AllegatoMapper getAllegatoMapper() {
+		return SqlMapFactory.instance().getMapper(AllegatoMapper.class);
 	}
 	
 	public static void closeTransaction() {
