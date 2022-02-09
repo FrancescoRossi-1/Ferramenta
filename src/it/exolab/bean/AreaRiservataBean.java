@@ -19,7 +19,7 @@ import it.exolab.dao.ArticoloDAO;
 import it.exolab.exception.CampoRichiesto;
 import it.exolab.exception.FileImmagineNonSupportato;
 import it.exolab.exception.GenericFileException;
-import it.exolab.exception.OgettoEsistente;
+import it.exolab.exception.OggettoEsistente;
 import it.exolab.service.ArticoliService;
 
 @SuppressWarnings("deprecation")
@@ -43,60 +43,6 @@ public class AreaRiservataBean implements Serializable {
 	@PostConstruct
 	public void init() {
 	}
-
-
-	public void insertArticolo() {
-		log.info("--> Inserimento articolo.");
-
-		try {
-			
-			ArticoliService.checkParameters(articoliBean.getAddArticolo());
-			ArticoliService.checkEquals(articoliBean.getAddArticolo(), articoliBean.getAllArticoli());
-			
-			articoliBean.checkImages(articoliBean.getArticoloImages());
-			
-			ArticoloDAO.getInstance().insertArticolo(articoliBean.getAddArticolo());
-			
-			articoliBean.fillImageList(articoliBean.getAddArticolo(),articoliBean.getArticoloImages());	
-			AllegatoDAO.insertAll(articoliBean.getAddArticolo().getAllegatiAppartenenti());
-			
-			articoliBean.init();
-			sessionBean.setSuccessMessage(Constants.Messages.SUCCESFULLY_INSTERTED_PRODUCT);		
-			
-		} catch ( CampoRichiesto cr ) {
-			sessionBean.setErrorMessage(cr.getMessage());
-		} catch ( OgettoEsistente oe ) {
-			sessionBean.setErrorMessage(oe.getMessage());
-		} catch ( FileImmagineNonSupportato fins ) {
-			sessionBean.setErrorMessage(fins.getMessage());
-		} catch ( GenericFileException gfe ) {
-			sessionBean.setErrorMessage(gfe.getMessage());
-		} catch ( Exception e ) {
-			sessionBean.setErrorMessage(Constants.ExceptionMessages.UNKNOWN_ERROR);
-			log.info(e.getMessage(),e);
-		} finally {
-			PrimeFaces.current().ajax().update("messageDiv");
-		}
-
-	}
-	
-	public void deleteArticolo(Long idArticolo) {
-		
-		try {
-			
-			ArticoloDAO.getInstance().deleteArticoloFromId(idArticolo);
-			articoliBean.init();
-			sessionBean.setSuccessMessage(Constants.Messages.DELETE_ARTICOLO_SUCCESS);
-			PrimeFaces.current().ajax().update("menuForm:tabView:menuAreaRiservata:gestioneArticoli");
-			
-		} catch ( Exception e ) {
-			sessionBean.setErrorMessage(Constants.ExceptionMessages.UNKNOWN_ERROR);
-		} finally {
-			PrimeFaces.current().ajax().update("messageDiv");
-		}
-		
-	}
-
 
 	public SessionBean getSessionBean() {
 		return sessionBean;

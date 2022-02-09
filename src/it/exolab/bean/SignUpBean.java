@@ -2,6 +2,7 @@ package it.exolab.bean;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,13 +15,15 @@ import org.apache.log4j.Logger;
 import org.primefaces.PrimeFaces;
 
 import it.exolab.constants.Constants;
+import it.exolab.dao.IndirizzoDAO;
 import it.exolab.dao.ProvinciaDAO;
+import it.exolab.dao.UtenteDAO;
 import it.exolab.dto.Provincia;
 import it.exolab.dto.Utente;
 import it.exolab.exception.CampoRichiesto;
 import it.exolab.exception.FormatoErrato;
-import it.exolab.exception.OgettoEsistente;
-import it.exolab.service.SignUpService;
+import it.exolab.exception.OggettoEsistente;
+import it.exolab.service.ValidationService;
 
 @SuppressWarnings( "deprecation" )
 @ManagedBean
@@ -48,22 +51,34 @@ public class SignUpBean implements Serializable {
 		log.info("-->Entrato in registrazione.");
 
 		try {
-			SignUpService.checkParameters(user);
-			SignUpService.setUtilityParameters(user);
-			SignUpService.insertUser(user);
+			ValidationService.checkParametersSignUp(user);
+			
+			//utility parameters
+			user.setData_iscrizione(new Date(System.currentTimeMillis()));
+			user.setIsAdmin(false);
+
+			ValidationService.checkExistingUserSignUp(user);
+			
+			if(ValidationService.checkIndirizzoEsistente(user)) {
+				IndirizzoDAO.getInstance().insertAddress(user.getIndirizzoResidenza());
+			}
+			
+			UtenteDAO.getInstance().insertUser(user);
+			
 			sessionBean.setSuccessMessage(Constants.Messages.REGISTRAZIONE_AVVENUTA);
+			
+			init(); //ricarica bean
 			log.info("--->Utente Registrato.");
+			
 		} catch ( CampoRichiesto cr ) {
 			sessionBean.setErrorMessage(cr.getMessage());
 		} catch ( FormatoErrato fe ) {
 			sessionBean.setErrorMessage(fe.getMessage());
-		} catch ( OgettoEsistente ue ) {
+		} catch ( OggettoEsistente ue ) {
 			sessionBean.setErrorMessage(ue.getMessage());
 		} catch ( Exception e ) {
 			sessionBean.setErrorMessage(Constants.ExceptionMessages.UNKNOWN_ERROR);
 			log.info(e.getMessage(),e);
-		} finally {
-			PrimeFaces.current().ajax().update("messageDiv");
 		}
 
 	}

@@ -3,6 +3,7 @@ package it.exolab.dao;
 import java.util.List;
 
 import it.exolab.dto.Categoria;
+import it.exolab.mybatis.SqlMapFactory;
 
 public class CategoriaDAO {
 	
@@ -22,6 +23,13 @@ public class CategoriaDAO {
 		List<Categoria> allCategorie = MainDAO.getCategoriaMapper().findAllCategorie();
 		MainDAO.closeTransaction();
 		return allCategorie;
+	}
+
+	public void insertCategoria(Categoria categoria) {
+		MainDAO.beginTransaction(); 
+		MainDAO.getCategoriaMapper().insertCategoria(categoria);
+		SqlMapFactory.instance().commitSession();
+		MainDAO.closeTransaction();
 	}
 
 }

@@ -32,14 +32,14 @@ public class UtenteDAO {
 		MainDAO.closeTransaction();
 	}
 
-	public static Utente selectUserFromEmailAndPassword(Utente user) {
+	public Utente selectUserFromEmailAndPassword(Utente user) {
 		MainDAO.beginTransaction();
 		Utente extrapolatedUser = MainDAO.getUtenteMapper().selectUserFromEmailAndPassword(user);
 		MainDAO.closeTransaction();
 		return extrapolatedUser;
 	}
 
-	public static Utente selectUser(Utente user) {
+	public Utente selectUser(Utente user) {
 		MainDAO.beginTransaction();
 		Utente extrapolatedUser = MainDAO.getUtenteMapper().selectUser(user);
 		MainDAO.closeTransaction();

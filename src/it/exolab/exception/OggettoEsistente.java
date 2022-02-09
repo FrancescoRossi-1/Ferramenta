@@ -2,13 +2,14 @@ package it.exolab.exception;
 
 import it.exolab.constants.Constants;
 import it.exolab.dto.Articolo;
+import it.exolab.dto.Categoria;
 import it.exolab.dto.Utente;
 
-public class OgettoEsistente extends Exception {
+public class OggettoEsistente extends Exception {
 
 	private static final long serialVersionUID = 5707927686717223383L;
 
-	public OgettoEsistente(Object obj) {
+	public OggettoEsistente(Object obj) {
 		
 		super(getModifiedMessage(obj));
 		
@@ -22,6 +23,10 @@ public class OgettoEsistente extends Exception {
 		
 		if( obj instanceof Articolo ) {
 			return Constants.ExceptionMessages.ARTICOLO_ESISTENTE;
+		}
+		
+		if( obj instanceof Categoria ) {
+			return Constants.ExceptionMessages.CATEGORIA_ESISENTE;
 		}
 		
 		return "";

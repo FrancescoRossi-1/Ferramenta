@@ -3,10 +3,42 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-	
+
 <h:body>
 
-<h1>Aggiungi Categorie</h1>
+	<h1>Aggiungi Categorie</h1>
+
+	<p:panelGrid id="gridAddCategorie" cellpadding="2"
+		style="margin-left: auto; margin-right: auto;">
+		<p:row>
+			<p:column colspan="1">
+				<p:outputLabel for="nomeCategoria" value="Nome Categoria:" />
+			</p:column>
+			<p:column colspan="2">
+				<p:inputText id="nomeCategoria"
+					value="#{categorieBean.addCategoria.nome_categoria}" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column colspan="1">
+				<p:outputLabel for="descrizioneCategoria"
+					value="Descrizione Categoria:" />
+			</p:column>
+			<p:column colspan="2">
+				<p:inputText id="descrizioneCategoria"
+					value="#{categorieBean.addCategoria.descrizione_categoria}"
+					style="margin-bottom:10px" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column colspan="3">
+				<p:commandButton value="Aggiungi Categoria" id="aggiungiCategoria"
+					actionListener="#{categorieBean.insertCategoria}"
+					style="margin-right:20px;" styleClass="ui-priority-primary"
+					ajax="false" update="@form" />
+			</p:column>
+		</p:row>
+	</p:panelGrid>
 
 </h:body>
 

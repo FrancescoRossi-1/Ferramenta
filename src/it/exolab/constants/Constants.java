@@ -22,6 +22,7 @@ public class Constants {
 		public static final String NOT_SUPPORTED_IMAGE = "Hai inserito un immagine non supportata, le estensioni supportate sono jpg, png e gif";
 		public static final String FILE_TOO_BIG = "Hai inserito un immagine troppo pesante, le dimensioni massime supportate sono di 65Kb";
 		public static final String ARTICOLO_ESISTENTE = "Hai inserito un articolo già presente nel magazzino, riprova.";
+		public static final String CATEGORIA_ESISENTE = "Hai inserito una categoria già presente, riprova";
 	}
 	
 	public class Messages {
@@ -29,6 +30,7 @@ public class Constants {
 		public static final String LOGIN_AVVENUTO = "Login effettuato con successo";
 		public static final String SUCCESFULLY_INSTERTED_PRODUCT = "Articolo inserito con successo!";
 		public static final String DELETE_ARTICOLO_SUCCESS = "Articolo eliminato con successo!";
+		public static final String SUCCESFULLY_INSTERTED_CATEGORY = "Categoria inserita con successo!";
 	}
 	
 	public class Tabs {

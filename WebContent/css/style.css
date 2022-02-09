@@ -1,7 +1,11 @@
 @charset "ISO-8859-1";
 
-.icona{
-	background-color: black;
-	width: 50px;
-	height: 50px;
+.loading {
+	
+	width: 100%;
+	height: 100%;
+ 	background-color: #1F1818;
+	font-size: 40px;
+	font-family: cursive;
+	
 }
