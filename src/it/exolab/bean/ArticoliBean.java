@@ -25,7 +25,6 @@ import it.exolab.exception.CampoRichiesto;
 import it.exolab.exception.FileImmagineNonSupportato;
 import it.exolab.exception.GenericFileException;
 import it.exolab.exception.OggettoEsistente;
-import it.exolab.service.ArticoliService;
 import it.exolab.service.ValidationService;
 
 @SuppressWarnings("deprecation")

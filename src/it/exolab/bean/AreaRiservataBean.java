@@ -10,17 +10,6 @@ import javax.faces.bean.SessionScoped;
 
 
 import org.apache.log4j.Logger;
-import org.primefaces.PrimeFaces;
-
-import it.exolab.constants.Constants;
-import it.exolab.dao.AllegatoDAO;
-import it.exolab.dao.ArticoloDAO;
-
-import it.exolab.exception.CampoRichiesto;
-import it.exolab.exception.FileImmagineNonSupportato;
-import it.exolab.exception.GenericFileException;
-import it.exolab.exception.OggettoEsistente;
-import it.exolab.service.ArticoliService;
 
 @SuppressWarnings("deprecation")
 @ManagedBean

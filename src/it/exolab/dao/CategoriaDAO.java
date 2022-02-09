@@ -32,4 +32,11 @@ public class CategoriaDAO {
 		MainDAO.closeTransaction();
 	}
 
+	public void deleteCategoriaFromId(Long idCategoria) {
+		MainDAO.beginTransaction(); 
+		MainDAO.getCategoriaMapper().deleteCategoria(idCategoria);
+		SqlMapFactory.instance().commitSession();
+		MainDAO.closeTransaction();
+	}
+
 }

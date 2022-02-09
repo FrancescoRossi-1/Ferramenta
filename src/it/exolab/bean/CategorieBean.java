@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import org.apache.log4j.Logger;
+import org.primefaces.PrimeFaces;
 
 import it.exolab.constants.Constants;
 import it.exolab.dao.CategoriaDAO;
@@ -55,6 +56,21 @@ public class CategorieBean {
 		} catch ( Exception e ) {
 			sessionBean.setErrorMessage(Constants.ExceptionMessages.UNKNOWN_ERROR);
 			log.info(e.getMessage(),e);
+		}
+		
+	}
+	
+	public void deleteCategoria(Long idCategoria) {
+		
+		try {
+			
+			CategoriaDAO.getInstance().deleteCategoriaFromId(idCategoria);
+			init(); //ricarica le categorie
+			sessionBean.setSuccessMessage(Constants.Messages.DELETE_CATEGORIA_SUCCESS);
+			PrimeFaces.current().ajax().update("menuForm:tabView:menuAreaRiservata:gestioneCategorie");
+			
+		} catch ( Exception e ) {
+			sessionBean.setErrorMessage(Constants.ExceptionMessages.UNKNOWN_ERROR);
 		}
 		
 	}
