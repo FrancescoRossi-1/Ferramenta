@@ -145,7 +145,7 @@ public interface UtenteMapper {
 	@ResultType(Utente.class)
 	Utente selectUserFromEmailAndPassword(Utente user);
 
-	@Results(id = "resultUtenti", value = {
+	@Results(value = {
 		@Result(property = "id_utente", column = "id_utente", id = true),
 		@Result(property = "nome", column = "nome"),
 		@Result(property = "cognome", column = "cognome"),
@@ -168,7 +168,25 @@ public interface UtenteMapper {
 	@ResultType(Utente.class)
 	Utente selectUser(Utente user);
 
-	@ResultMap("resultUtenti")
+	@Results(value = {
+			@Result(property = "id_utente", column = "id_utente", id = true),
+			@Result(property = "nome", column = "nome"),
+			@Result(property = "cognome", column = "cognome"),
+			@Result(property = "codice_fiscale", column = "codice_fiscale"),
+			@Result(property = "data_nascita", column = "data_nascita"),
+			@Result(property = "email", column = "email"),
+			@Result(property = "password", column = "password"),
+			@Result(property = "data_iscrizione", column = "data_iscrizione"),
+			@Result(property = "isAdmin", column = "isAdmin"),
+			@Result(property = "indirizzoResidenza.id_indirizzo", column = "id_indirizzo", id = true),
+			@Result(property = "indirizzoResidenza.via", column = "via"),
+			@Result(property = "indirizzoResidenza.n_civico", column = "n_civico"),
+			@Result(property = "indirizzoResidenza.cap", column = "cap"),
+			@Result(property = "indirizzoResidenza.provinciaDiAppartenenza.id_province", column = "id_province", id = true),
+			@Result(property = "indirizzoResidenza.provinciaDiAppartenenza.nome_province", column = "nome_province"),
+			@Result(property = "indirizzoResidenza.provinciaDiAppartenenza.sigla_province", column = "sigla_province"),
+			@Result(property = "indirizzoResidenza.provinciaDiAppartenenza.regione_province", column = "regione_province"),
+		})
 	@Select ( SELECT_ALL_USERS_JOIN_IND_PROV )
 	@ResultType(Utente.class)
 	List<Utente> selectAllUtenti();

@@ -3,10 +3,106 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-	
+
 <h:body>
 
-<h1>Visualizza Utenti</h1>
+	<h1>Visualizza Utenti</h1>
+
+	<p:dataTable id="gestioneUtenti" var="utente" style="width:100%"
+		value="#{utentiBean.allUtenti}">
+		<p:column headerText="Id" style="width: 35px;">
+			<h:outputText value="#{utente.id_utente}" />
+		</p:column>
+
+		<p:column headerText="Nome" style="width: 9%;">
+			<h:outputText value="#{utente.nome}" />
+		</p:column>
+
+		<p:column headerText="Cognome" style="width: 9%">
+			<h:outputText value="#{utente.cognome}" />
+		</p:column>
+
+		<p:column headerText="Codice Fiscale">
+			<h:outputText value="#{utente.codice_fiscale}" />
+		</p:column>
+
+		<p:column headerText="Data Nascita" style="width:77px">
+			<h:outputText value="#{utente.data_nascita}">
+				<f:convertDateTime pattern="dd/MM/yyyy" />
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText="Email">
+			<h:outputText value="#{utente.email}" />
+		</p:column>
+
+		<p:column headerText="Password">
+			<h:outputText value="#{utente.password}" />
+		</p:column>
+
+		<p:column headerText="Admin" style="width: 44px;">
+			<h:outputText rendered="#{utente.isAdmin}" value="Si" />
+			<h:outputText rendered="#{!utente.isAdmin}" value="No" />
+		</p:column>
+
+		<p:column headerText="Data Iscrizione">
+			<h:outputText value="#{utente.data_iscrizione}">
+				<f:convertDateTime pattern="dd/MM/yyyy" />
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText="Altro" style="width: 4%;">
+			<p:commandLink
+				update="menuForm:tabView:menuAreaRiservata:dettaglioUtente"
+				oncomplete="PF('utDettaglio').show();" title="Visualizza Dettagli">
+				<h:outputText value="Altro..." styleClass="pi pi-search"
+					style="margin:0 auto;" />
+				<f:setPropertyActionListener value="#{utente}"
+					target="#{utentiBean.utenteSelezionato}" />
+			</p:commandLink>
+		</p:column>
+
+	</p:dataTable>
+
+	<p:dialog header="Informazioni Sull'Utente" widgetVar="utDettaglio"
+		showEffect="fade" hideEffect="fade" resizable="true">
+
+		<p:outputPanel id="dettaglioUtente" style="text-align:center;">
+			<p:panelGrid columns="2"
+				rendered="#{utentiBean.utenteSelezionato != null }"
+				columnClasses="label,value">
+
+				<h:outputText value="Via:" />
+				<h:outputText
+					value="#{utentiBean.utenteSelezionato.indirizzoResidenza.via}" />
+
+				<h:outputText value="Numero Civico:" />
+				<h:outputText
+					value="#{utentiBean.utenteSelezionato.indirizzoResidenza.n_civico}" />
+
+				<h:outputText value="CAP: " />
+				<h:outputText
+					value="#{utentiBean.utenteSelezionato.indirizzoResidenza.cap}" />
+
+				<h:outputText value="Provincia:" />
+				<h:outputText
+					value="#{utentiBean.utenteSelezionato.indirizzoResidenza.provinciaDiAppartenenza.nome_province}" />
+
+				<h:outputText value="Data Iscrizione:" />
+				<h:outputText
+					value="#{utentiBean.utenteSelezionato.data_iscrizione}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+
+				<h:outputText value="Admin" />
+				<h:outputText rendered="#{utentiBean.utenteSelezionato.isAdmin}"
+					value="Si" />
+				<h:outputText rendered="#{!utentiBean.utenteSelezionato.isAdmin}"
+					value="No" />
+
+			</p:panelGrid>
+		</p:outputPanel>
+	</p:dialog>
 
 </h:body>
 
