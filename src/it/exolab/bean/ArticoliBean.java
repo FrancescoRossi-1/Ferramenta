@@ -54,14 +54,6 @@ public class ArticoliBean implements Serializable {
 		
 	}
 	
-	public void refreshArticoli() {
-
-		//estrapola tutti gli articoli
-		allArticoli = ArticoloDAO.getInstance().selectAllArticoli(); 
-		log.info("Articoli aggiornati.");
-		
-	}
-	
 	public void checkImages(UploadedFiles articoloImages) throws FileImmagineNonSupportato, GenericFileException, Exception {
 
 		List<UploadedFile> imagesList = articoloImages.getFiles();

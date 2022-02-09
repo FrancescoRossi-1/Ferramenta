@@ -42,10 +42,11 @@
 <p:dialog header="Informazioni Sull'Articolo"
 	widgetVar="articoloDettaglio" showEffect="fade" hideEffect="fade"
 	resizable="true">
+	
 	<p:outputPanel id="articoloDetail" style="text-align:center;">
 		<p:carousel value="#{articoliBean.stringPhotos}" headerText="Immagini"
 			var="img" itemStyle="height:200px;text-align:center" numVisible="1"
-			easing="easeOutBounce" style="width:300px" circular="true">
+			easing="easeOutBounce" style="width:300px;margin-left:auto; margin-right: auto;" circular="true">
 			<h:panelGrid columns="1" style="width:100%"
 				columnClasses="label,value">
 				<f:facet name="header">

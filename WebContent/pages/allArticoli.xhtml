@@ -8,7 +8,7 @@
 
 	<h1>Gestione Articoli</h1>
 
-	<p:dataTable var="articolo" value="#{articoliBean.allArticoli}">
+	<p:dataTable id="gestioneArticoli" var="articolo" value="#{articoliBean.allArticoli}">
 		<p:column headerText="Id">
 			<h:outputText value="#{articolo.id_articolo}" />
 		</p:column>
@@ -22,7 +22,7 @@
 		</p:column>
 
 		<p:column headerText="Immagini Articolo">
-			<h:outputText value="#{articolo.descrizione_articolo}" />
+			<h:outputText value="#{articolo.allegatiAppartenenti.size()}" />
 		</p:column>
 
 		<p:column headerText="Prezzo">

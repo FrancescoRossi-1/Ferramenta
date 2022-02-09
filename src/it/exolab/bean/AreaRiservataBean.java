@@ -60,7 +60,7 @@ public class AreaRiservataBean implements Serializable {
 			articoliBean.fillImageList(articoliBean.getAddArticolo(),articoliBean.getArticoloImages());	
 			AllegatoDAO.insertAll(articoliBean.getAddArticolo().getAllegatiAppartenenti());
 			
-			articoliBean.refreshArticoli();
+			articoliBean.init();
 			sessionBean.setSuccessMessage(Constants.Messages.SUCCESFULLY_INSTERTED_PRODUCT);		
 			
 		} catch ( CampoRichiesto cr ) {
@@ -85,11 +85,14 @@ public class AreaRiservataBean implements Serializable {
 		try {
 			
 			ArticoloDAO.getInstance().deleteArticoloFromId(idArticolo);
-			articoliBean.refreshArticoli();
+			articoliBean.init();
 			sessionBean.setSuccessMessage(Constants.Messages.DELETE_ARTICOLO_SUCCESS);
+			PrimeFaces.current().ajax().update("menuForm:tabView:menuAreaRiservata:gestioneArticoli");
 			
 		} catch ( Exception e ) {
-			
+			sessionBean.setErrorMessage(Constants.ExceptionMessages.UNKNOWN_ERROR);
+		} finally {
+			PrimeFaces.current().ajax().update("messageDiv");
 		}
 		
 	}
