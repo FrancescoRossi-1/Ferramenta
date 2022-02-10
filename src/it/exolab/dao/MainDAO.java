@@ -2,6 +2,8 @@ package it.exolab.dao;
 
 import it.exolab.mapper.AllegatoMapper;
 import it.exolab.mapper.ArticoloMapper;
+import it.exolab.mapper.CarrelloEArticoloMapper;
+import it.exolab.mapper.CarrelloMapper;
 import it.exolab.mapper.CategoriaMapper;
 import it.exolab.mapper.IndirizzoMapper;
 import it.exolab.mapper.ProvinciaMapper;
@@ -34,6 +36,14 @@ public class MainDAO {
 		return SqlMapFactory.instance().getMapper(AllegatoMapper.class);
 	}
 	
+	public static CarrelloMapper getCarrelloMapper() {
+		return SqlMapFactory.instance().getMapper(CarrelloMapper.class);
+	}
+	
+	public static CarrelloEArticoloMapper getCarrelloEArticoloMapper() {
+		return SqlMapFactory.instance().getMapper(CarrelloEArticoloMapper.class);
+	}
+	
 	public static void closeTransaction() {
 		SqlMapFactory.instance().closeSession();
 	}
@@ -41,6 +51,9 @@ public class MainDAO {
 	public static void beginTransaction() {
 		SqlMapFactory.instance().openSession();
 	}
+
+
+
 
 
 }

@@ -23,6 +23,8 @@ public class Constants {
 		public static final String FILE_TOO_BIG = "Hai inserito un immagine troppo pesante, le dimensioni massime supportate sono di 65Kb";
 		public static final String ARTICOLO_ESISTENTE = "Hai inserito un articolo già presente nel magazzino, riprova.";
 		public static final String CATEGORIA_ESISENTE = "Hai inserito una categoria già presente, riprova";
+		public static final String QUANTITA_ARTICOLI_MINORE = "Non puoi inserire nel tuo carrello meno di un articolo, riprova.";
+		public static final String QUANTITA_ARTICOLI_MAGGIORE = "Hai inserito una quantità di articoli maggiore di quella disponibile, riprova.";
 	}
 	
 	public class Messages {
@@ -40,15 +42,17 @@ public class Constants {
 		public static final String TAB_SIGNUP = "tabRegistrazione";
 		public static final String TAB_CATEGORIE = "tabCategorie";
 		public static final String TAB_ARTICOLI = "tabArticoli";
-		public static final String TAB_LOGOUT = "tabLogout";
 		public static final String TAB_AREA_RISERVATA = "tabAreaRiservata";
+		public static final String TAB_CARRELLO = "tabCarrello";
+		public static final String TAB_LOGOUT = "tabLogout";
 		public static final int ID_TAB_HOMEPAGE = 0;
 		public static final int ID_TAB_LOGIN = 1;
 		public static final int ID_TAB_SIGNUP = 2;
 		public static final int ID_TAB_CATEGORIE = 1;
 		public static final int ID_TAB_ARTICOLI = 2;
 		public static final int ID_TAB_AREA_RISERVATA = 3;
-		public static final int ID_TAB_LOGOUT = 4;
+		public static final int ID_TAB_CARRELLO = 4;
+		public static final int ID_TAB_LOGOUT = 5;
 	}
 	
 	public static class File {

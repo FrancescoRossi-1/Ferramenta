@@ -29,23 +29,21 @@ public interface AllegatoMapper {
 			+ "			#{allegato.id_articolo}) " 
 			+ "	</foreach> " 
 			+ "</script>";
-
-	static String SELECT_BY_ID_ARTICOLO = "SELECT " 
+	
+	static String SELECT_ALL = " SELECT " 
 			+ " id_allegato, " 
-			+ " nome_file, "  
-			+ " estensione,"  
-			+ " content, "  
-			+ " id_articolo "  
+			+ " nome_file, " 
+			+ " estensione, " 
+			+ " content, " 
+			+ " id_articolo " 
 			+ "FROM " 
-			+ " ALLEGATI "  
-			+ "WHERE " 
-			+ " id_articolo = #{id_articolo} ";
+			+ " ALLEGATI ";
 
 	@Insert ( INSERT_ALL_ALLEGATI )
 	public void insertAllAllegati(List<Allegato> allegati);
-	
-	@Select ( SELECT_BY_ID_ARTICOLO )
+
+	@Select ( SELECT_ALL )
 	@ResultType ( Allegato.class )
-	public List<Allegato> selectAllByIdArticolo(Articolo articolo);
+	public List<Allegato> selectAllAllegati();
 
 }

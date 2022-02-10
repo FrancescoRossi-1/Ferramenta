@@ -1,7 +1,5 @@
 package it.exolab.dto;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import lombok.Data;
 import lombok.ToString;
@@ -18,11 +16,10 @@ public class Articolo {
 	private Integer quantita_disponibile;
 	private Double prezzo_unitario;
 	private Categoria categoriaDiAppartenenza;
-	private List<Allegato> allegatiAppartenenti;
 	
 	public Articolo() {
 		categoriaDiAppartenenza = new Categoria();
-		allegatiAppartenenti = new ArrayList<>();
+
 	}
 
 	@Override
@@ -54,7 +51,6 @@ public class Articolo {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((allegatiAppartenenti == null) ? 0 : allegatiAppartenenti.hashCode());
 		result = prime * result + ((categoriaDiAppartenenza == null) ? 0 : categoriaDiAppartenenza.hashCode());
 		result = prime * result + ((colore == null) ? 0 : colore.hashCode());
 		result = prime * result + ((descrizione_articolo == null) ? 0 : descrizione_articolo.hashCode());

@@ -2,6 +2,7 @@ package it.exolab.dao;
 
 import java.util.List;
 
+import it.exolab.dto.Carrello;
 import it.exolab.dto.Utente;
 import it.exolab.mybatis.SqlMapFactory;
 
@@ -51,6 +52,13 @@ public class UtenteDAO {
 		List<Utente> allUtenti = MainDAO.getUtenteMapper().selectAllUtenti();
 		MainDAO.closeTransaction();
 		return allUtenti;
+	}
+
+	public void assegnaNuovoCarrello(Carrello carrelloUtente, Utente loggedUser) {
+		MainDAO.beginTransaction();
+		MainDAO.getUtenteMapper().assegnaNuovoCarrello( carrelloUtente, loggedUser );
+		SqlMapFactory.instance().commitSession();
+		MainDAO.closeTransaction();
 	}
 
 }

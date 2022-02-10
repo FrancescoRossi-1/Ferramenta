@@ -5,7 +5,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
-	<h:outputStylesheet name="css/style.css" library="css" /> 
+	<h:outputStylesheet name="css/style.css" library="css" />
 </h:head>
 
 <h:body>
@@ -20,11 +20,12 @@
 
 
 	<h:form id="menuForm" enctype="multipart/form-data">
-		
-		<p:outputPanel id="loading" rendered="#{sessionBean.loading == true}" styleClass="loading">
+
+		<p:outputPanel id="loading" rendered="#{sessionBean.loading == true}"
+			styleClass="loading">
 				Loading
 		</p:outputPanel>
-	
+
 		<p:outputPanel rendered="#{sessionBean.errorMessage != null}"
 			id="messaggioSuccesso" style="margin-left: auto; margin-right: auto;">
 			<p:staticMessage severity="error" summary="ERRORE!"
@@ -61,6 +62,13 @@
 				rendered="#{sessionBean.loggedUser.isAdmin}">
 				<ui:include src="/pages/areaRiservata.xhtml" />
 			</p:tab>
+			<p:tab title="Carrello" id="tabCarrello" icon="pi shopping-cart"
+				rendered="#{sessionBean.loggedUser != null}">
+				<ui:include src="/pages/carrello.xhtml" />
+			</p:tab>
+			
+			
+			
 			<p:tab title="Logout" icon="pi pi-star" id="tabLogout"
 				rendered="#{sessionBean.loggedUser != null}">
 			</p:tab>

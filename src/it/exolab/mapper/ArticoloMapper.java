@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.Select;
 
 import it.exolab.dto.Allegato;
 import it.exolab.dto.Articolo;
+import it.exolab.dto.Carrello;
 
 public interface ArticoloMapper {
 
@@ -63,8 +64,6 @@ public interface ArticoloMapper {
 			+ " ARTICOLI " 
 			+ "WHERE " 
 			+ " id_articolo = #{id_articolo} ";
-	
-
 
 	@Results( value = {
 		@Result(property = "id_articolo", column = "id_articolo", id = true),

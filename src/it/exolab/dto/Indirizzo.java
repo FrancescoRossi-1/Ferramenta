@@ -1,12 +1,16 @@
 package it.exolab.dto;
 
+import java.io.Serializable;
+
 import lombok.Data;
 import lombok.ToString;
 
 @Data
 @ToString
-public class Indirizzo {
+public class Indirizzo implements Serializable {
 
+	private static final long serialVersionUID = 722853918559018404L;
+	
 	private Long id_indirizzo;
 	private String via;
 	private String n_civico;

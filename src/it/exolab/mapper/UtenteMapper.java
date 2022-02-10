@@ -8,7 +8,9 @@ import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
+import it.exolab.dto.Carrello;
 import it.exolab.dto.Utente;
 
 public interface UtenteMapper {
@@ -133,6 +135,13 @@ public interface UtenteMapper {
 			+ " province p " 
 			+ "ON " 
 			+ " i.id_provincia = p.id_province ";
+	
+	static String ASSEGNA_CARRELLO = " UPDATE "
+			+ " UTENTE "
+			+ "SET"
+			+ " id_carrello = #{param1.id_carrello} "
+			+ "WHERE " 
+			+ " id_utente = #{param2.id_utente} ";
 
 	@Select( SELECT_USER_FROM_EMAIL )
 	@ResultType(Utente.class)
@@ -190,5 +199,8 @@ public interface UtenteMapper {
 	@Select ( SELECT_ALL_USERS_JOIN_IND_PROV )
 	@ResultType(Utente.class)
 	List<Utente> selectAllUtenti();
+	
+	@Update ( ASSEGNA_CARRELLO )
+	void assegnaNuovoCarrello( Carrello carrelloUtente, Utente loggedUser );
 
 }

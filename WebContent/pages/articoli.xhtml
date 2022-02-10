@@ -10,7 +10,7 @@
 
 </h:body>
 
-<p:dataGrid var="articolo" value="#{articoliBean.allArticoli}"
+<p:dataGrid var="articolo" value="#{articoliBean.images}"
 	columns="3" layout="grid" rows="12" paginator="true" id="artic"
 	paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 	rowsPerPageTemplate="6,12,16">
@@ -19,19 +19,19 @@
             Articoli in vendita
         </f:facet>
 
-	<p:panel header="#{articolo.titolo_articolo}" style="text-align:center">
+	<p:panel header="#{articolo.key.titolo_articolo}" style="text-align:center">
 		<h:panelGrid columns="1" style="width:100%">
 			<img
-				src="data:image/jpg;base64, #{articoliBean.fromImageToString(articolo,0)}"
+				src="data:image/jpg;base64, #{articolo.value.get(0)}"
 				alt="Immagine non trovata" style="width: 100px; height: 100px;" />
-			<h:outputText value="#{articolo.descrizione_articolo}" width="100"
+			<h:outputText value="#{articolo.key.descrizione_articolo}" width="100"
 				height="100" />
 			<p:commandLink update="menuForm:tabView:articoloDetail"
 				oncomplete="PF('articoloDettaglio').show()"
 				title="Visualizza Dettagli">
 				<h:outputText value="Altro..." styleClass="pi pi-search"
 					style="margin:0 auto;" />
-				<f:setPropertyActionListener value="#{articolo}"
+				<f:setPropertyActionListener value="#{articolo.key}"
 					target="#{articoliBean.articoloSelezionato}" />
 			</p:commandLink>
 		</h:panelGrid>
@@ -42,26 +42,25 @@
 <p:dialog header="Informazioni Sull'Articolo"
 	widgetVar="articoloDettaglio" showEffect="fade" hideEffect="fade"
 	resizable="true">
-	
+
 	<p:outputPanel id="articoloDetail" style="text-align:center;">
-		<p:carousel value="#{articoliBean.stringPhotos}" headerText="Immagini"
+		<p:carousel value="#{articoliBean.immaginiArticoloSelezionato}" headerText="Immagini"
 			var="img" itemStyle="height:200px;text-align:center" numVisible="1"
-			easing="easeOutBounce" style="width:300px;margin-left:auto; margin-right: auto;" circular="true">
+			easing="easeOutBounce"
+			style="width:300px;margin-left:auto; margin-right: auto;"
+			circular="true">
 			<h:panelGrid columns="1" style="width:100%"
 				columnClasses="label,value">
 				<f:facet name="header">
-					<img src="data:image/jpg;base64, #{img}" alt="Immagine non trovata"
-						style="width: 300px;" />
+				<img
+					src="data:image/jpg;base64, #{img}"
+					alt="Immagine non trovata" style="width: 250px; height: 250px;" />
 				</f:facet>
-
 			</h:panelGrid>
 		</p:carousel>
 		<p:panelGrid columns="2"
 			rendered="#{articoliBean.articoloSelezionato != null }"
 			columnClasses="label,value">
-
-
-
 			<h:outputText value="Prezzo:" />
 			<h:outputText
 				value="€ #{articoliBean.articoloSelezionato.prezzo_unitario}" />
@@ -84,6 +83,15 @@
 			<h:outputText value="Categoria:" />
 			<h:outputText
 				value="#{articoliBean.articoloSelezionato.categoriaDiAppartenenza.nome_categoria}" />
+
+			<h:outputText value="Quantità da acquistare:" />
+			<p:spinner id="minMax" value="#{articoliBean.quantitaArticolo}"
+				min="1"
+				max="#{articoliBean.articoloSelezionato.quantita_disponibile}" style="width: 25%" />
+
+			<p:commandButton value="Aggiungi al carrello" actionListener="#{carrelloBean.insertArticoloInCarrello}" ajax="false"/>
+
+
 		</p:panelGrid>
 	</p:outputPanel>
 </p:dialog>

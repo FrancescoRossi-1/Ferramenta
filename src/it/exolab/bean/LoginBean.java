@@ -33,14 +33,11 @@ public class LoginBean implements Serializable {
 	@PostConstruct
 	public void init() {
 
-		log.info("--> Init");
 		loginUser = new Utente();
 
 	}
 
 	public void loginUtente() {
-
-		log.info("--> Login");
 
 		try {
 			
@@ -62,7 +59,6 @@ public class LoginBean implements Serializable {
 		} catch ( UtenteNonEsistente une ) {
 
 			sessionBean.setErrorMessage(une.getMessage());	
-			log.info(une.getMessage(), une);
 
 		} catch ( Exception e ) {
 

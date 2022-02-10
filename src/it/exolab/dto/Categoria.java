@@ -1,12 +1,16 @@
 package it.exolab.dto;
 
+import java.io.Serializable;
+
 import lombok.Data;
 import lombok.ToString;
 
 @Data
 @ToString
-public class Categoria {
+public class Categoria implements Serializable {
 
+	private static final long serialVersionUID = 4127560275264611574L;
+	
 	private Long id_categoria;
 	private String nome_categoria;
 	private String descrizione_categoria;

@@ -1,5 +1,6 @@
 package it.exolab.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import lombok.Data;
@@ -7,8 +8,9 @@ import lombok.ToString;
 
 @Data
 @ToString
-public class Utente {
+public class Utente implements Serializable {
 
+	private static final long serialVersionUID = -7146299757998337125L;
 	private Long id_utente;
 	private String nome;
 	private String cognome;
@@ -17,6 +19,7 @@ public class Utente {
 	private String email;
 	private String password;
 	private Indirizzo indirizzoResidenza;
+	private Carrello carrelloDiAppartenenza;
 	private Date data_iscrizione;
 	private Boolean isAdmin;
 

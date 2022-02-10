@@ -27,5 +27,7 @@
 		<mapper class="it.exolab.mapper.ArticoloMapper" />
 		<mapper class="it.exolab.mapper.CategoriaMapper" />
 		<mapper class="it.exolab.mapper.AllegatoMapper" />
+		<mapper class="it.exolab.mapper.CarrelloMapper" />
+		<mapper class="it.exolab.mapper.CarrelloEArticoloMapper" />
 	</mappers>
 </configuration>

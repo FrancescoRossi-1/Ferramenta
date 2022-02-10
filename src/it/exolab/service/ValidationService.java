@@ -17,6 +17,7 @@ import it.exolab.dto.Utente;
 import it.exolab.exception.CampoRichiesto;
 import it.exolab.exception.FileImmagineNonSupportato;
 import it.exolab.exception.FormatoErrato;
+import it.exolab.exception.GenericCarrelloException;
 import it.exolab.exception.GenericFileException;
 import it.exolab.exception.OggettoEsistente;
 import it.exolab.exception.UtenteNonEsistente;
@@ -232,6 +233,18 @@ public class ValidationService {
 			if(cat.equals(categoria)) {
 				throw new OggettoEsistente(categoria);
 			}
+		}
+		
+	}
+
+	public static void checkQuantitaArticolo(Articolo articoloDaAggiungere, Integer quantita) throws GenericCarrelloException {
+		
+		if( quantita < 1 ) {
+			throw new GenericCarrelloException(Constants.ExceptionMessages.QUANTITA_ARTICOLI_MINORE);
+		}
+		
+		if(quantita > articoloDaAggiungere.getQuantita_disponibile()) {
+			throw new GenericCarrelloException(Constants.ExceptionMessages.QUANTITA_ARTICOLI_MAGGIORE);
 		}
 		
 	}

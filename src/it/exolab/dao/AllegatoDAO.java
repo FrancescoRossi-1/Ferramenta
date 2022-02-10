@@ -26,10 +26,10 @@ public class AllegatoDAO {
 		MainDAO.closeTransaction();
 	}
 
-	public List<Allegato> selectAllAllegatiFromIdArticolo(Articolo articolo) {
+
+	public List<Allegato> selectAllAllegati() {
 		MainDAO.beginTransaction();
-		List<Allegato> allAllegati = MainDAO.getAllegatoMapper().selectAllByIdArticolo(articolo);
-		SqlMapFactory.instance().commitSession();
+		List<Allegato> allAllegati = MainDAO.getAllegatoMapper().selectAllAllegati();
 		MainDAO.closeTransaction();
 		return allAllegati;
 	}
