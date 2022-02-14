@@ -3,6 +3,7 @@ package it.exolab.dao;
 import java.util.List;
 
 import it.exolab.dto.CartaDiCredito;
+import it.exolab.mybatis.SqlMapFactory;
 import it.exolab.pojo.UtentePOJO;
 
 public class CartaDiCreditoDAO {
@@ -24,6 +25,14 @@ public class CartaDiCreditoDAO {
 		List<CartaDiCredito> allCarteDiCreditoUtente = MainDAO.getCartaDiCreditoMapper().findAllByUserId(utente);
 		MainDAO.closeTransaction();
 		return allCarteDiCreditoUtente;
+	}
+
+	public void insertCartaDiCredito(CartaDiCredito cartaDiCredito) {
+		MainDAO.beginTransaction();
+		MainDAO.getCartaDiCreditoMapper().insertCartaDiCredito(cartaDiCredito);
+		SqlMapFactory.instance().commitSession();
+		MainDAO.closeTransaction();
+
 	}
 
 }

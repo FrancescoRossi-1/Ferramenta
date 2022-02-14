@@ -27,18 +27,13 @@ public class OrdiniBean {
 	
 	private List<Ordine> allOrdini;
 	
-	private List<CartaDiCredito> allCarteDiCreditoUtente;
-	private List<IndirizzoDiSpedizione> allIndirizziSpedizioneUtente;
-	
 	private Boolean visibile;
 	
 	@PostConstruct
 	public void init() {
 		
 		 //TODO SELECT ORDINI
-		
-		allCarteDiCreditoUtente = CartaDiCreditoDAO.getInstance().findAllByUserId(sessionBean.getLoggedUser());
-		allIndirizziSpedizioneUtente = IndirizzoDiSpedizioneDAO.getInstance().findAllByUserId(sessionBean.getLoggedUser());
+
 		
 	}
 	
@@ -69,22 +64,6 @@ public class OrdiniBean {
 
 	public void setAllOrdini(List<Ordine> allOrdini) {
 		this.allOrdini = allOrdini;
-	}
-
-	public List<CartaDiCredito> getAllCarteDiCreditoUtente() {
-		return allCarteDiCreditoUtente;
-	}
-
-	public void setAllCarteDiCreditoUtente(List<CartaDiCredito> allCarteDiCreditoUtente) {
-		this.allCarteDiCreditoUtente = allCarteDiCreditoUtente;
-	}
-
-	public List<IndirizzoDiSpedizione> getAllIndirizziSpedizioneUtente() {
-		return allIndirizziSpedizioneUtente;
-	}
-
-	public void setAllIndirizziSpedizioneUtente(List<IndirizzoDiSpedizione> allIndirizziSpedizioneUtente) {
-		this.allIndirizziSpedizioneUtente = allIndirizziSpedizioneUtente;
 	}
 
 	public Boolean getVisibile() {

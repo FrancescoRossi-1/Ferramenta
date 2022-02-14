@@ -13,6 +13,7 @@ import it.exolab.bean.UtentiBean;
 import it.exolab.constants.Constants;
 import it.exolab.dao.UtenteDAO;
 import it.exolab.dto.Articolo;
+import it.exolab.dto.CartaDiCredito;
 import it.exolab.dto.Categoria;
 import it.exolab.dto.Indirizzo;
 import it.exolab.dto.IndirizzoDiSpedizione;
@@ -264,6 +265,46 @@ public class ValidationService {
 		
 		if( indirizzoDiSpedizione.getInterno().length() > 5 ) {
 			throw new FormatoErrato("interno");
+		}
+		
+	}
+
+	public static void checkParametersCartaDiCredito(CartaDiCredito cartaDiCredito) throws CampoRichiesto, FormatoErrato {
+		
+		if( cartaDiCredito.getNumero_carta().isEmpty()) {
+			throw new CampoRichiesto("numero carta di credito");
+		}
+		
+		if( !cartaDiCredito.getNumero_carta().matches(Constants.Regex.CHECK_NUMERO_CARTA) ) {
+			throw new FormatoErrato("numero carta di credito");
+		}
+		
+		if( cartaDiCredito.getData_scadenza().startsWith("-1") ) {
+			throw new FormatoErrato("data scadenza");
+		}
+		
+		if( cartaDiCredito.getCVV().isEmpty() ) {
+			throw new CampoRichiesto("cvv");
+		}
+		
+		if( cartaDiCredito.getCVV().length() > 3 ) {
+			throw new FormatoErrato("cvv");
+		}
+		
+		if( cartaDiCredito.getNominativo_proprietario().isEmpty() ) {
+			throw new CampoRichiesto("intestatario");
+		}
+		
+		if( cartaDiCredito.getNominativo_proprietario().matches(Constants.Regex.CHECK_NOT_NUMBERS) ) {
+			throw new FormatoErrato("intestatario");
+		}
+		
+		if( cartaDiCredito.getNome_circuito().isEmpty() ) {
+			throw new CampoRichiesto("circuito");
+		}
+		
+		if( !Constants.Ordini.CIRCUITI_ACCETTATI.contains(cartaDiCredito.getNome_circuito().toUpperCase()) ) {
+			throw new FormatoErrato("circuito");
 		}
 		
 	}

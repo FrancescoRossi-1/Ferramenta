@@ -15,6 +15,7 @@ public class Constants {
 		public static final String CHECK_PASSWORD = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
 		public static final String CHECK_CODICE_FISCALE = "^[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]$";
 		public static final String CHECK_NOT_LETTERS = ".+[A-Za-z].+";
+		public static final String CHECK_NUMERO_CARTA = "(^4[0-9]{12}(?:[0-9]{3})?$)|(^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$)|(3[47][0-9]{13})|(^3(?:0[0-5]|[68][0-9])[0-9]{11}$)|(^6(?:011|5[0-9]{2})[0-9]{12}$)|(^(?:2131|1800|35\\d{3})\\d{11}$)";
 	}
 
 	public class ExceptionMessages {
@@ -29,7 +30,8 @@ public class Constants {
 		public static final String CATEGORIA_ESISENTE = "Hai inserito una categoria già presente, riprova";
 		public static final String QUANTITA_ARTICOLI_MINORE = "Non puoi inserire nel tuo carrello meno di un articolo, riprova.";
 		public static final String QUANTITA_ARTICOLI_MAGGIORE = "Hai inserito una quantità di articoli maggiore di quella disponibile, riprova.";
-		public static final String INDIRIZZO_DI_SPEDIZIONE_ESISTENTE = "Hai inserito un'indirizzo di spedizione già presente nel tuo account, ricontrolla.";
+		public static final String INDIRIZZO_DI_SPEDIZIONE_ESISTENTE = "Hai inserito un indirizzo di spedizione già presente nel tuo account, ricontrolla.";
+		public static final String METODO_DI_PAGAMENTO_ESISTENTE = "Hai inserito un metodo di pagamento già presente nel tuo account, ricontolla.";
 	}
 	
 	public class Messages {
@@ -43,6 +45,7 @@ public class Constants {
 		public static final String DELETE_ARTICOLO_FROM_CARRELLO = "Articolo rimosso dal carrello con successo.";
 		public static final String INSERT_INDIRIZZO_SPEDIZIONE_SUCCESS = "Indirizzo di spedizione aggiunto con successo.";
 		public static final String DELETE_INDIRIZZO_SPEDIZIONE_SUCCESS = "Indirizzo di spedizione rimosso con successo.";
+		public static final String INSERT_METODO_PAGAMENTO_SUCCESS = "Metodo di pagamento inserito con successo.";
 	}
 	
 	public class Tabs {
@@ -78,5 +81,6 @@ public class Constants {
 	
 	public static class  Ordini {
 		public static final List<String> STATI_ORDINE = new ArrayList<>( Arrays.asList("Ordinato" , "In spedizione" , "Spedito" , "Consegnato" , "Annullato"));
+		public static final List<String> CIRCUITI_ACCETTATI = new ArrayList<>(Arrays.asList("VISA","AMERICAN EXPRESS","MASTER CARD"));
 	}
 }

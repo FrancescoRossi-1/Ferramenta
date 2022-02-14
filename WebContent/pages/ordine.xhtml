@@ -6,148 +6,23 @@
 
 <h1>Ordine</h1>
 
-<div class="indirizziSpedizione">
 
 
-	<h3>Indirizzo Di Spedizione</h3>
+<div>
 
-	<p:accordionPanel id="accorditionIndirizziSpedizione">
 
-		<p:tab title="Seleziona un'indirizzo" id="tabIndirizziSpedizione" rendered="#{indirizziDiSpedizioneBean.indirizziSpedizioneUtente != null}">
-			<p:outputPanel>
-				<p>Seleziona un indirizzo di spedizione</p>
+	<p:fieldset legend="Indirizzo Di Spedizione" toggleable="true" toggleSpeed="500" style="margin-bottom:2%;">
+		<ui:include src="ordineIndirizzoDiSpedizione.xhtml" />
+	</p:fieldset>
+	
+	<p:fieldset legend="Metodo Di Pagamento" toggleable="true" toggleSpeed="500">
+		
+		<ui:include src="ordineMetodoDiPagamento.xhtml" />
+	
+	</p:fieldset>
+	
 
-				<p:dataScroller value="#{indirizziDiSpedizioneBean.indirizziMap}"
-					var="item" chunkSize="10" id="scrollerIndirizziSpedizione">
-					<f:facet name="header">
-            Indirizzi di spedizione collegati
-        </f:facet>
-					<h:panelGrid columns="2" style="width:100%"
-						columnClasses="logo,detail" >
 
-						<p:outputPanel id="panelIndirizziSpedizione">
-							<h:panelGrid columns="12" cellpadding="7">
-								<h:outputText value="Via:" />
-								<h:outputText value="#{item.key.via}" style="font-weight: bold" />
-
-								<h:outputText value="Numero civico:" />
-								<h:outputText value="#{item.key.n_civico}"
-									style="font-weight: bold" />
-
-								<h:outputText value="CAP:" />
-								<h:outputText value="#{item.key.cap}" style="font-weight: bold" />
-
-								<h:outputText value="SCALA:"
-									rendered="#{item.value.scala.length() > 0}" />
-								<h:outputText value="#{item.value.scala}"
-									style="font-weight: bold"
-									rendered="#{item.value.scala.length() > 0}" />
-
-								<h:outputText value="Interno:" />
-								<h:outputText value="#{item.value.interno}" style="font-weight: bold" />
-								
-								<p:commandButton value="Seleziona" actionListener="#{indirizziDiSpedizioneBean.indirizzoDiSpedizioneSelezionato(item.value)}" ajax="false" />
-								
-								<p:commandButton value="Elimina" actionListener="#{indirizziDiSpedizioneBean.deleteIndirizzoDiSpedizione(item.value)}" ajax="false" />
-								
-							</h:panelGrid>
-							
-						</p:outputPanel>
-					</h:panelGrid>
-				</p:dataScroller>
-
-				<!--  
-				<p:selectOneMenu id="indirizziDiSpedizione"
-					value="#{indirizziDiSpedizioneBean.indirizzoDiSpedizioneSelezionato}"
-					style="width:50%">
-					<f:selectItem itemLabel="Seleziona un indirizzo"
-						itemValue="#{null}" />
-					<f:selectItems value="#{indirizziDiSpedizioneBean.indirizziMap}"
-						var="item"
-						itemLabel="#{item.key.via}, #{item.key.n_civico} #{item.key.cap}. Scala: #{item.value.scala} Interno: #{item.value.interno}"
-						itemValue="#{item.value.id_indirizzo_spedizione}" />
-				</p:selectOneMenu>
--->
-			</p:outputPanel>
-
-		</p:tab>
-		<p:tab title="Aggiungi un indirizzo">
-			<p>Inserisci un nuovo indirizzo di spedizione</p>
-			<p:panelGrid id="gridIndirizzoDiSpedizione">
-				<p:row>
-					<p:column>
-						<p:outputLabel for="provinciaIndirizzoSpedizione"
-							value="Provincia" />
-					</p:column>
-					<p:column>
-						<p:selectOneMenu id="provinciaIndirizzoSpedizione"
-							value="#{provinceBean.idProvinciaSelezionata}">
-							<f:selectItem itemLabel="Seleziona una scelta"
-								itemValue="#{null}" />
-							<f:selectItems value="#{provinceBean.allProvince}" var="item"
-								itemLabel="#{item.nome_province}"
-								itemValue="#{item.id_province}" />
-						</p:selectOneMenu>
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="viaIndirizzoSpedizione" value="Via" />
-					</p:column>
-					<p:column>
-						<p:inputText id="viaIndirizzoSpedizione"
-							value="#{indirizziBean.addIndirizzo.via}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="nCivicoIndirizzoSpedizione"
-							value="Numero Civico" />
-					</p:column>
-					<p:column>
-						<p:inputText id="nCivicoIndirizzoSpedizione"
-							value="#{indirizziBean.addIndirizzo.n_civico}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="capIndirizzoSpedizione" value="CAP" />
-					</p:column>
-					<p:column>
-						<p:inputText id="capIndirizzoSpedizione"
-							value="#{indirizziBean.addIndirizzo.cap}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="scalaIndirizzoSpedizione" value="Scala" />
-					</p:column>
-					<p:column>
-						<p:inputText id="scalaIndirizzoSpedizione"
-							value="#{indirizziDiSpedizioneBean.addIndirizzoDiSpedizione.scala}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="internoIndirizzoSpedizione" value="Interno" />
-					</p:column>
-					<p:column>
-						<p:inputText id="internoIndirizzoSpedizione"
-							value="#{indirizziDiSpedizioneBean.addIndirizzoDiSpedizione.interno}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:commandButton id="insertIndirizzoSpedizione"
-							value="Aggiungi Indirizzo"
-							actionListener="#{indirizziDiSpedizioneBean.insertIndirizzoDiSpedizione}"
-							ajax="false" update="@all" />
-					</p:column>
-				</p:row>
-			</p:panelGrid>
-		</p:tab>
-
-	</p:accordionPanel>
 
 </div>
 

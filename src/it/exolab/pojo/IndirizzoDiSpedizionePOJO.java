@@ -1,0 +1,17 @@
+package it.exolab.pojo;
+
+import it.exolab.dto.Indirizzo;
+import lombok.Data;
+import lombok.ToString;
+
+@Data
+@ToString
+public class IndirizzoDiSpedizionePOJO {
+	
+	private Long id;
+	private String scala;
+	private String interno;
+	private Indirizzo indirizzoDiRiferimento;
+	private UtentePOJO utenteDiRiferimento;
+
+}

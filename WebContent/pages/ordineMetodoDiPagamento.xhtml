@@ -1,0 +1,197 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:body>
+
+	<h3>Metodo Di Pagamento</h3>
+
+	<p:accordionPanel id="accorditionMetodoPagamento" activeIndex="null"
+		rendered="#{carteDiCreditoBean.cartaDiCreditoSelezionata.id_carte_di_credito == null}">
+
+		<p:tab title="Seleziona Una Carta Di Credito"
+			id="tabMetodoDiPagamento">
+			<p:outputPanel>
+				<p>Seleziona un metodo di pagamento</p>
+
+				<p:dataScroller value="#{carteDiCreditoBean.cartaDiCreditoMap}"
+					var="item" chunkSize="10" id="scrollerMetodoDiPagamento">
+					<f:facet name="header">
+						<p>Metodi di pagamento collegati</p>
+					</f:facet>
+
+					<h:panelGrid columns="2" style="width:100%"
+						columnClasses="logo,detail">
+
+						<p:outputPanel id="panelIndirizziSpedizione">
+							<h:panelGrid columns="14" cellpadding="5">
+								<h:outputText value="Numero carta:" />
+								<h:outputText value="#{item.key.numero_carta}"
+									style="font-weight: bold" />
+
+								<h:outputText value="Scadenza:" />
+								<h:outputText value="#{item.key.data_scadenza}"
+									style="font-weight: bold" />
+
+								<h:outputText value="CVV:" />
+								<h:outputText value="#{item.key.CVV}" style="font-weight: bold" />
+
+								<h:outputText value="Circuito:" />
+								<h:outputText value="#{item.key.nome_circuito}"
+									style="font-weight: bold" />
+
+								<h:outputText value="Intestatario:" />
+								<h:outputText value="#{item.key.nominativo_proprietario}"
+									style="font-weight: bold" />
+
+								<h:outputText value="Indirizzo Di Fatturazione: " />
+								<h:outputText
+									value="#{item.value.via} #{item.value.n_civico} , #{item.value.cap}"
+									style="font-weight: bold" />
+
+								<p:commandButton value="Seleziona"
+									actionListener="#{carteDiCreditoBean.setCartaDiCreditoSelezionata(item.key,item.value)}"
+									ajax="false" />
+
+								<p:commandButton value="Elimina"
+									actionListener="#{carteDiCreditoBean.deleteCartaDiCredito(item.key)}"
+									ajax="false" />
+
+							</h:panelGrid>
+						</p:outputPanel>
+					</h:panelGrid>
+				</p:dataScroller>
+			</p:outputPanel>
+
+		</p:tab>
+
+		<p:tab title="Aggiungi un metodo di pagamento">
+			<p>Inserisci un nuovo indirizzo di spedizione</p>
+			<p:panelGrid id="gridMetodoDiPagamento">
+
+				<p:row>
+					<p:column>
+						<p:outputLabel for="numeroCartaMetodoDiPagamento"
+							value="Numero Carta" />
+					</p:column>
+					<p:column>
+						<p:inputText id="numeroCartaMetodoDiPagamento"
+							value="#{carteDiCreditoBean.addCartaDiCredito.numero_carta}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Data Scadenza:" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="meseMetodoDiPagamento"
+							value="#{carteDiCreditoBean.meseScadenza}">
+							<f:selectItem itemLabel="MM" itemValue="-1" />
+							<f:selectItems value="#{carteDiCreditoBean.mesiScadenza}"
+								var="item" itemLabel="#{item}" itemValue="#{item}" />
+						</p:selectOneMenu>
+						<h:outputText value=" / " />
+						<p:selectOneMenu id="annoMetodoDiPagamento"
+							value="#{carteDiCreditoBean.annoScadenza}">
+							<f:selectItem itemLabel="YY" itemValue="-1" />
+							<f:selectItems value="#{carteDiCreditoBean.anniScadenza}"
+								var="item" itemLabel="#{item}" itemValue="#{item}" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="cvvMetodoDiPagamento" value="CVV" />
+					</p:column>
+					<p:column>
+						<p:inputText id="cvvMetodoDiPagamento"
+							value="#{carteDiCreditoBean.addCartaDiCredito.CVV}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="nominativoMetodoDiPagamento"
+							value="Nominativo Intestatario: (nome e cognome)" />
+					</p:column>
+					<p:column>
+						<p:inputText id="nominativoMetodoDiPagamento"
+							value="#{carteDiCreditoBean.addCartaDiCredito.nominativo_proprietario}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="circuitoMetodoDiPagamento"
+							value="Circuito: (VISA, AMERICAN EXPRESS O MASTER CARD)"  />
+					</p:column>
+					<p:column>
+						<p:inputText id="circuitoMetodoDiPagamento"
+							value="#{carteDiCreditoBean.addCartaDiCredito.nome_circuito}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<h4>Indirizzo di fatturazione</h4>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="provinciaMetodoDiPagamento" value="Provincia" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="provinciaMetodoDiPagamento"
+							value="#{provinceBean.idProvinciaSelezionata}">
+							<f:selectItem itemLabel="Seleziona una scelta"
+								itemValue="#{null}" />
+							<f:selectItems value="#{provinceBean.allProvince}" var="item"
+								itemLabel="#{item.nome_province}"
+								itemValue="#{item.id_province}" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="viaMetodoDiPagamento" value="Via" />
+					</p:column>
+					<p:column>
+						<p:inputText id="viaMetodoDiPagamento"
+							value="#{indirizziBean.addIndirizzo.via}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="nCivicoMetodoDiPagamento"
+							value="Numero Civico" />
+					</p:column>
+					<p:column>
+						<p:inputText id="nCivicoMetodoDiPagamento"
+							value="#{indirizziBean.addIndirizzo.n_civico}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="capMetodoDiPagamento" value="CAP" />
+					</p:column>
+					<p:column>
+						<p:inputText id="capMetodoDiPagamento"
+							value="#{indirizziBean.addIndirizzo.cap}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:commandButton id="insertMetodoDiPagamento"
+							value="Aggiungi Metodo di Pagamento"
+							actionListener="#{carteDiCreditoBean.insertCartaDiCredito}"
+							ajax="false" update="@all" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</p:tab>
+
+	</p:accordionPanel>
+
+
+</h:body>
+
+</html>
