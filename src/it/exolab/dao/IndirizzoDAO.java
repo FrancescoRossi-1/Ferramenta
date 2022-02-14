@@ -1,6 +1,9 @@
 package it.exolab.dao;
 
+import java.util.List;
+
 import it.exolab.dto.Indirizzo;
+import it.exolab.dto.Provincia;
 import it.exolab.mybatis.SqlMapFactory;
 
 public class IndirizzoDAO {
@@ -18,18 +21,19 @@ public class IndirizzoDAO {
 		return instance;
 	}
 
-	public Indirizzo selectIndirizzoForEquals(Indirizzo indirizzoResidenza) {
-		MainDAO.beginTransaction(); 
-		Indirizzo indirizzo = MainDAO.getIndirizzoMapper().selectIndirizzoFromFields(indirizzoResidenza);
-		MainDAO.closeTransaction();
-		return indirizzo;
-	}
 	
-	public void insertAddress(Indirizzo indirizzoResidenza) {
+	public void insertAddress(Indirizzo indirizzoResidenza, Long idProvincia) {
 		MainDAO.beginTransaction();
-		MainDAO.getIndirizzoMapper().insertAddress(indirizzoResidenza);
+		MainDAO.getIndirizzoMapper().insertAddress(indirizzoResidenza, idProvincia);
 		SqlMapFactory.instance().commitSession();
 		MainDAO.closeTransaction();
+	}
+
+	public List<Indirizzo> findAll() {
+		MainDAO.beginTransaction(); 
+		List<Indirizzo> allIndirizzi = MainDAO.getIndirizzoMapper().findAllIndirizzi();
+		MainDAO.closeTransaction();
+		return allIndirizzi;
 	}
 
 

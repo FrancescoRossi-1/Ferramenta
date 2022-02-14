@@ -29,5 +29,7 @@
 		<mapper class="it.exolab.mapper.AllegatoMapper" />
 		<mapper class="it.exolab.mapper.CarrelloMapper" />
 		<mapper class="it.exolab.mapper.CarrelloEArticoloMapper" />
+		<mapper class="it.exolab.mapper.CartaDiCreditoMapper" />
+		<mapper class="it.exolab.mapper.IndirizzoDiSpedizioneMapper" />
 	</mappers>
 </configuration>

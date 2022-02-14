@@ -1,10 +1,8 @@
 package it.exolab.dao;
 
-import java.util.Date;
-
 import it.exolab.dto.Carrello;
-import it.exolab.dto.Utente;
 import it.exolab.mybatis.SqlMapFactory;
+import it.exolab.pojo.UtentePOJO;
 
 public class CarrelloDAO {
 	
@@ -19,7 +17,7 @@ public class CarrelloDAO {
 		return instance;
 	}
 	
-	public Carrello findCarrelloByUserId(Utente utente) {
+	public Carrello findCarrelloByUserId(UtentePOJO utente) {
 	
 		MainDAO.beginTransaction();
 		Carrello extrapolatedCarrello = MainDAO.getCarrelloMapper().findByIdUtente(utente);

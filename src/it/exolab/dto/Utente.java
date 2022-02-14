@@ -18,13 +18,11 @@ public class Utente implements Serializable {
 	private Date data_nascita;
 	private String email;
 	private String password;
-	private Indirizzo indirizzoResidenza;
-	private Carrello carrelloDiAppartenenza;
+	private Long id_indirizzo;
 	private Date data_iscrizione;
 	private Boolean isAdmin;
 
 	public Utente() {
-		indirizzoResidenza = new Indirizzo();
 		isAdmin = false;
 	}
 

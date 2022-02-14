@@ -4,7 +4,9 @@ import it.exolab.mapper.AllegatoMapper;
 import it.exolab.mapper.ArticoloMapper;
 import it.exolab.mapper.CarrelloEArticoloMapper;
 import it.exolab.mapper.CarrelloMapper;
+import it.exolab.mapper.CartaDiCreditoMapper;
 import it.exolab.mapper.CategoriaMapper;
+import it.exolab.mapper.IndirizzoDiSpedizioneMapper;
 import it.exolab.mapper.IndirizzoMapper;
 import it.exolab.mapper.ProvinciaMapper;
 import it.exolab.mapper.UtenteMapper;
@@ -44,6 +46,17 @@ public class MainDAO {
 		return SqlMapFactory.instance().getMapper(CarrelloEArticoloMapper.class);
 	}
 	
+
+	public static CartaDiCreditoMapper getCartaDiCreditoMapper() {
+		return SqlMapFactory.instance().getMapper(CartaDiCreditoMapper.class);
+
+	}
+	
+	public static IndirizzoDiSpedizioneMapper getIndirizzoDiSpedizioneMapper() {
+		return SqlMapFactory.instance().getMapper(IndirizzoDiSpedizioneMapper.class);
+
+	}
+	
 	public static void closeTransaction() {
 		SqlMapFactory.instance().closeSession();
 	}
@@ -51,9 +64,5 @@ public class MainDAO {
 	public static void beginTransaction() {
 		SqlMapFactory.instance().openSession();
 	}
-
-
-
-
 
 }

@@ -1,5 +1,9 @@
 package it.exolab.constants;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
@@ -21,7 +25,7 @@ public class Constants {
 		public static final String UTENTE_NON_ESISTENTE = "Hai inserito una combinazione di credenziali errata.";
 		public static final String NOT_SUPPORTED_IMAGE = "Hai inserito un immagine non supportata, le estensioni supportate sono jpg, png e gif";
 		public static final String FILE_TOO_BIG = "Hai inserito un immagine troppo pesante, le dimensioni massime supportate sono di 65Kb";
-		public static final String ARTICOLO_ESISTENTE = "Hai inserito un articolo già presente nel magazzino, riprova.";
+		public static final String ARTICOLO_ESISTENTE = "Hai inserito un articolo già presente , riprova.";
 		public static final String CATEGORIA_ESISENTE = "Hai inserito una categoria già presente, riprova";
 		public static final String QUANTITA_ARTICOLI_MINORE = "Non puoi inserire nel tuo carrello meno di un articolo, riprova.";
 		public static final String QUANTITA_ARTICOLI_MAGGIORE = "Hai inserito una quantità di articoli maggiore di quella disponibile, riprova.";
@@ -34,6 +38,8 @@ public class Constants {
 		public static final String DELETE_ARTICOLO_SUCCESS = "Articolo eliminato con successo!";
 		public static final String SUCCESFULLY_INSTERTED_CATEGORY = "Categoria inserita con successo!";
 		public static final String DELETE_CATEGORIA_SUCCESS = "Categoria eliminata con successo!";
+		public static final String SUCCESSFULLY_INSERTED_PRODUCT_SHOPPING_CART = "Articolo inserito con successo nel carrello.";
+		public static final String DELETE_ARTICOLO_FROM_CARRELLO = "Articolo rimosso dal carrello con successo.";
 	}
 	
 	public class Tabs {
@@ -44,6 +50,7 @@ public class Constants {
 		public static final String TAB_ARTICOLI = "tabArticoli";
 		public static final String TAB_AREA_RISERVATA = "tabAreaRiservata";
 		public static final String TAB_CARRELLO = "tabCarrello";
+		public static final String TAB_ORDINE = "tabOrdine";
 		public static final String TAB_LOGOUT = "tabLogout";
 		public static final int ID_TAB_HOMEPAGE = 0;
 		public static final int ID_TAB_LOGIN = 1;
@@ -52,7 +59,8 @@ public class Constants {
 		public static final int ID_TAB_ARTICOLI = 2;
 		public static final int ID_TAB_AREA_RISERVATA = 3;
 		public static final int ID_TAB_CARRELLO = 4;
-		public static final int ID_TAB_LOGOUT = 5;
+		public static final int ID_TAB_ORDINE = 5;
+		public static final int ID_TAB_LOGOUT = 6;
 	}
 	
 	public static class File {
@@ -64,5 +72,8 @@ public class Constants {
 	public static class Paths {
 		public static final ServletContext SERVLET_CONTEXT = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();		
 	}
-
+	
+	public static class  Ordini {
+		public static final List<String> STATI_ORDINE = new ArrayList<>( Arrays.asList("Ordinato" , "In spedizione" , "Spedito" , "Consegnato" , "Annullato"));
+	}
 }

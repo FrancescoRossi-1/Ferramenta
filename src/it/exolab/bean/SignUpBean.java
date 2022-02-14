@@ -1,24 +1,18 @@
 package it.exolab.bean;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
-import org.primefaces.PrimeFaces;
+
 
 import it.exolab.constants.Constants;
-import it.exolab.dao.IndirizzoDAO;
-import it.exolab.dao.ProvinciaDAO;
 import it.exolab.dao.UtenteDAO;
-import it.exolab.dto.Provincia;
 import it.exolab.dto.Utente;
 import it.exolab.exception.CampoRichiesto;
 import it.exolab.exception.FormatoErrato;
@@ -35,35 +29,44 @@ public class SignUpBean implements Serializable {
 	static Logger log = Logger.getLogger(SignUpBean.class);
 
 	private Utente user = new Utente();
-	private List<Provincia> provinceEstrapolate;
 
 	@ManagedProperty("#{sessionBean}")
 	private SessionBean sessionBean;
+	
+	@ManagedProperty("#{indirizziBean}")
+	private IndirizziBean indirizzoBean;
+	
+	@ManagedProperty("#{provinceBean}")
+	private ProvinceBean provinceBean;
+	
+	@ManagedProperty("#{utentiBean}")
+	private UtentiBean utentiBean;
 
 	@PostConstruct
 	public void init() {
-		log.info("-->INIT");
-		this.provinceEstrapolate = ProvinciaDAO.findAll();
-		this.provinceEstrapolate.forEach(prov -> log.info(prov.toString()));
+		user = new Utente();
 	}
 
 	public void registraUtente() {
 		log.info("-->Entrato in registrazione.");
 
 		try {
-			ValidationService.checkParametersSignUp(user);
+			
+			log.info(user.toString());
+			log.info(indirizzoBean.getAddIndirizzo().toString());
+			log.info(provinceBean.getIdProvinciaSelezionata());
+			
+			ValidationService.checkParametersSignUp(user,indirizzoBean.getAddIndirizzo(),provinceBean.getIdProvinciaSelezionata());
+			
+			ValidationService.checkExistingUserSignUp(utentiBean.getAllUtenti(), user);
+			
+			indirizzoBean.getAddIndirizzo().setId_indirizzo(indirizzoBean.insertIndirizzo(user)); //logica di inserimento indirizzo che ritorna l'id di esso
 			
 			//utility parameters
 			user.setData_iscrizione(new Date(System.currentTimeMillis()));
 			user.setIsAdmin(false);
-
-			ValidationService.checkExistingUserSignUp(user);
 			
-			if(ValidationService.checkIndirizzoEsistente(user)) {
-				IndirizzoDAO.getInstance().insertAddress(user.getIndirizzoResidenza());
-			}
-			
-			UtenteDAO.getInstance().insertUser(user);
+			UtenteDAO.getInstance().insertUser(user,indirizzoBean.getAddIndirizzo());
 			
 			sessionBean.setSuccessMessage(Constants.Messages.REGISTRAZIONE_AVVENUTA);
 			
@@ -96,20 +99,36 @@ public class SignUpBean implements Serializable {
 		this.user = user;
 	}
 
-	public List<Provincia> getProvinceEstrapolate() {
-		return provinceEstrapolate;
-	}
-
-	public void setProvinceEstrapolate(List<Provincia> provinceEstrapolate) {
-		this.provinceEstrapolate = provinceEstrapolate;
-	}
-
 	public SessionBean getSessionBean() {
 		return sessionBean;
 	}
 
 	public void setSessionBean(SessionBean sessionBean) {
 		this.sessionBean = sessionBean;
+	}
+
+	public ProvinceBean getProvinceBean() {
+		return provinceBean;
+	}
+
+	public void setProvinceBean(ProvinceBean provinceBean) {
+		this.provinceBean = provinceBean;
+	}
+
+	public UtentiBean getUtentiBean() {
+		return utentiBean;
+	}
+
+	public void setUtentiBean(UtentiBean utentiBean) {
+		this.utentiBean = utentiBean;
+	}
+
+	public IndirizziBean getIndirizzoBean() {
+		return indirizzoBean;
+	}
+
+	public void setIndirizzoBean(IndirizziBean indirizzoBean) {
+		this.indirizzoBean = indirizzoBean;
 	}
 
 }

@@ -70,9 +70,9 @@
 					</p:column>
 					<p:column colspan="2">
 						<p:selectOneMenu id="provinciaSignUp"
-							value="#{signUpBean.user.indirizzoResidenza.provinciaDiAppartenenza.id_province}">
+							value="#{provinceBean.idProvinciaSelezionata}">
 							<f:selectItem itemLabel="Seleziona una scelta" itemValue="-1" />
-							<f:selectItems value="#{signUpBean.provinceEstrapolate}"
+							<f:selectItems value="#{provinceBean.allProvince}"
 								var="item" itemLabel="#{item.nome_province}"
 								itemValue="#{item.id_province}" />
 						</p:selectOneMenu>
@@ -84,7 +84,7 @@
 					</p:column>
 					<p:column colspan="2">
 						<p:inputText id="viaSignUp"
-							value="#{signUpBean.user.indirizzoResidenza.via}" />
+							value="#{indirizziBean.addIndirizzo.via}" />
 					</p:column>
 				</p:row>
 				<p:row>
@@ -93,8 +93,7 @@
 					</p:column>
 					<p:column colspan="2">
 						<p:inputText id="nCivicoSignUp"
-							value="#{signUpBean.user.indirizzoResidenza.n_civico}"
-							 />
+							value="#{indirizziBean.addIndirizzo.n_civico}" />
 					</p:column>
 				</p:row>
 				<p:row>
@@ -103,7 +102,7 @@
 					</p:column>
 					<p:column colspan="2">
 						<p:inputText id="capSignUp"
-							value="#{signUpBean.user.indirizzoResidenza.cap}" />
+							value="#{indirizziBean.addIndirizzo.cap}" />
 					</p:column>
 				</p:row>
 				<p:row>

@@ -3,16 +3,19 @@ package it.exolab.service;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.bean.ManagedProperty;
+
 import org.apache.log4j.Logger;
 import org.primefaces.model.file.UploadedFile;
 import org.primefaces.model.file.UploadedFiles;
 
+import it.exolab.bean.UtentiBean;
 import it.exolab.constants.Constants;
-import it.exolab.dao.IndirizzoDAO;
 import it.exolab.dao.UtenteDAO;
 import it.exolab.dto.Articolo;
 import it.exolab.dto.Categoria;
 import it.exolab.dto.Indirizzo;
+import it.exolab.dto.Provincia;
 import it.exolab.dto.Utente;
 import it.exolab.exception.CampoRichiesto;
 import it.exolab.exception.FileImmagineNonSupportato;
@@ -21,12 +24,16 @@ import it.exolab.exception.GenericCarrelloException;
 import it.exolab.exception.GenericFileException;
 import it.exolab.exception.OggettoEsistente;
 import it.exolab.exception.UtenteNonEsistente;
+import it.exolab.pojo.UtentePOJO;
 
 public class ValidationService {
 
 	static Logger log = Logger.getLogger(ValidationService.class);
 	
-	public static void checkParametersSignUp(Utente user) throws FormatoErrato, CampoRichiesto {
+	@ManagedProperty ( "#{utentiBean}" )
+	private UtentiBean utentiBean;
+	
+	public static void checkParametersSignUp(Utente user, Indirizzo indirizzo, Long idProvincia) throws FormatoErrato, CampoRichiesto {
 
 		if(user.getNome().equals("")) {
 			throw new CampoRichiesto("nome");
@@ -60,7 +67,7 @@ public class ValidationService {
 			throw new FormatoErrato("password");
 		}
 		
-		if( user.getData_nascita() == null ) {
+		if(user.getData_nascita() == null ) {
 			throw new CampoRichiesto("data di nascita");
 		}
 
@@ -76,56 +83,44 @@ public class ValidationService {
 			throw new FormatoErrato("codice fiscale");
 		}
 		
-		if(user.getIndirizzoResidenza().getProvinciaDiAppartenenza().getId_province() == -1 ) {
+		if(idProvincia == -1 ) {
 			throw new CampoRichiesto("provincia");
 		}
 		
-		if(user.getIndirizzoResidenza().getVia().equals("") ) {
+		if(indirizzo.getVia().equals("") ) {
 			throw new CampoRichiesto("via");
 		}
 
-		if(user.getIndirizzoResidenza().getVia().matches(Constants.Regex.CHECK_NOT_NUMBERS)) {
+		if(indirizzo.getVia().matches(Constants.Regex.CHECK_NOT_NUMBERS)) {
 			throw new FormatoErrato("via");
 		}
 		
-		if(user.getIndirizzoResidenza().getN_civico().equals("") ) {
+		if(indirizzo.getN_civico().equals("") ) {
 			throw new CampoRichiesto("numero civico");
 		}
 
-		if(user.getIndirizzoResidenza().getN_civico().matches(Constants.Regex.CHECK_NOT_LETTERS)) {
+		if(indirizzo.getN_civico().matches(Constants.Regex.CHECK_NOT_LETTERS)) {
 			throw new FormatoErrato("numero civico");
 		}
 		
-		if(user.getIndirizzoResidenza().getCap().equals("") ) {
+		if(indirizzo.getCap().equals("") ) {
 			throw new CampoRichiesto("cap");
 		}
 
-		if(user.getIndirizzoResidenza().getCap().matches(Constants.Regex.CHECK_NOT_LETTERS)) {
+		if(indirizzo.getCap().matches(Constants.Regex.CHECK_NOT_LETTERS)) {
 			throw new FormatoErrato("cap");
 		}
 
 	}
 	
-	public static void checkExistingUserSignUp(Utente user) throws OggettoEsistente {
+	public static void checkExistingUserSignUp(List<UtentePOJO> allUtenti, Utente user) throws OggettoEsistente {
 		
-		Utente extrapolatedUsers = UtenteDAO.getInstance().selectUserFromEmail(user);
-
-		if( extrapolatedUsers != null ) {
-			throw new OggettoEsistente(extrapolatedUsers);
+		for (UtentePOJO utente : allUtenti) {
+			if(utente.getEmail().equals(user.getEmail())) {
+				throw new OggettoEsistente(user);
+			}
 		}
 		
-	}
-	
-	public static boolean checkIndirizzoEsistente(Utente user) {
-		Indirizzo indirizzoEstrapolato = IndirizzoDAO.getInstance().selectIndirizzoForEquals(user.getIndirizzoResidenza()); //indirizzo comprensivo di provincia
-		log.info("Indirizzo esistente? -> " + indirizzoEstrapolato);
-		
-		if(indirizzoEstrapolato == null) {
-			return true;	
-		}else  {
-			user.setIndirizzoResidenza(indirizzoEstrapolato);
-			return false;
-		}
 	}
 	
 	public static void checkParametersLogin(Utente loginUser) throws CampoRichiesto {

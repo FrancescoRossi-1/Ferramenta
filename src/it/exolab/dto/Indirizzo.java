@@ -15,11 +15,9 @@ public class Indirizzo implements Serializable {
 	private String via;
 	private String n_civico;
 	private String cap;
-	private Provincia provinciaDiAppartenenza;
+	private Long id_provincia;
 
-	public Indirizzo() {
-		provinciaDiAppartenenza = new Provincia();
-	}
+	public Indirizzo() { }
 
 	@Override
 	public int hashCode() {
@@ -28,7 +26,6 @@ public class Indirizzo implements Serializable {
 		result = prime * result + ((cap == null) ? 0 : cap.hashCode());
 		result = prime * result + ((id_indirizzo == null) ? 0 : id_indirizzo.hashCode());
 		result = prime * result + ((n_civico == null) ? 0 : n_civico.hashCode());
-		result = prime * result + ((provinciaDiAppartenenza == null) ? 0 : provinciaDiAppartenenza.hashCode());
 		result = prime * result + ((via == null) ? 0 : via.hashCode());
 		return result;
 	}
@@ -45,7 +42,7 @@ public class Indirizzo implements Serializable {
 		if(via.contentEquals(other.via)) {
 			if(n_civico.equals(other.n_civico)) {
 				if(cap.equals(other.cap)) {
-					if(provinciaDiAppartenenza.equals(other.provinciaDiAppartenenza)) {
+					if(id_provincia.equals(other.id_provincia)) {
 						return true;
 					}
 				}

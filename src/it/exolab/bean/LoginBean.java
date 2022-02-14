@@ -14,6 +14,7 @@ import it.exolab.dao.UtenteDAO;
 import it.exolab.dto.Utente;
 import it.exolab.exception.CampoRichiesto;
 import it.exolab.exception.UtenteNonEsistente;
+import it.exolab.pojo.UtentePOJO;
 import it.exolab.service.ValidationService;
 
 @SuppressWarnings( "deprecation" )
@@ -46,9 +47,9 @@ public class LoginBean implements Serializable {
 			ValidationService.checkParametersLogin(loginUser);
 			ValidationService.checkExistingUserLogin(loginUser);
 			
-			loginUser = UtenteDAO.getInstance().selectUser(loginUser);
+			UtentePOJO loggedUser = UtenteDAO.getInstance().selectUser(loginUser);
 			
-			sessionBean.setLoggedUser(loginUser);			
+			sessionBean.setLoggedUser(loggedUser);			
 			sessionBean.setSuccessMessage(Constants.Messages.LOGIN_AVVENUTO);
 			
 			sessionBean.setLoading(false);

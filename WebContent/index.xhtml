@@ -66,6 +66,12 @@
 				rendered="#{sessionBean.loggedUser != null}">
 				<ui:include src="/pages/carrello.xhtml" />
 			</p:tab>
+			<p:tab title="Ordine" id="tabOrdine" icon="pi shopping-cart"
+				rendered="#{ordiniBean.visibile}">
+				<ui:include src="/pages/ordine.xhtml" />
+			</p:tab>
+			
+			
 			
 			
 			

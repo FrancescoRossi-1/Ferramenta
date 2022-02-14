@@ -5,8 +5,6 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-
 import org.apache.log4j.Logger;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.TabChangeEvent;
@@ -48,7 +46,7 @@ public class MenuBean implements Serializable {
 		
 
 		String currentTabId = event.getTab().getId();
-		log.debug("Current tab_inserimento id: " + event.getTab().getId());
+		log.info("Current tab id: " + event.getTab().getId());
 
 		if(Constants.Tabs.TAB_LOGOUT.equals(currentTabId)) {
 			sessionBean.logout();
@@ -81,6 +79,10 @@ public class MenuBean implements Serializable {
 		
 		if (Constants.Tabs.TAB_CARRELLO.equals(currentTabId)) {
 			this.tabIndex = Constants.Tabs.ID_TAB_CARRELLO;
+		}
+		
+		if(Constants.Tabs.TAB_ORDINE.equals(currentTabId)) {
+			this.tabIndex = Constants.Tabs.ID_TAB_ORDINE;
 		}
 
 	}

@@ -4,16 +4,13 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
-import it.exolab.dto.Allegato;
 import it.exolab.dto.Articolo;
-import it.exolab.dto.Carrello;
 
 public interface ArticoloMapper {
 

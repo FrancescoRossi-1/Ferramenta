@@ -14,8 +14,10 @@ public class Ordine implements Serializable {
 	
 	private Long id;
 	private Utente proprietarioOrdine;
-	private Double totaleDovuto;
+	private Double totale_ordine;
 	private Date dataOrdine;
 	private String stato; //Ordinato , In spedizione , Spedito , Consegnato , Annullato
+	private Long id_indirizzo_spedizione;
+	private Long id_carta_credito;
 	
 }

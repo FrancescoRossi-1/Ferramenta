@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 
 import it.exolab.dto.Allegato;
-import it.exolab.dto.Articolo;
 
 public interface AllegatoMapper {
 	

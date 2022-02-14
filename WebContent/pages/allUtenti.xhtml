@@ -11,7 +11,7 @@
 	<p:dataTable id="gestioneUtenti" var="utente" style="width:100%"
 		value="#{utentiBean.allUtenti}">
 		<p:column headerText="Id" style="width: 35px;">
-			<h:outputText value="#{utente.id_utente}" />
+			<h:outputText value="#{utente.id}" />
 		</p:column>
 
 		<p:column headerText="Nome" style="width: 9%;">
@@ -23,11 +23,11 @@
 		</p:column>
 
 		<p:column headerText="Codice Fiscale">
-			<h:outputText value="#{utente.codice_fiscale}" />
+			<h:outputText value="#{utente.codiceFiscale}" />
 		</p:column>
 
 		<p:column headerText="Data Nascita" style="width:77px">
-			<h:outputText value="#{utente.data_nascita}">
+			<h:outputText value="#{utente.dataNascita}">
 				<f:convertDateTime pattern="dd/MM/yyyy" />
 			</h:outputText>
 		</p:column>
@@ -46,7 +46,7 @@
 		</p:column>
 
 		<p:column headerText="Data Iscrizione">
-			<h:outputText value="#{utente.data_iscrizione}">
+			<h:outputText value="#{utente.dataIscrizione}">
 				<f:convertDateTime pattern="dd/MM/yyyy" />
 			</h:outputText>
 		</p:column>
@@ -78,7 +78,7 @@
 
 				<h:outputText value="Numero Civico:" />
 				<h:outputText
-					value="#{utentiBean.utenteSelezionato.indirizzoResidenza.n_civico}" />
+					value="#{utentiBean.utenteSelezionato.indirizzoResidenza.NCivico}" />
 
 				<h:outputText value="CAP: " />
 				<h:outputText
@@ -86,11 +86,11 @@
 
 				<h:outputText value="Provincia:" />
 				<h:outputText
-					value="#{utentiBean.utenteSelezionato.indirizzoResidenza.provinciaDiAppartenenza.nome_province}" />
+					value="#{utentiBean.utenteSelezionato.indirizzoResidenza.provinciaAppartenente.nome}" />
 
 				<h:outputText value="Data Iscrizione:" />
 				<h:outputText
-					value="#{utentiBean.utenteSelezionato.data_iscrizione}">
+					value="#{utentiBean.utenteSelezionato.dataIscrizione}">
 					<f:convertDateTime pattern="dd/MM/yyyy" />
 				</h:outputText>
 

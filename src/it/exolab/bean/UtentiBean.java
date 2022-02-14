@@ -8,10 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import org.apache.log4j.Logger;
-import org.jboss.ejb3.annotation.Pool;
-
 import it.exolab.dao.UtenteDAO;
-import it.exolab.dto.Utente;
+import it.exolab.pojo.UtentePOJO;
 
 @SuppressWarnings("deprecation")
 @ManagedBean
@@ -22,30 +20,30 @@ public class UtentiBean implements Serializable {
 
 	static Logger log = Logger.getLogger(UtentiBean.class);
 	
-	List<Utente> allUtenti;
-	Utente utenteSelezionato;
+	List<UtentePOJO> allUtenti;
+	UtentePOJO utenteSelezionato;
 	
 	@PostConstruct
 	public void init() {
 		allUtenti = UtenteDAO.getInstance().selectAllUtenti();
-		utenteSelezionato = new Utente();
+		utenteSelezionato = new UtentePOJO();
 	}
 
-	public List<Utente> getAllUtenti() {
+	public List<UtentePOJO> getAllUtenti() {
 		return allUtenti;
 	}
 
-	public void setAllUtenti(List<Utente> allUtenti) {
+	public void setAllUtenti(List<UtentePOJO> allUtenti) {
 		this.allUtenti = allUtenti;
 	}
 
-	public Utente getUtenteSelezionato() {
+	public UtentePOJO getUtenteSelezionato() {
 		return utenteSelezionato;
 	}
 
-	public void setUtenteSelezionato(Utente utenteSelezionato) {
+	public void setUtenteSelezionato(UtentePOJO utenteSelezionato) {
 		this.utenteSelezionato = utenteSelezionato;
-		log.info("Utente settato -> " + utenteSelezionato.toString());
 	}
+
 
 }

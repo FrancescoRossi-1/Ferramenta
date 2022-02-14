@@ -8,7 +8,7 @@ import javax.faces.bean.SessionScoped;
 import org.apache.log4j.Logger;
 import org.primefaces.PrimeFaces;
 
-import it.exolab.dto.Utente;
+import it.exolab.pojo.UtentePOJO;
 
 @SuppressWarnings("deprecation")
 @ManagedBean
@@ -19,7 +19,7 @@ public class SessionBean implements Serializable {
 
 	static Logger log = Logger.getLogger(SessionBean.class); 
 	
-	private Utente loggedUser = null; //user in sessione, se null l'utente non è loggato
+	private UtentePOJO loggedUser = null; //user in sessione, se null l'utente non è loggato
 
 	private Boolean loading = false;
 	private String successMessage = null;
@@ -30,20 +30,11 @@ public class SessionBean implements Serializable {
 		this.loggedUser = null;
 	}
 	
-	public void refreshOrdini() {
-		
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-
-	public Utente getLoggedUser() {
+	public UtentePOJO getLoggedUser() {
 		return loggedUser;
 	}
 
-	public void setLoggedUser(Utente loggedUser) {
+	public void setLoggedUser(UtentePOJO loggedUser) {
 		this.loggedUser = loggedUser;
 	}
 

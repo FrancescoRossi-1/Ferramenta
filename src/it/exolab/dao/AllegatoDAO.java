@@ -3,7 +3,6 @@ package it.exolab.dao;
 import java.util.List;
 
 import it.exolab.dto.Allegato;
-import it.exolab.dto.Articolo;
 import it.exolab.mybatis.SqlMapFactory;
 
 public class AllegatoDAO {

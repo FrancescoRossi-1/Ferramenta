@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import it.exolab.dto.Carrello;
-import it.exolab.dto.Utente;
+import it.exolab.pojo.UtentePOJO;
 
 public interface CarrelloMapper {
 	
@@ -22,7 +22,7 @@ public interface CarrelloMapper {
 			+ "ON " 
 			+ " u.id_carrello = c.id_carrello "
 			+ "WHERE "
-			+ " u.id_utente = #{id_utente}";
+			+ " u.id_utente = #{id}";
 	
 	static String CREATE_NEW_CARRELLO = " INSERT "
 			+ "INTO"
@@ -51,7 +51,8 @@ public interface CarrelloMapper {
 			+ "JOIN  " 
 			+ " ( " 
 			+ " SELECT " 
-			+ "  id_carrello, SUM(prezzo_unitario * quantita) as prezzototale " 
+			+ "  id_carrello, "
+			+ " ROUND( SUM( prezzo_unitario * quantita ) ,  2) as prezzototale " 
 			+ " FROM " 
 			+ "  CARRELLO_ARTICOLO carart " 
 			+ " JOIN " 
@@ -67,11 +68,11 @@ public interface CarrelloMapper {
 			+ " c.totale_ordine = prezzo.prezzototale, " 
 			+ " c.data_ultima_modifica = now() " 
 			+ "WHERE " 
-			+ " c.id_carrello = 16 ";
+			+ " c.id_carrello = #{id_carrello} ";
 	
 	@Select ( FIND_BY_ID_UTENTE )
 	@ResultType ( Carrello.class )
-	Carrello findByIdUtente(Utente utente);
+	Carrello findByIdUtente(UtentePOJO utente);
 
 	@Insert ( CREATE_NEW_CARRELLO )
 	@Options(useGeneratedKeys = true, keyProperty = "id_carrello", keyColumn = "id_carrello")

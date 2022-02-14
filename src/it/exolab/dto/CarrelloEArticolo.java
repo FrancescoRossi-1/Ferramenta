@@ -14,6 +14,6 @@ public class CarrelloEArticolo implements Serializable{
 	private Long id_carrello_articolo;
 	private Long id_carrello;
 	private Long id_articolo;
-	private Integer quanita;
+	private Integer quantita;
 
 }

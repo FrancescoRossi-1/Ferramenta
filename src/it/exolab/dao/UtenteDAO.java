@@ -3,8 +3,10 @@ package it.exolab.dao;
 import java.util.List;
 
 import it.exolab.dto.Carrello;
+import it.exolab.dto.Indirizzo;
 import it.exolab.dto.Utente;
 import it.exolab.mybatis.SqlMapFactory;
+import it.exolab.pojo.UtentePOJO;
 
 public class UtenteDAO {
 
@@ -19,16 +21,10 @@ public class UtenteDAO {
 		return instance;
 	}
 
-	public Utente selectUserFromEmail(Utente user) {
-		MainDAO.beginTransaction();
-		Utente extrapolatedUser = MainDAO.getUtenteMapper().selectUserFromEmail(user);
-		MainDAO.closeTransaction();
-		return extrapolatedUser;
-	}
 
-	public void insertUser(Utente user) {
+	public void insertUser(Utente user,Indirizzo indirizzo) {
 		MainDAO.beginTransaction();
-		MainDAO.getUtenteMapper().insertUser(user);
+		MainDAO.getUtenteMapper().insertUser(user,indirizzo);
 		SqlMapFactory.instance().commitSession();
 		MainDAO.closeTransaction();
 	}
@@ -40,21 +36,21 @@ public class UtenteDAO {
 		return extrapolatedUser;
 	}
 
-	public Utente selectUser(Utente user) {
+	public UtentePOJO selectUser(Utente user) {
 		MainDAO.beginTransaction();
-		Utente extrapolatedUser = MainDAO.getUtenteMapper().selectUser(user);
+		UtentePOJO extrapolatedUser = MainDAO.getUtenteMapper().selectUser(user);
 		MainDAO.closeTransaction();
 		return extrapolatedUser;
 	}
 
-	public List<Utente> selectAllUtenti() {
+	public List<UtentePOJO> selectAllUtenti() {
 		MainDAO.beginTransaction();
-		List<Utente> allUtenti = MainDAO.getUtenteMapper().selectAllUtenti();
+		List<UtentePOJO> allUtenti = MainDAO.getUtenteMapper().selectAllUtenti();
 		MainDAO.closeTransaction();
 		return allUtenti;
 	}
 
-	public void assegnaNuovoCarrello(Carrello carrelloUtente, Utente loggedUser) {
+	public void assegnaNuovoCarrello(Carrello carrelloUtente, UtentePOJO loggedUser) {
 		MainDAO.beginTransaction();
 		MainDAO.getUtenteMapper().assegnaNuovoCarrello( carrelloUtente, loggedUser );
 		SqlMapFactory.instance().commitSession();

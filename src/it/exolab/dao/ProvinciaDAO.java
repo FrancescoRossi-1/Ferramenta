@@ -17,9 +17,9 @@ public class ProvinciaDAO {
 		return ProvinciaDAO.instance;
 	}
 
-	public static List<Provincia> findAll() {
+	public List<Provincia> findAll() {
 		MainDAO.beginTransaction();
-		List<Provincia> allProvince = MainDAO.getProvinciaMapper().findAll();
+		List<Provincia> allProvince = MainDAO.getProvinciaMapper().findAllProvince();
 		MainDAO.closeTransaction();
 		return allProvince;
 	}

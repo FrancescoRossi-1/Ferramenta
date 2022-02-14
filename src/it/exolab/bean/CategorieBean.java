@@ -14,7 +14,6 @@ import it.exolab.constants.Constants;
 import it.exolab.dao.CategoriaDAO;
 import it.exolab.dto.Categoria;
 import it.exolab.exception.CampoRichiesto;
-import it.exolab.exception.OggettoEsistente;
 import it.exolab.service.ValidationService;
 
 @SuppressWarnings("deprecation")
