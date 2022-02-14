@@ -29,6 +29,7 @@ public class Constants {
 		public static final String CATEGORIA_ESISENTE = "Hai inserito una categoria già presente, riprova";
 		public static final String QUANTITA_ARTICOLI_MINORE = "Non puoi inserire nel tuo carrello meno di un articolo, riprova.";
 		public static final String QUANTITA_ARTICOLI_MAGGIORE = "Hai inserito una quantità di articoli maggiore di quella disponibile, riprova.";
+		public static final String INDIRIZZO_DI_SPEDIZIONE_ESISTENTE = "Hai inserito un'indirizzo di spedizione già presente nel tuo account, ricontrolla.";
 	}
 	
 	public class Messages {
@@ -40,6 +41,8 @@ public class Constants {
 		public static final String DELETE_CATEGORIA_SUCCESS = "Categoria eliminata con successo!";
 		public static final String SUCCESSFULLY_INSERTED_PRODUCT_SHOPPING_CART = "Articolo inserito con successo nel carrello.";
 		public static final String DELETE_ARTICOLO_FROM_CARRELLO = "Articolo rimosso dal carrello con successo.";
+		public static final String INSERT_INDIRIZZO_SPEDIZIONE_SUCCESS = "Indirizzo di spedizione aggiunto con successo.";
+		public static final String DELETE_INDIRIZZO_SPEDIZIONE_SUCCESS = "Indirizzo di spedizione rimosso con successo.";
 	}
 	
 	public class Tabs {

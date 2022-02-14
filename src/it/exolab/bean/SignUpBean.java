@@ -60,7 +60,7 @@ public class SignUpBean implements Serializable {
 			
 			ValidationService.checkExistingUserSignUp(utentiBean.getAllUtenti(), user);
 			
-			indirizzoBean.getAddIndirizzo().setId_indirizzo(indirizzoBean.insertIndirizzo(user)); //logica di inserimento indirizzo che ritorna l'id di esso
+			indirizzoBean.getAddIndirizzo().setId_indirizzo(indirizzoBean.insertIndirizzo()); //logica di inserimento indirizzo che ritorna l'id di esso
 			
 			//utility parameters
 			user.setData_iscrizione(new Date(System.currentTimeMillis()));

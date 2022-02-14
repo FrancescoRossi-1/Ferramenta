@@ -15,6 +15,7 @@ import it.exolab.dao.UtenteDAO;
 import it.exolab.dto.Articolo;
 import it.exolab.dto.Categoria;
 import it.exolab.dto.Indirizzo;
+import it.exolab.dto.IndirizzoDiSpedizione;
 import it.exolab.dto.Provincia;
 import it.exolab.dto.Utente;
 import it.exolab.exception.CampoRichiesto;
@@ -29,20 +30,21 @@ import it.exolab.pojo.UtentePOJO;
 public class ValidationService {
 
 	static Logger log = Logger.getLogger(ValidationService.class);
-	
+
+	@SuppressWarnings("deprecation")
 	@ManagedProperty ( "#{utentiBean}" )
 	private UtentiBean utentiBean;
-	
+
 	public static void checkParametersSignUp(Utente user, Indirizzo indirizzo, Long idProvincia) throws FormatoErrato, CampoRichiesto {
 
 		if(user.getNome().equals("")) {
 			throw new CampoRichiesto("nome");
 		}
-		
+
 		if(user.getNome().matches(Constants.Regex.CHECK_NOT_NUMBERS)) {
 			throw new FormatoErrato("nome");
 		}
-		
+
 		if(user.getCognome().equals("")) {
 			throw new CampoRichiesto("cognome");
 		}
@@ -50,7 +52,7 @@ public class ValidationService {
 		if(user.getCognome().matches(Constants.Regex.CHECK_NOT_NUMBERS)) {
 			throw new FormatoErrato("cognome");
 		}
-		
+
 		if(user.getEmail().equals("") ) {
 			throw new CampoRichiesto("email");
 		}
@@ -58,7 +60,7 @@ public class ValidationService {
 		if(!user.getEmail().matches(Constants.Regex.CHECK_EMAIL)) {
 			throw new FormatoErrato("email");
 		}
-		
+
 		if(user.getPassword().equals("") ) {
 			throw new CampoRichiesto("password");
 		}
@@ -66,7 +68,7 @@ public class ValidationService {
 		if(user.getPassword().matches(Constants.Regex.CHECK_PASSWORD)) {
 			throw new FormatoErrato("password");
 		}
-		
+
 		if(user.getData_nascita() == null ) {
 			throw new CampoRichiesto("data di nascita");
 		}
@@ -74,19 +76,25 @@ public class ValidationService {
 		if(user.getData_nascita().getTime() > new Date().getTime()) {
 			throw new FormatoErrato("data nascita");
 		}
-		
+
 		if(user.getCodice_fiscale().equals("") ) {
 			throw new CampoRichiesto("codice fiscale");
 		}
-		
+
 		if(!user.getCodice_fiscale().matches(Constants.Regex.CHECK_CODICE_FISCALE)) {
 			throw new FormatoErrato("codice fiscale");
 		}
-		
+
 		if(idProvincia == -1 ) {
 			throw new CampoRichiesto("provincia");
 		}
 		
+		checkParametersIndirizzo(indirizzo);
+
+	}
+
+	public static void checkParametersIndirizzo( Indirizzo indirizzo ) throws CampoRichiesto, FormatoErrato {
+
 		if(indirizzo.getVia().equals("") ) {
 			throw new CampoRichiesto("via");
 		}
@@ -94,7 +102,7 @@ public class ValidationService {
 		if(indirizzo.getVia().matches(Constants.Regex.CHECK_NOT_NUMBERS)) {
 			throw new FormatoErrato("via");
 		}
-		
+
 		if(indirizzo.getN_civico().equals("") ) {
 			throw new CampoRichiesto("numero civico");
 		}
@@ -102,7 +110,7 @@ public class ValidationService {
 		if(indirizzo.getN_civico().matches(Constants.Regex.CHECK_NOT_LETTERS)) {
 			throw new FormatoErrato("numero civico");
 		}
-		
+
 		if(indirizzo.getCap().equals("") ) {
 			throw new CampoRichiesto("cap");
 		}
@@ -112,37 +120,37 @@ public class ValidationService {
 		}
 
 	}
-	
+
 	public static void checkExistingUserSignUp(List<UtentePOJO> allUtenti, Utente user) throws OggettoEsistente {
-		
+
 		for (UtentePOJO utente : allUtenti) {
 			if(utente.getEmail().equals(user.getEmail())) {
 				throw new OggettoEsistente(user);
 			}
 		}
-		
+
 	}
-	
+
 	public static void checkParametersLogin(Utente loginUser) throws CampoRichiesto {
-		
+
 		if(loginUser.getEmail().equals("")) {
 			throw new CampoRichiesto("email");
 		}
-		
+
 		if(loginUser.getPassword().equals("")) {
 			throw new CampoRichiesto("password");
 		}
-		
+
 	}
-	
+
 	public static void checkExistingUserLogin(Utente loginUser) throws UtenteNonEsistente {
 		Utente extrapolatedUser = UtenteDAO.getInstance().selectUserFromEmailAndPassword(loginUser);
-		
+
 		if(extrapolatedUser == null) {
 			throw new UtenteNonEsistente();
 		}
 	}
-	
+
 	public static void checkParametersArticolo(Articolo articolo) throws CampoRichiesto {
 
 		if( articolo.getTitolo_articolo().isEmpty() ) {
@@ -170,13 +178,13 @@ public class ValidationService {
 		}
 
 	}
-	
+
 	public static void checkEqualsArticolo(Articolo addArticolo, List<Articolo> allArticoli) throws OggettoEsistente {
 		if(allArticoli.contains(addArticolo)) {
 			throw new OggettoEsistente(addArticolo);
 		}
 	}
-	
+
 	public static void checkImagesAllegati(UploadedFiles articoloImages) throws FileImmagineNonSupportato, GenericFileException, Exception {
 
 		List<UploadedFile> imagesList = articoloImages.getFiles();
@@ -209,39 +217,55 @@ public class ValidationService {
 		}
 
 	}
-	
+
 	public static void checkParametersCategoria( Categoria categoria ) throws CampoRichiesto {
-		
+
 		if(categoria.getNome_categoria().isEmpty()) {
 			throw new CampoRichiesto("nome categoria");
 		}
-		
+
 		if( categoria.getDescrizione_categoria().isEmpty() ) {
 			throw new CampoRichiesto("descrizione categoria");
 		}
-		
+
 	}
-	
+
 	public static void checkExistingCategoria(Categoria categoria, List<Categoria> allCategorie ) throws OggettoEsistente {
-		
+
 		for (Categoria cat : allCategorie) {
 			if(cat.equals(categoria)) {
 				throw new OggettoEsistente(categoria);
 			}
 		}
-		
+
 	}
 
 	public static void checkQuantitaArticolo(Articolo articoloDaAggiungere, Integer quantita) throws GenericCarrelloException {
-		
+
 		if( quantita < 1 ) {
 			throw new GenericCarrelloException(Constants.ExceptionMessages.QUANTITA_ARTICOLI_MINORE);
 		}
-		
+
 		if(quantita > articoloDaAggiungere.getQuantita_disponibile()) {
 			throw new GenericCarrelloException(Constants.ExceptionMessages.QUANTITA_ARTICOLI_MAGGIORE);
 		}
+
+	}
+
+	public static void checkParametersIndirizzoDiSpedizione(IndirizzoDiSpedizione indirizzoDiSpedizione) throws FormatoErrato, CampoRichiesto {
+		
+		if( indirizzoDiSpedizione.getScala().length() > 1 ) {
+			throw new FormatoErrato("scala");
+		}
+		
+		if( indirizzoDiSpedizione.getInterno().isEmpty() ) {
+			throw new CampoRichiesto("interno");
+		}
+		
+		if( indirizzoDiSpedizione.getInterno().length() > 5 ) {
+			throw new FormatoErrato("interno");
+		}
 		
 	}
-	
+
 }

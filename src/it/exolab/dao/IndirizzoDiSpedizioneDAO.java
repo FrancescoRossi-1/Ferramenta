@@ -3,6 +3,7 @@ package it.exolab.dao;
 import java.util.List;
 
 import it.exolab.dto.IndirizzoDiSpedizione;
+import it.exolab.mybatis.SqlMapFactory;
 import it.exolab.pojo.UtentePOJO;
 
 public class IndirizzoDiSpedizioneDAO {
@@ -30,6 +31,20 @@ public class IndirizzoDiSpedizioneDAO {
 		List<IndirizzoDiSpedizione> allIndirizziDiSpedizioneUtente = MainDAO.getIndirizzoDiSpedizioneMapper().findAll();
 		MainDAO.closeTransaction();
 		return allIndirizziDiSpedizioneUtente;
+	}
+
+	public void insertIndirizzoDiSpedizione(IndirizzoDiSpedizione indirizzoSpedizione, UtentePOJO utente) {
+		MainDAO.beginTransaction();
+		MainDAO.getIndirizzoDiSpedizioneMapper().insertIndirizzoSpedizione(indirizzoSpedizione, utente);
+		SqlMapFactory.instance().commitSession();
+		MainDAO.closeTransaction();
+	}
+
+	public void deleteIndirizzoDiSpedizioneFromId(IndirizzoDiSpedizione indirizzoDiSpedizione) {
+		MainDAO.beginTransaction();
+		MainDAO.getIndirizzoDiSpedizioneMapper().deleteIndirizzoDiSpedizioneFromId(indirizzoDiSpedizione);
+		SqlMapFactory.instance().commitSession();
+		MainDAO.closeTransaction();
 	}
 
 }

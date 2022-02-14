@@ -13,7 +13,9 @@ import org.apache.log4j.Logger;
 import it.exolab.constants.Constants;
 import it.exolab.dao.IndirizzoDAO;
 import it.exolab.dto.Indirizzo;
-import it.exolab.dto.Utente;
+import it.exolab.exception.CampoRichiesto;
+import it.exolab.exception.FormatoErrato;
+import it.exolab.service.ValidationService;
 
 @SuppressWarnings("deprecation")
 @ManagedBean
@@ -21,63 +23,56 @@ import it.exolab.dto.Utente;
 public class IndirizziBean implements Serializable {
 
 	static Logger log = Logger.getLogger(IndirizziBean.class);
-	
+
 	private static final long serialVersionUID = 6282344715354864997L;
-	
+
 	@ManagedProperty ( "#{sessionBean}" )
 	private SessionBean sessionBean;
-	
-	
+
+
 	@ManagedProperty ( "#{provinceBean}" )
 	private ProvinceBean provinceBean;
-	
+
 	private List<Indirizzo> allIndirizzi;
 	private Indirizzo addIndirizzo;
-	
+
 	@PostConstruct
 	public void init() {
-		
+
 		log.info("Indirizzi init");
-		
+
 		addIndirizzo = new Indirizzo();
-		
+
 		allIndirizzi = IndirizzoDAO.getInstance().findAll();
-		
+
 	}
 
 
-	public Long insertIndirizzo(Utente utente) {
-		
+	public Long insertIndirizzo() throws CampoRichiesto, FormatoErrato, Exception {
+
 		Long id_indirizzo = null;
-		
-		try {
-			
-			addIndirizzo.setId_provincia(provinceBean.getIdProvinciaSelezionata());
-			
-			if(allIndirizzi.contains(addIndirizzo)) { //indirizzo già esistente
-				for (Indirizzo indirizzo : allIndirizzi) {
-					if(indirizzo.equals(addIndirizzo)) {
-						id_indirizzo = indirizzo.getId_indirizzo();
-					}
+
+		ValidationService.checkParametersIndirizzo(addIndirizzo);
+
+		addIndirizzo.setId_provincia(provinceBean.getIdProvinciaSelezionata());
+
+		if(allIndirizzi.contains(addIndirizzo)) { //indirizzo già esistente
+			for (Indirizzo indirizzo : allIndirizzi) {
+				if(indirizzo.equals(addIndirizzo)) {
+					id_indirizzo = indirizzo.getId_indirizzo();
 				}
-			}else {
-				addIndirizzo.setId_provincia(provinceBean.getIdProvinciaSelezionata());
-				IndirizzoDAO.getInstance().insertAddress(addIndirizzo,provinceBean.getIdProvinciaSelezionata());
-				id_indirizzo = addIndirizzo.getId_indirizzo();
-				
 			}
-			
-		} catch ( Exception e ) {
-			
-			sessionBean.setErrorMessage(Constants.ExceptionMessages.UNKNOWN_ERROR);
-			log.info(e.getMessage(), e);
-			
+		}else {
+			addIndirizzo.setId_provincia(provinceBean.getIdProvinciaSelezionata());
+			IndirizzoDAO.getInstance().insertAddress(addIndirizzo,provinceBean.getIdProvinciaSelezionata());
+			id_indirizzo = addIndirizzo.getId_indirizzo();
+
 		}
-		
+
 		return id_indirizzo;
-		
+
 	}
-	
+
 	public SessionBean getSessionBean() {
 		return sessionBean;
 	}
@@ -85,7 +80,7 @@ public class IndirizziBean implements Serializable {
 	public void setSessionBean(SessionBean sessionBean) {
 		this.sessionBean = sessionBean;
 	}
-	
+
 	public ProvinceBean getProvinceBean() {
 		return provinceBean;
 	}
@@ -113,7 +108,7 @@ public class IndirizziBean implements Serializable {
 	public void setAddIndirizzo(Indirizzo addIndirizzo) {
 		this.addIndirizzo = addIndirizzo;
 	}
-	
-	
+
+
 
 }

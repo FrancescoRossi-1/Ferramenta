@@ -4,7 +4,10 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
+
 <h:head>
+	<script type="text/javascript"
+		src="https://maps.google.com/maps/api/js?sensor=true"></script>
 	<h:outputStylesheet name="css/style.css" library="css" />
 </h:head>
 
@@ -70,11 +73,11 @@
 				rendered="#{ordiniBean.visibile}">
 				<ui:include src="/pages/ordine.xhtml" />
 			</p:tab>
-			
-			
-			
-			
-			
+
+
+
+
+
 			<p:tab title="Logout" icon="pi pi-star" id="tabLogout"
 				rendered="#{sessionBean.loggedUser != null}">
 			</p:tab>
