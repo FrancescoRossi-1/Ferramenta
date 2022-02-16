@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 import org.primefaces.PrimeFaces;
 
 import it.exolab.constants.Constants;
+import it.exolab.dao.ArticoloDAO;
 import it.exolab.dao.CartaDiCreditoDAO;
 import it.exolab.dao.DettagliOrdineDAO;
 import it.exolab.dao.IndirizzoDiSpedizioneDAO;
@@ -49,9 +50,6 @@ public class OrdiniBean implements Serializable {
 
 	@ManagedProperty("#{sessionBean}")
 	SessionBean sessionBean;
-
-	@ManagedProperty("#{menuBean}")
-	MenuBean menuBean;
 
 	@ManagedProperty("#{carrelloBean}")
 	CarrelloBean carrelloBean;
@@ -90,6 +88,7 @@ public class OrdiniBean implements Serializable {
 	@PostConstruct
 	public void init() {
 
+		ordineEffettuato = false;
 		ordineEffettuatoMessage = null;
 
 		addOrdine = new Ordine();
@@ -165,17 +164,27 @@ public class OrdiniBean implements Serializable {
 			addOrdine.setTotale_ordine(carrelloBean.getCarrelloUtente().getTotale_ordine());
 			addOrdine.setId_utente(sessionBean.getLoggedUser().getId());
 			addOrdine.setStato(Constants.Ordini.STATI_ORDINE.get(0));
+			addOrdine.setData_consegna(dataConsegna);
 
 			/*Inserimento ordine e dettagli*/
 			OrdineDAO.getInstance().insertOrdine(addOrdine); 
 			DettagliOrdineDAO.getInstance().insertDettagliOrdine(addOrdine,(HashMap<Articolo, Integer>) carrelloBean.getArticoliEQuantita());
 			
+			List<Articolo> articoliOrdinati = new ArrayList<>(carrelloBean.getArticoliEQuantita().keySet());
+			log.info("--------------------------Articoli ordinati-------------------------");
+			articoliOrdinati.forEach(art -> log.info("Art ordinato : " + art.toString()));
+			ArticoloDAO.getInstance().updateQuantitaDisponibile(articoliOrdinati);
+			
+			
 			carrelloBean.deleteCarrelloFromUserId(); //elimina il carrello dell'utente
-
+			
+			carrelloBean.getArticoliBean().init(); 
+			
 			ordineEffettuato = true;
 			fillOrdineEffettuatoMessage();
-
+			
 			PrimeFaces.current().ajax().update("menuForm:tabView:tabOrdine");
+			
 
 
 		} catch ( CampoRichiesto cr ) {
@@ -341,14 +350,6 @@ public class OrdiniBean implements Serializable {
 
 		}
 
-	}
-
-	public MenuBean getMenuBean() {
-		return menuBean;
-	}
-
-	public void setMenuBean(MenuBean menuBean) {
-		this.menuBean = menuBean;
 	}
 
 	public SessionBean getSessionBean() {

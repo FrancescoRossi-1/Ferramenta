@@ -119,6 +119,8 @@ public class ArticoliBean implements Serializable {
 		}
 
 	}
+	
+
 
 	public void deleteArticolo(Long idArticolo) {
 
@@ -133,7 +135,6 @@ public class ArticoliBean implements Serializable {
 			    .getELResolver().getValue(elContext, null, "carrelloBean");
 			
 			carrelloBean.init();
-			
 			}
 			
 			sessionBean.setSuccessMessage(Constants.Messages.DELETE_ARTICOLO_SUCCESS);

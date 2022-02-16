@@ -2,9 +2,12 @@ package it.exolab.bean;
 
 import java.io.Serializable;
 
+import javax.el.ELContext;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
 import org.apache.log4j.Logger;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.TabChangeEvent;
@@ -47,6 +50,12 @@ public class MenuBean implements Serializable {
 		
 		String currentTabId = event.getTab().getId();
 		log.info("Current tab id: " + event.getTab().getId());
+		
+		/*Se l'utente sta uscendo dall'ordine allora rendilo invisibile*/
+		if(!Constants.Tabs.TAB_ORDINE.equals(currentTabId)) {
+			setVisibileOrdine(false);
+			PrimeFaces.current().ajax().update("menuForm:tabView"); //aggiornamento
+		}
 
 		if(Constants.Tabs.TAB_LOGOUT.equals(currentTabId)) {
 			sessionBean.logout();
@@ -95,6 +104,7 @@ public class MenuBean implements Serializable {
 		this.sessionBean = sessionBean;
 	}
 	
+
 	public Boolean getVisibileOrdine() {
 		return visibileOrdine;
 	}
@@ -102,6 +112,10 @@ public class MenuBean implements Serializable {
 	public void setVisibileOrdine(Boolean visibileOrdine) {
 		this.visibileOrdine = visibileOrdine;
 		if(visibileOrdine) {
+			ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+			OrdiniBean ordiniBean = (OrdiniBean) FacesContext.getCurrentInstance().getApplication()
+			    .getELResolver().getValue(elContext, null, "ordiniBean");
+			ordiniBean.init();
 			this.tabIndex = Constants.Tabs.ID_TAB_ORDINE;
 		}
 		

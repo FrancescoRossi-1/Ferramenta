@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.primefaces.PrimeFaces;
 
 import it.exolab.constants.Constants;
+import it.exolab.dao.ArticoloDAO;
 import it.exolab.dao.CarrelloDAO;
 import it.exolab.dao.CarrelloEArticoloDAO;
 import it.exolab.dao.UtenteDAO;
@@ -55,24 +56,23 @@ public class CarrelloBean implements Serializable {
 			carrelloUtente = new Carrello();
 			carrelloUtente = CarrelloDAO.getInstance().createNewCarrello(carrelloUtente);
 			UtenteDAO.getInstance().assegnaNuovoCarrello(carrelloUtente,sessionBean.getLoggedUser());
-		} else {
+		} 
 
-			righeUtente = CarrelloEArticoloDAO.getInstance().selectRigheFromIdCarrello(carrelloUtente);
-			
-			log.info(righeUtente.toString());
-			
-			for (CarrelloEArticolo riga : righeUtente) {
-				for (Articolo articolo : articoliBean.getAllArticoli()) {
-					if(riga.getId_articolo() == articolo.getId_articolo()) {
-						log.info(riga.getQuantita());
-						articoliEQuantita.put(articolo, riga.getQuantita());
-					}
+		righeUtente = CarrelloEArticoloDAO.getInstance().selectRigheFromIdCarrello(carrelloUtente);
+
+		log.info(righeUtente.toString());
+
+		for (CarrelloEArticolo riga : righeUtente) {
+			for (Articolo articolo : articoliBean.getAllArticoli()) {
+				if(riga.getId_articolo() == articolo.getId_articolo()) {
+					log.info(riga.getQuantita());
+					articoliEQuantita.put(articolo, riga.getQuantita());
 				}
 			}
-
-			articoliEQuantita.forEach( (art, quant) -> log.info("\nQuantita -> " + quant + "\nArticolo -> " + art.toString()));
-
 		}
+
+		articoliEQuantita.forEach( (art, quant) -> log.info("\nQuantita -> " + quant + "\nArticolo -> " + art.toString()));
+
 
 	}
 
@@ -83,24 +83,24 @@ public class CarrelloBean implements Serializable {
 
 			Articolo articoloDaAggiungere = articoliBean.getArticoloSelezionato();
 			Integer quantita = articoliBean.getQuantitaArticolo();
-			
+
 			if(articoliEQuantita.containsKey(articoloDaAggiungere)) {
 				throw new OggettoEsistente(articoloDaAggiungere);
 			}
-			
+
 			ValidationService.checkQuantitaArticolo(articoloDaAggiungere, quantita);
 
 			CarrelloEArticoloDAO.getInstance().insertRiga(articoloDaAggiungere,quantita,carrelloUtente);
 			CarrelloDAO.getInstance().updateTotaleEUltimaModifica(carrelloUtente);
-			
+
 			init();
-			
+
 			sessionBean.setSuccessMessage(Constants.Messages.SUCCESSFULLY_INSERTED_PRODUCT_SHOPPING_CART);
 
 		} catch ( OggettoEsistente oe ) {
-			
+
 			sessionBean.setErrorMessage(oe.getMessage());
-			
+
 		} catch ( GenericCarrelloException gce ) {
 
 			sessionBean.setErrorMessage(gce.getMessage());
@@ -113,31 +113,71 @@ public class CarrelloBean implements Serializable {
 		}
 
 	}
-	
+
 	public void rimuoviArticolo(Articolo articolo) {
-		
+
 		try {
-			
-			 CarrelloEArticoloDAO.getInstance().deleteRigaFromIdCarrelloEIdArticolo(carrelloUtente, articolo);
-			 CarrelloDAO.getInstance().updateTotaleEUltimaModifica(carrelloUtente);
-			 init();
-			 sessionBean.setSuccessMessage(Constants.Messages.DELETE_ARTICOLO_FROM_CARRELLO);
-			 
-			 PrimeFaces.current().ajax().update("menuForm:tabView:carrello");
-			
+
+			CarrelloEArticoloDAO.getInstance().deleteRigaFromIdCarrelloEIdArticolo(carrelloUtente, articolo);
+			CarrelloDAO.getInstance().updateTotaleEUltimaModifica(carrelloUtente);
+			init();
+			sessionBean.setSuccessMessage(Constants.Messages.DELETE_ARTICOLO_FROM_CARRELLO);
+
+			PrimeFaces.current().ajax().update("menuForm:tabView:tabCarrello");
+
 		} catch (Exception e) {
 			sessionBean.setErrorMessage(Constants.ExceptionMessages.UNKNOWN_ERROR);
 			log.info(e.getMessage(),e);
 		}
-		
+
 	}
-	
+
+	public void aumentaDiminuisciQuantitaDiAcquisto( Articolo articolo, Boolean aumentaDiminuisci ) {
+
+		Integer quantitaMomentanea = articoliEQuantita.get(articolo);
+		Integer quantitaFinale;
+
+		/*L'utente vuole aumentare la quantità disponibile*/
+		if(aumentaDiminuisci) {
+			quantitaFinale = quantitaMomentanea + 1;
+		}else {
+			/*L'utente vuole diminuire  la quantità disponibile*/
+			quantitaFinale = quantitaMomentanea - 1;
+		}
+
+		try {
+			
+			if(quantitaFinale == 0) {
+				rimuoviArticolo(articolo);
+			}else if (quantitaFinale > articolo.getQuantita_disponibile()) {
+				throw new GenericCarrelloException(Constants.ExceptionMessages.QUANTITA_ARTICOLI_MAGGIORE);
+			}
+
+			CarrelloEArticoloDAO.getInstance().updateQuantita(articolo,quantitaFinale, carrelloUtente);
+			CarrelloDAO.getInstance().updateTotaleEUltimaModifica(carrelloUtente);
+			init();
+			PrimeFaces.current().ajax().update("menuForm:tabView:carrello");
+
+		} catch ( GenericCarrelloException gce  ) {
+		
+			sessionBean.setErrorMessage(gce.getMessage());
+			
+		}catch ( Exception e ) {
+
+			sessionBean.setErrorMessage(Constants.ExceptionMessages.UNKNOWN_ERROR);
+
+		}
+
+
+
+	}
+
 	public void deleteCarrelloFromUserId() throws Exception {
 		CarrelloEArticoloDAO.getInstance().deleteAllFromCarrelloId(carrelloUtente);
 		CarrelloDAO.getInstance().deleteFromUserId(carrelloUtente);
-		
+
 		init();
-		
+
 	}
 
 	public List<Map.Entry<Articolo, Integer>> getArticoli() {

@@ -27,8 +27,7 @@
 
 	<h1>Carrello</h1>
 
-	<p:panel
-		rendered="#{carrelloBean.articoliEQuantita.size() == 0}">
+	<p:panel rendered="#{carrelloBean.articoliEQuantita.size() == 0}">
 
 		<h:outputText
 			value="Al momento non sono presenti articoli nel tuo carrello, quando li aggiungerai saranno visibili in questa pagina." />
@@ -47,7 +46,7 @@
 					value="#{articolo.key.titolo_articolo} (#{articolo.value})" />
 				<h:outputText
 					value="#{articolo.key.prezzo_unitario * articolo.value}"
-					style="font-weight: bold;position: absolute;left: 92%;">
+					style="font-weight: bold;position: absolute;left: 91%;">
 					<f:convertNumber pattern="€0.00" locale="pt_BR" />
 				</h:outputText>
 				<f:facet name="footer">
@@ -81,34 +80,83 @@
 
 					<p:dataViewListItem>
 						<h:panelGrid columns="3" style="width:70%"
-							columnClasses="logo,detail">
+							columnClasses="logo,detail" styleClass="tabellaCarrello">
 							<img
 								src="data:image/jpg;base64, #{articoliBean.articoloEImmagini.get(articoliEntry.key).get(0)}"
 								alt="Immagine non trovata" style="width: 250px; height: 250px;" />
 
 							<p:outputPanel>
-								<h:panelGrid columns="2" cellpadding="5">
-									<h:outputText value="Id:" />
-									<h:outputText value="#{articoliEntry.key.id_articolo}"
-										style="font-weight: bold" />
+								<table>
 
-									<h:outputText value="Nome:" />
-									<h:outputText value="#{articoliEntry.key.titolo_articolo}"
-										style="font-weight: bold" />
+									<tr>
+										<td>
+											<h:outputText value="Nome:" />
+										</td>
+										<td>
+											<h:outputText value="#{articoliEntry.key.titolo_articolo}"
+												style="font-weight: bold" />
+										</td>
+									</tr>
 
-									<h:outputText value="Prezzo:" />
-									<h:outputText value="€ #{articoliEntry.key.prezzo_unitario}"
-										style="font-weight: bold" />
+									<tr>
+										<td>
+											<h:outputText value="Prezzo:" />
+										</td>
+										<td>
+											<h:outputText value="€ #{articoliEntry.key.prezzo_unitario}"
+												style="font-weight: bold" />
+										</td>
+									</tr>
 
-									<h:outputText value="Quantità:" />
-									<h:outputText value="#{articoliEntry.value}"
-										style="font-weight: bold" />
+									<tr>
+										<td>
+											<h:outputText value="Quantità:" />
+										</td>
+										<td>
+											<h:outputText value="#{articoliEntry.value}"
+												style="font-weight: bold" />
+										</td>
+										<td>
+											<p:commandButton value="-"
+												actionListener="#{carrelloBean.aumentaDiminuisciQuantitaDiAcquisto(articoliEntry.key,false)}"
+												ajax="false" />
+										</td>
+										<td>
+											<p:commandButton value="+"
+												actionListener="#{carrelloBean.aumentaDiminuisciQuantitaDiAcquisto(articoliEntry.key, true)}"
+												ajax="false" />
+										</td>
+									</tr>
 
-									<p:commandButton value="Rimuovi" ajax="false"
-										action="#{carrelloBean.rimuoviArticolo(articoliEntry.key)}">
+									<tr>
+										<td>
+											<h:outputText value="Quantità disponibile:" />
+										</td>
+										<td>
+											<h:outputText
+												value="#{articoliEntry.key.quantita_disponibile}"
+												style="font-weight: bold" />
+										</td>
+									</tr>
 
-									</p:commandButton>
-								</h:panelGrid>
+									<tr>
+
+										<td>
+											<p:commandButton value="Rimuovi" ajax="false"
+												action="#{carrelloBean.rimuoviArticolo(articoliEntry.key)}">
+
+											</p:commandButton>
+										</td>
+
+									</tr>
+
+
+
+
+
+
+
+								</table>
 							</p:outputPanel>
 
 							<p:commandLink update="menuForm:tabView:articoloDetail"

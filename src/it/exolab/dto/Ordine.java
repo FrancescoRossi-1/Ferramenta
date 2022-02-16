@@ -1,7 +1,7 @@
 package it.exolab.dto;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.Data;
 import lombok.ToString;
@@ -19,5 +19,6 @@ public class Ordine implements Serializable {
 	private String stato; //Ordinato , In spedizione , Spedito , Consegnato , Annullato
 	private Long id_indirizzo_spedizione;
 	private Long id_carta_credito;
+	private Date data_consegna;
 	
 }

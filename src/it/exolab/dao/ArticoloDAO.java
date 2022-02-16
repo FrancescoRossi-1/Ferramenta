@@ -41,4 +41,11 @@ public class ArticoloDAO {
 		MainDAO.closeTransaction();
 	}
 
+	public void updateQuantitaDisponibile(List<Articolo> articoli) {
+		MainDAO.beginTransaction();
+		MainDAO.getArticoloMapper().updateQuantitaDisponibile(articoli);
+		SqlMapFactory.instance().commitSession();
+		MainDAO.closeTransaction();
+	}
+
 }

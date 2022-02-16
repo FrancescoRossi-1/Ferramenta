@@ -50,6 +50,13 @@ public class CarrelloEArticoloDAO {
 		SqlMapFactory.instance().commitSession();
 		MainDAO.closeTransaction();
 	}
+
+	public void updateQuantita(Articolo articolo, Integer quantitaFinale, Carrello carrello) {
+		MainDAO.beginTransaction();
+		MainDAO.getCarrelloEArticoloMapper().updateQuantita(articolo, quantitaFinale, carrello);
+		SqlMapFactory.instance().commitSession();
+		MainDAO.closeTransaction();
+	}
 	
 	
 }

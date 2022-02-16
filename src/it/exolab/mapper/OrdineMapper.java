@@ -17,7 +17,8 @@ public interface OrdineMapper {
 			+ " data_ordine, " 
 			+ " stato, " 
 			+ " id_indirizzo_spedizione, " 
-			+ " id_carta_credito " 
+			+ " id_carta_credito, "
+			+ " data_consegna " 
 			+ " ) " 
 			+ "VALUES " 
 			+ " ( " 
@@ -27,7 +28,8 @@ public interface OrdineMapper {
 			+ " now() , " 
 			+ " #{stato}, " 
 			+ " #{id_indirizzo_spedizione}, " 
-			+ " #{id_carta_credito} " 
+			+ " #{id_carta_credito}, "
+			+ " #{data_consegna} " 
 			+ " ) ";
 	
 	@Insert( INSERT_ORDINE )

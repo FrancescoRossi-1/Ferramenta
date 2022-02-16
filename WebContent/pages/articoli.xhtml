@@ -10,8 +10,8 @@
 
 </h:body>
 
-<p:dataGrid var="articolo" value="#{articoliBean.images}"
-	columns="3" layout="grid" rows="12" paginator="true" id="artic"
+<p:dataGrid var="articolo" value="#{articoliBean.images}" columns="3"
+	layout="grid" rows="12" paginator="true" id="artic"
 	paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 	rowsPerPageTemplate="6,12,16">
 
@@ -19,18 +19,24 @@
             Articoli in vendita
         </f:facet>
 
-	<p:panel header="#{articolo.key.titolo_articolo}" style="text-align:center">
+	<p:panel header="#{articolo.key.titolo_articolo}"
+		style="text-align:center">
 		<h:panelGrid columns="1" style="width:100%">
-			<img
-				src="data:image/jpg;base64, #{articolo.value.get(0)}"
+			<img src="data:image/jpg;base64, #{articolo.value.get(0)}"
 				alt="Immagine non trovata" style="width: 100px; height: 100px;" />
-			<h:outputText value="#{articolo.key.descrizione_articolo}" width="100"
-				height="100" />
+			<h:outputText value="#{articolo.key.descrizione_articolo}"
+				width="100" height="100" />
+			<h:outputText
+				value="Quantità disponibile: #{articolo.key.quantita_disponibile}"
+				rendered="#{articolo.key.quantita_disponibile > 0}" />
+			<h:outputText value="Prodotto momentaneamente non disponibile"
+				style="color: red"
+				rendered="#{articolo.key.quantita_disponibile == 0}" />
 			<p:commandLink update="menuForm:tabView:articoloDetail"
 				oncomplete="PF('articoloDettaglio').show()"
 				title="Visualizza Dettagli">
-				<h:outputText value="Altro..." styleClass="pi pi-search"
-					style="margin:0 auto;" />
+				<h:outputText value="Vai alla pagina dell'articolo"
+					styleClass="pi pi-search" style="margin:0 auto;" />
 				<f:setPropertyActionListener value="#{articolo.key}"
 					target="#{articoliBean.articoloSelezionato}" />
 			</p:commandLink>
@@ -44,17 +50,17 @@
 	resizable="true">
 
 	<p:outputPanel id="articoloDetail" style="text-align:center;">
-		<p:carousel value="#{articoliBean.immaginiArticoloSelezionato}" headerText="Immagini"
-			var="img" itemStyle="height:200px;text-align:center" numVisible="1"
+		<p:carousel value="#{articoliBean.immaginiArticoloSelezionato}"
+			headerText="Immagini" var="img"
+			itemStyle="height:200px;text-align:center" numVisible="1"
 			easing="easeOutBounce"
 			style="width:300px;margin-left:auto; margin-right: auto;"
 			circular="true">
 			<h:panelGrid columns="1" style="width:100%"
 				columnClasses="label,value">
 				<f:facet name="header">
-				<img
-					src="data:image/jpg;base64, #{img}"
-					alt="Immagine non trovata" style="width: 250px; height: 250px;" />
+					<img src="data:image/jpg;base64, #{img}" alt="Immagine non trovata"
+						style="width: 250px; height: 250px;" />
 				</f:facet>
 			</h:panelGrid>
 		</p:carousel>
@@ -70,7 +76,10 @@
 
 			<h:outputText value="Quantità Disponibile: " />
 			<h:outputText
-				value="#{ articoliBean.articoloSelezionato.quantita_disponibile}" />
+				value="#{ articoliBean.articoloSelezionato.quantita_disponibile}" rendered="#{articoliBean.articoloSelezionato.quantita_disponibile > 0}"/>
+			<h:outputText
+				value="Non disponibile" rendered="#{articoliBean.articoloSelezionato.quantita_disponibile == 0}" style="color: red"/>
+				
 
 			<h:outputText value="Colore:" />
 			<h:outputText value="#{articoliBean.articoloSelezionato.colore}"
@@ -84,12 +93,18 @@
 			<h:outputText
 				value="#{articoliBean.articoloSelezionato.categoriaDiAppartenenza.nome_categoria}" />
 
-			<h:outputText value="Quantità da acquistare:" />
+			<h:outputText value="Quantità da acquistare:"
+				rendered="#{articoliBean.articoloSelezionato.quantita_disponibile > 0}" />
 			<p:spinner id="minMax" value="#{articoliBean.quantitaArticolo}"
 				min="1"
-				max="#{articoliBean.articoloSelezionato.quantita_disponibile}" style="width: 25%" />
+				max="#{articoliBean.articoloSelezionato.quantita_disponibile}"
+				style="width: 25%"
+				rendered="#{articoliBean.articoloSelezionato.quantita_disponibile > 0}" />
 
-			<p:commandButton value="Aggiungi al carrello" actionListener="#{carrelloBean.insertArticoloInCarrello}" ajax="false"/>
+			<p:commandButton value="Aggiungi al carrello"
+				actionListener="#{carrelloBean.insertArticoloInCarrello}"
+				ajax="false"
+				rendered="#{articoliBean.articoloSelezionato.quantita_disponibile > 0}" />
 
 
 		</p:panelGrid>

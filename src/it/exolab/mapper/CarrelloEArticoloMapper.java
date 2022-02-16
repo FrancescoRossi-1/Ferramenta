@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import it.exolab.dto.Articolo;
 import it.exolab.dto.Carrello;
@@ -56,6 +58,15 @@ public interface CarrelloEArticoloMapper {
 			+ "WHERE " 
 			+ " id_carrello = #{id_carrello} ";
 	
+	static final String UPDATE_QUANTITA = " UPDATE " 
+			+ " CARRELLO_ARTICOLO "
+			+ "SET "
+			+ " quantita = #{quantita} "
+			+ "WHERE "
+			+ " id_articolo = #{articolo.id_articolo} "
+			+ "AND "
+			+ " id_carrello = #{carrello.id_carrello}";
+	
 	@Insert( INSERT_RIGA )
 	void insertRiga(Articolo articolo, Integer quantita, Carrello carrello);
 
@@ -68,6 +79,9 @@ public interface CarrelloEArticoloMapper {
 
 	@Delete (DELETE_FROM_CARRELLO_ID)
 	void deleteAllFromCarrelloId(Carrello carrello);
+
+	@Update ( UPDATE_QUANTITA )
+	void updateQuantita(@Param("articolo") Articolo articolo, @Param("quantita") Integer quantitaFinale,@Param("carrello") Carrello carrello);
 
 
 
