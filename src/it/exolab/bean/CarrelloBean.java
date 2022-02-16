@@ -52,11 +52,9 @@ public class CarrelloBean implements Serializable {
 		articoliEQuantita = new HashMap<>();
 
 		if(carrelloUtente == null) {
-			log.info("Carrello null");
+			carrelloUtente = new Carrello();
 			carrelloUtente = CarrelloDAO.getInstance().createNewCarrello(carrelloUtente);
-			log.info("Carrello creato");
 			UtenteDAO.getInstance().assegnaNuovoCarrello(carrelloUtente,sessionBean.getLoggedUser());
-			log.info("Update effettuato");
 		} else {
 
 			righeUtente = CarrelloEArticoloDAO.getInstance().selectRigheFromIdCarrello(carrelloUtente);
@@ -131,6 +129,14 @@ public class CarrelloBean implements Serializable {
 			sessionBean.setErrorMessage(Constants.ExceptionMessages.UNKNOWN_ERROR);
 			log.info(e.getMessage(),e);
 		}
+		
+	}
+	
+	public void deleteCarrelloFromUserId() throws Exception {
+		CarrelloEArticoloDAO.getInstance().deleteAllFromCarrelloId(carrelloUtente);
+		CarrelloDAO.getInstance().deleteFromUserId(carrelloUtente);
+		
+		init();
 		
 	}
 

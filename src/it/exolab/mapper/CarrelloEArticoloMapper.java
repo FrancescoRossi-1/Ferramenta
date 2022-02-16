@@ -13,7 +13,7 @@ import it.exolab.dto.CarrelloEArticolo;
 
 public interface CarrelloEArticoloMapper {
 
-	static String INSERT_RIGA = " INSERT "
+	static final String INSERT_RIGA = " INSERT "
 			+ "INTO "
 			+ " CARRELLO_ARTICOLO "
 			+ " ( "
@@ -28,7 +28,7 @@ public interface CarrelloEArticoloMapper {
 			+ " #{param3.id_carrello}"
 			+ " ) ";
 	
-	static String SELECT_FROM_ID_CARRELLO = " SELECT " 
+	static final String SELECT_FROM_ID_CARRELLO = " SELECT " 
 			+ " carart.id_carrello_articolo, "  
 			+ " carart.id_carrello, "  
 			+ " carart.id_articolo, "  
@@ -42,13 +42,19 @@ public interface CarrelloEArticoloMapper {
 			+ "WHERE "  
 			+ " c.id_carrello = #{id_carrello} ";
 	
-	static String DELETE_FROM_IDS = " DELETE " 
+	static final String DELETE_FROM_IDS = " DELETE " 
 			+ "FROM  "
 			+ " CARRELLO_ARTICOLO  "
 			+ "WHERE  "
 			+ " id_carrello = #{param1.id_carrello}  "
 			+ "AND  "
 			+ " id_articolo = #{param2.id_articolo} ";
+	
+	static final String DELETE_FROM_CARRELLO_ID = " DELETE " 
+			+ "FROM " 
+			+ " CARRELLO_ARTICOLO " 
+			+ "WHERE " 
+			+ " id_carrello = #{id_carrello} ";
 	
 	@Insert( INSERT_RIGA )
 	void insertRiga(Articolo articolo, Integer quantita, Carrello carrello);
@@ -59,6 +65,9 @@ public interface CarrelloEArticoloMapper {
 
 	@Delete ( DELETE_FROM_IDS )
 	void deleteRigaFromIds(Carrello carrello, Articolo articolo);
+
+	@Delete (DELETE_FROM_CARRELLO_ID)
+	void deleteAllFromCarrelloId(Carrello carrello);
 
 
 

@@ -6,8 +6,10 @@ import it.exolab.mapper.CarrelloEArticoloMapper;
 import it.exolab.mapper.CarrelloMapper;
 import it.exolab.mapper.CartaDiCreditoMapper;
 import it.exolab.mapper.CategoriaMapper;
+import it.exolab.mapper.DettagliOrdineMapper;
 import it.exolab.mapper.IndirizzoDiSpedizioneMapper;
 import it.exolab.mapper.IndirizzoMapper;
+import it.exolab.mapper.OrdineMapper;
 import it.exolab.mapper.ProvinciaMapper;
 import it.exolab.mapper.UtenteMapper;
 import it.exolab.mybatis.SqlMapFactory;
@@ -57,6 +59,15 @@ public class MainDAO {
 
 	}
 	
+	public static OrdineMapper getOrdineMapper() {
+		return SqlMapFactory.instance().getMapper(OrdineMapper.class);
+	}
+	
+	public static DettagliOrdineMapper getDettagliOrdineMapper() {
+		return SqlMapFactory.instance().getMapper(DettagliOrdineMapper.class);
+	}
+
+	
 	public static void closeTransaction() {
 		SqlMapFactory.instance().closeSession();
 	}
@@ -64,5 +75,8 @@ public class MainDAO {
 	public static void beginTransaction() {
 		SqlMapFactory.instance().openSession();
 	}
+
+
+
 
 }

@@ -12,14 +12,14 @@
 		<h3>Indirizzo Di Spedizione</h3>
 
 		<p:accordionPanel id="accorditionIndirizziSpedizione"
-			rendered="#{indirizziDiSpedizioneBean.indirizzoDiSpedizioneSelezionato.id == null}" activeIndex="null">
+			rendered="#{ordiniBean.indirizzoDiSpedizioneSelezionato.id == null}" activeIndex="null">
 
 			<p:tab title="Seleziona un'indirizzo" id="tabIndirizziSpedizione"
-				rendered="#{indirizziDiSpedizioneBean.indirizziSpedizioneUtente != null}">
+				rendered="#{ordiniBean.indirizziSpedizioneUtente != null}">
 				<p:outputPanel>
 					<p>Seleziona un indirizzo di spedizione</p>
 
-					<p:dataScroller value="#{indirizziDiSpedizioneBean.indirizziMap}"
+					<p:dataScroller value="#{ordiniBean.indirizziMap}"
 						var="item" chunkSize="10" id="scrollerIndirizziSpedizione">
 						<f:facet name="header">
           					  Indirizzi di spedizione collegati
@@ -50,11 +50,11 @@
 										style="font-weight: bold" />
 
 									<p:commandButton value="Seleziona"
-										actionListener="#{indirizziDiSpedizioneBean.setIndirizzoDiSpedizioneSelezionato(item.key,item.value)}"
+										actionListener="#{ordiniBean.setIndirizzoDiSpedizioneSelezionato(item.key,item.value)}"
 										ajax="false" />
 
 									<p:commandButton value="Elimina"
-										actionListener="#{indirizziDiSpedizioneBean.deleteIndirizzoDiSpedizione(item.value)}"
+										actionListener="#{ordiniBean.deleteIndirizzoDiSpedizione(item.value)}"
 										ajax="false" />
 
 								</h:panelGrid>
@@ -90,7 +90,7 @@
 						</p:column>
 						<p:column>
 							<p:inputText id="viaIndirizzoSpedizione"
-								value="#{indirizziBean.addIndirizzo.via}" />
+								value="#{ordiniBean.addIndirizzo.via}" />
 						</p:column>
 					</p:row>
 					<p:row>
@@ -100,7 +100,7 @@
 						</p:column>
 						<p:column>
 							<p:inputText id="nCivicoIndirizzoSpedizione"
-								value="#{indirizziBean.addIndirizzo.n_civico}" />
+								value="#{ordiniBean.addIndirizzo.n_civico}" />
 						</p:column>
 					</p:row>
 					<p:row>
@@ -109,7 +109,7 @@
 						</p:column>
 						<p:column>
 							<p:inputText id="capIndirizzoSpedizione"
-								value="#{indirizziBean.addIndirizzo.cap}" />
+								value="#{ordiniBean.addIndirizzo.cap}" />
 						</p:column>
 					</p:row>
 					<p:row>
@@ -118,7 +118,7 @@
 						</p:column>
 						<p:column>
 							<p:inputText id="scalaIndirizzoSpedizione"
-								value="#{indirizziDiSpedizioneBean.addIndirizzoDiSpedizione.scala}" />
+								value="#{ordiniBean.addIndirizzoDiSpedizione.scala}" />
 						</p:column>
 					</p:row>
 					<p:row>
@@ -127,15 +127,15 @@
 						</p:column>
 						<p:column>
 							<p:inputText id="internoIndirizzoSpedizione"
-								value="#{indirizziDiSpedizioneBean.addIndirizzoDiSpedizione.interno}" />
+								value="#{ordiniBean.addIndirizzoDiSpedizione.interno}" />
 						</p:column>
 					</p:row>
 					<p:row>
 						<p:column>
 							<p:commandButton id="insertIndirizzoSpedizione"
 								value="Aggiungi Indirizzo"
-								actionListener="#{indirizziDiSpedizioneBean.insertIndirizzoDiSpedizione}"
-								ajax="false" update="@all" />
+								action="#{ordiniBean.insertIndirizzoDiSpedizione}"
+								ajax="false"/>
 						</p:column>
 					</p:row>
 				</p:panelGrid>
@@ -145,8 +145,8 @@
 
 
 		<p:dataTable var="item"
-			rendered="#{indirizziDiSpedizioneBean.indirizzoDiSpedizioneSelezionato.id != null}"
-			value="#{indirizziDiSpedizioneBean.indirizzoDiSpedizioneSelezionato}">
+			rendered="#{ordiniBean.indirizzoDiSpedizioneSelezionato.id != null}"
+			value="#{ordiniBean.indirizzoDiSpedizioneSelezionato}">
 			<p:column headerText="Via">
 				<h:outputText value="#{item.indirizzoDiRiferimento.via}" />
 			</p:column>
@@ -171,8 +171,8 @@
 
 			<p:column headerText="Azioni">
 				<p:commandButton value="Cambia Indirizzo" style="margin-top: 10px;"
-					action="#{indirizziDiSpedizioneBean.setIndirizzoDiSpedizioneSelezionato(null,null)}"
-					ajax="false"
+					action="#{ordiniBean.setIndirizzoDiSpedizioneSelezionato(null,null)}"
+					ajax="false" 
 					update="menuForm:tabView:accorditionIndirizziSpedizione:scrollerIndirizziSpedizione" />
 			</p:column>
 		</p:dataTable>

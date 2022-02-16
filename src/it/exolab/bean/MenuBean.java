@@ -19,10 +19,11 @@ public class MenuBean implements Serializable {
 	private static final long serialVersionUID = -4793276709821120300L;
 
 	private final static Logger log = Logger.getLogger(MenuBean.class);
-
+	
 	@ManagedProperty("#{sessionBean}")
 	private SessionBean sessionBean;
-
+	
+	private Boolean visibileOrdine = false;
 	private int tabIndex = 0;
 
 
@@ -30,7 +31,7 @@ public class MenuBean implements Serializable {
 	public void onTabChangeInserimento(TabChangeEvent<?> event) {
 		
 		log.info("--->>>OnTabChange");
-		
+
 		//checkMessaggiDaEliminare
 		if(sessionBean.getSuccessMessage() != null) {
 			sessionBean.setSuccessMessage(null);
@@ -44,7 +45,6 @@ public class MenuBean implements Serializable {
 			log.info("Messaggio successo settato null.");
 		}
 		
-
 		String currentTabId = event.getTab().getId();
 		log.info("Current tab id: " + event.getTab().getId());
 
@@ -93,6 +93,18 @@ public class MenuBean implements Serializable {
 
 	public void setSessionBean(SessionBean sessionBean) {
 		this.sessionBean = sessionBean;
+	}
+	
+	public Boolean getVisibileOrdine() {
+		return visibileOrdine;
+	}
+
+	public void setVisibileOrdine(Boolean visibileOrdine) {
+		this.visibileOrdine = visibileOrdine;
+		if(visibileOrdine) {
+			this.tabIndex = Constants.Tabs.ID_TAB_ORDINE;
+		}
+		
 	}
 
 	public int getTabIndex() {

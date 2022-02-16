@@ -2,7 +2,6 @@ package it.exolab.dto;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import lombok.Data;
 import lombok.ToString;
@@ -16,6 +15,5 @@ public class Carrello implements Serializable {
 	private Long id_carrello;
 	private Date data_ultima_modifica;
 	private Double totale_ordine;
-	private List<Articolo> articoliPosseduti;
 	
 }

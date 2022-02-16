@@ -10,18 +10,58 @@
 
 <div>
 
+	<p:panel rendered="#{!ordiniBean.ordineEffettuato}">
+		<p:fieldset legend="Indirizzo Di Spedizione" toggleable="true"
+			toggleSpeed="500" style="margin-bottom:2%;">
 
-	<p:fieldset legend="Indirizzo Di Spedizione" toggleable="true" toggleSpeed="500" style="margin-bottom:2%;">
-		<ui:include src="ordineIndirizzoDiSpedizione.xhtml" />
-	</p:fieldset>
-	
-	<p:fieldset legend="Metodo Di Pagamento" toggleable="true" toggleSpeed="500">
-		
-		<ui:include src="ordineMetodoDiPagamento.xhtml" />
-	
-	</p:fieldset>
-	
+			<ui:include src="ordineIndirizzoDiSpedizione.xhtml" />
 
+		</p:fieldset>
+
+		<p:fieldset legend="Metodo Di Pagamento" toggleable="true"
+			toggleSpeed="500" style="margin-bottom:2%;">
+
+			<ui:include src="ordineMetodoDiPagamento.xhtml" />
+
+		</p:fieldset>
+
+		<p:fieldset legend="Riepilogo Articoli" toggleable="true"
+			toggleSpeed="500">
+
+			<ui:include src="riepilogoCarrello.xhtml" />
+
+		</p:fieldset>
+
+	<div>
+
+		<p:panel id="basic" header="Effettua ordine" footer="Effettua ordine"
+			style="margin-bottom:20px;margin-top:4%">
+			<h:panelGrid columns="2" cellpadding="10">
+				<h:outputText value="Data di consegna prevista: " />
+				<h:outputText value="#{ordiniBean.dataConsegna}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+
+
+				<p:commandButton value="Procedi al checkout"
+					actionListener="#{ordiniBean.insertOrdine}" ajax="false" />
+
+			</h:panelGrid>
+		</p:panel>
+
+
+	</div>
+
+	</p:panel>
+	<div>
+
+		<p:panel rendered="#{ordiniBean.ordineEffettuato}">
+
+			<h:outputText value="#{ordiniBean.ordineEffettuatoMessage}" styleClass="preformatted"/>
+
+		</p:panel>
+
+	</div>
 
 
 </div>

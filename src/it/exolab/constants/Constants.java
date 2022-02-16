@@ -46,6 +46,7 @@ public class Constants {
 		public static final String INSERT_INDIRIZZO_SPEDIZIONE_SUCCESS = "Indirizzo di spedizione aggiunto con successo.";
 		public static final String DELETE_INDIRIZZO_SPEDIZIONE_SUCCESS = "Indirizzo di spedizione rimosso con successo.";
 		public static final String INSERT_METODO_PAGAMENTO_SUCCESS = "Metodo di pagamento inserito con successo.";
+		public static final String DELETE_METODO_DI_PAGAMENTO_SUCCESS = "Metodo di pagamento rimosso con successo.";
 	}
 	
 	public class Tabs {
@@ -82,5 +83,6 @@ public class Constants {
 	public static class  Ordini {
 		public static final List<String> STATI_ORDINE = new ArrayList<>( Arrays.asList("Ordinato" , "In spedizione" , "Spedito" , "Consegnato" , "Annullato"));
 		public static final List<String> CIRCUITI_ACCETTATI = new ArrayList<>(Arrays.asList("VISA","AMERICAN EXPRESS","MASTER CARD"));
+		public static final Long FOUR_DAYS_IN_MILLISECONDS = 345600000L;
 	}
 }

@@ -27,36 +27,89 @@
 
 	<h1>Carrello</h1>
 
-	<div id="carrello">
-		<p:dataList value="#{carrelloBean.articoli}" var="articolo"
-			type="ordered" style="width:25%; float:right;display:inline-block;paddind-bottom:2%">
-			<f:facet name="header">
+	<p:panel
+		rendered="#{carrelloBean.articoliEQuantita.size() == 0}">
+
+		<h:outputText
+			value="Al momento non sono presenti articoli nel tuo carrello, quando li aggiungerai saranno visibili in questa pagina." />
+
+	</p:panel>
+
+	<p:panel rendered="#{carrelloBean.articoliEQuantita.size() > 0}">
+		<div id="carrello">
+			<p:dataList value="#{carrelloBean.articoli}" var="articolo"
+				type="ordered"
+				style="width:25%; float:right;display:inline-block;paddind-bottom:2%">
+				<f:facet name="header">
 				Totale : € #{ carrelloBean.carrelloUtente.totale_ordine }
 			</f:facet>
-			<h:outputText
-				value="#{articolo.key.titolo_articolo} (#{articolo.value})" />
-			<h:outputText
-				value="#{articolo.key.prezzo_unitario * articolo.value}"
-				style="font-weight: bold;position: absolute;left: 92%;">
-				<f:convertNumber pattern="€0.00" locale="pt_BR" />
-			</h:outputText>
-			<f:facet  name="footer">
-				<p:commandButton value="Procedi all'Ordine" actionListener="#{ordiniBean.inizializzaOrdine}" ajax="false" />
-			</f:facet>
-		</p:dataList>
+				<h:outputText
+					value="#{articolo.key.titolo_articolo} (#{articolo.value})" />
+				<h:outputText
+					value="#{articolo.key.prezzo_unitario * articolo.value}"
+					style="font-weight: bold;position: absolute;left: 92%;">
+					<f:convertNumber pattern="€0.00" locale="pt_BR" />
+				</h:outputText>
+				<f:facet name="footer">
+					<p:commandButton value="Procedi all'Ordine"
+						actionListener="#{menuBean.setVisibileOrdine(true)}" ajax="false" />
+				</f:facet>
+			</p:dataList>
 
-		<div style="width: 70%;">
-			<p:dataView var="articoliEntry" value="#{carrelloBean.articoli}"
-				gridIcon="pi pi-th-large" listIcon="pi pi-bars">
-				<p:dataViewGridItem style="width:75%;">
-					<p:panel header="#{articoliEntry.key.id_articolo}"
-						style="text-align:center;height: 10%;" id="carrelloMenu">
-						<h:panelGrid columns="1">
-							<img 
+			<div style="width: 70%;">
+				<p:dataView var="articoliEntry" value="#{carrelloBean.articoli}"
+					gridIcon="pi pi-th-large" listIcon="pi pi-bars">
+					<p:dataViewGridItem style="width:75%;">
+						<p:panel header="#{articoliEntry.key.id_articolo}"
+							style="text-align:center;height: 10%;" id="carrelloMenu">
+							<h:panelGrid columns="1">
+								<img
+									src="data:image/jpg;base64, #{articoliBean.articoloEImmagini.get(articoliEntry.key).get(0)}"
+									alt="Immagine non trovata" style="width: 250px; height: 250px;" />
+
+								<h:outputText value="#{articoliEntry.key.titolo_articolo}" />
+
+								<p:commandLink update="menuForm:tabView:articoloDetail"
+									oncomplete="PF('articoloDettaglio').show()"
+									title="Visualizza Dettagli">
+									<f:setPropertyActionListener value="#{articoliEntry.key}"
+										target="#{articoliBean.articoloSelezionato}" />
+								</p:commandLink>
+							</h:panelGrid>
+						</p:panel>
+					</p:dataViewGridItem>
+
+					<p:dataViewListItem>
+						<h:panelGrid columns="3" style="width:70%"
+							columnClasses="logo,detail">
+							<img
 								src="data:image/jpg;base64, #{articoliBean.articoloEImmagini.get(articoliEntry.key).get(0)}"
 								alt="Immagine non trovata" style="width: 250px; height: 250px;" />
 
-							<h:outputText value="#{articoliEntry.key.titolo_articolo}" />
+							<p:outputPanel>
+								<h:panelGrid columns="2" cellpadding="5">
+									<h:outputText value="Id:" />
+									<h:outputText value="#{articoliEntry.key.id_articolo}"
+										style="font-weight: bold" />
+
+									<h:outputText value="Nome:" />
+									<h:outputText value="#{articoliEntry.key.titolo_articolo}"
+										style="font-weight: bold" />
+
+									<h:outputText value="Prezzo:" />
+									<h:outputText value="€ #{articoliEntry.key.prezzo_unitario}"
+										style="font-weight: bold" />
+
+									<h:outputText value="Quantità:" />
+									<h:outputText value="#{articoliEntry.value}"
+										style="font-weight: bold" />
+
+									<p:commandButton value="Rimuovi" ajax="false"
+										action="#{carrelloBean.rimuoviArticolo(articoliEntry.key)}">
+
+									</p:commandButton>
+								</h:panelGrid>
+							</p:outputPanel>
 
 							<p:commandLink update="menuForm:tabView:articoloDetail"
 								oncomplete="PF('articoloDettaglio').show()"
@@ -65,52 +118,11 @@
 									target="#{articoliBean.articoloSelezionato}" />
 							</p:commandLink>
 						</h:panelGrid>
-					</p:panel>
-				</p:dataViewGridItem>
-
-				<p:dataViewListItem>
-					<h:panelGrid columns="3" style="width:70%"
-						columnClasses="logo,detail">
-						<img
-							src="data:image/jpg;base64, #{articoliBean.articoloEImmagini.get(articoliEntry.key).get(0)}"
-							alt="Immagine non trovata" style="width: 250px; height: 250px;" />
-
-						<p:outputPanel>
-							<h:panelGrid columns="2" cellpadding="5">
-								<h:outputText value="Id:" />
-								<h:outputText value="#{articoliEntry.key.id_articolo}"
-									style="font-weight: bold" />
-
-								<h:outputText value="Nome:" />
-								<h:outputText value="#{articoliEntry.key.titolo_articolo}"
-									style="font-weight: bold" />
-
-								<h:outputText value="Prezzo:" />
-								<h:outputText value="€ #{articoliEntry.key.prezzo_unitario}"
-									style="font-weight: bold" />
-
-								<h:outputText value="Quantità:" />
-								<h:outputText value="#{articoliEntry.value}"
-									style="font-weight: bold" />
-
-								<p:commandButton value="Rimuovi" ajax="false"
-									action="#{carrelloBean.rimuoviArticolo(articoliEntry.key)}">
-
-								</p:commandButton>
-							</h:panelGrid>
-						</p:outputPanel>
-
-						<p:commandLink update="menuForm:tabView:articoloDetail"
-							oncomplete="PF('articoloDettaglio').show()"
-							title="Visualizza Dettagli">
-							<f:setPropertyActionListener value="#{articoliEntry.key}"
-								target="#{articoliBean.articoloSelezionato}" />
-						</p:commandLink>
-					</h:panelGrid>
-				</p:dataViewListItem>
-			</p:dataView>
+					</p:dataViewListItem>
+				</p:dataView>
+			</div>
 		</div>
-	</div>
+	</p:panel>
 
 
 

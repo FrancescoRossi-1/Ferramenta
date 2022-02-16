@@ -8,7 +8,7 @@
 <h:head>
 	<script type="text/javascript"
 		src="https://maps.google.com/maps/api/js?sensor=true"></script>
-	<h:outputStylesheet name="css/style.css" library="css" />
+	<h:outputStylesheet name="style.css" library="css" />
 </h:head>
 
 <h:body>
@@ -70,7 +70,7 @@
 				<ui:include src="/pages/carrello.xhtml" />
 			</p:tab>
 			<p:tab title="Ordine" id="tabOrdine" icon="pi shopping-cart"
-				rendered="#{ordiniBean.visibile}">
+				rendered="#{menuBean.visibileOrdine}">
 				<ui:include src="/pages/ordine.xhtml" />
 			</p:tab>
 

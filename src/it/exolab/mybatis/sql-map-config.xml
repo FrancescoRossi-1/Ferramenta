@@ -31,5 +31,7 @@
 		<mapper class="it.exolab.mapper.CarrelloEArticoloMapper" />
 		<mapper class="it.exolab.mapper.CartaDiCreditoMapper" />
 		<mapper class="it.exolab.mapper.IndirizzoDiSpedizioneMapper" />
+		<mapper class="it.exolab.mapper.OrdineMapper" />
+		<mapper class="it.exolab.mapper.DettagliOrdineMapper" />
 	</mappers>
 </configuration>

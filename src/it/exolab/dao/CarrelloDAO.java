@@ -44,4 +44,11 @@ public class CarrelloDAO {
 		MainDAO.closeTransaction();
 	}
 
+	public void deleteFromUserId(Carrello carrello) {
+		MainDAO.beginTransaction();
+		MainDAO.getCarrelloMapper().deleteFromUserId(carrello);
+		SqlMapFactory.instance().commitSession();
+		MainDAO.closeTransaction();
+	}
+
 }

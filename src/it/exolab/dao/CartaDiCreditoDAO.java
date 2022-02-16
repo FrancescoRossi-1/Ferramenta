@@ -35,4 +35,11 @@ public class CartaDiCreditoDAO {
 
 	}
 
+	public void deleteCartaDiCreditoFromId(CartaDiCredito cartaDiCredito) {
+		MainDAO.beginTransaction();
+		MainDAO.getCartaDiCreditoMapper().deleteCartaDiCreditoFromId(cartaDiCredito);
+		SqlMapFactory.instance().commitSession();
+		MainDAO.closeTransaction();
+	}
+
 }

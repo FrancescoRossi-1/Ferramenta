@@ -43,6 +43,13 @@ public class CarrelloEArticoloDAO {
 		SqlMapFactory.instance().commitSession();
 		MainDAO.closeTransaction();
 	}
+
+	public void deleteAllFromCarrelloId(Carrello carrello) {
+		MainDAO.beginTransaction();
+		MainDAO.getCarrelloEArticoloMapper().deleteAllFromCarrelloId(carrello);
+		SqlMapFactory.instance().commitSession();
+		MainDAO.closeTransaction();
+	}
 	
 	
 }

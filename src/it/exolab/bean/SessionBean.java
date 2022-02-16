@@ -21,10 +21,11 @@ public class SessionBean implements Serializable {
 	
 	private UtentePOJO loggedUser = null; //user in sessione, se null l'utente non è loggato
 
+	
 	private Boolean loading = false;
 	private String successMessage = null;
 	private String errorMessage = null;
-	
+		
 	public void logout() {
 		System.out.println("Logout.");
 		this.loggedUser = null;
@@ -37,6 +38,8 @@ public class SessionBean implements Serializable {
 	public void setLoggedUser(UtentePOJO loggedUser) {
 		this.loggedUser = loggedUser;
 	}
+
+
 
 	public Boolean getLoading() {
 		return loading;
@@ -53,6 +56,11 @@ public class SessionBean implements Serializable {
 	}
 
 	public void setSuccessMessage(String successMessage) {
+		
+		if(this.errorMessage != null) {
+			this.errorMessage = null;
+		}
+		
 		this.successMessage = successMessage;
 		PrimeFaces.current().ajax().update("messageDiv");
 	}
@@ -62,6 +70,11 @@ public class SessionBean implements Serializable {
 	}
 
 	public void setErrorMessage(String errorMessage) {
+		
+		if(this.successMessage != null) {
+			this.successMessage = null;
+		}
+		
 		this.errorMessage = errorMessage;
 		PrimeFaces.current().ajax().update("messageDiv");
 	}

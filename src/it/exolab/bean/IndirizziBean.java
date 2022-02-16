@@ -66,8 +66,10 @@ public class IndirizziBean implements Serializable {
 			addIndirizzo.setId_provincia(provinceBean.getIdProvinciaSelezionata());
 			IndirizzoDAO.getInstance().insertAddress(addIndirizzo,provinceBean.getIdProvinciaSelezionata());
 			id_indirizzo = addIndirizzo.getId_indirizzo();
-
+			
 		}
+		
+		init(); //ricarica gli indirizzi
 
 		return id_indirizzo;
 
