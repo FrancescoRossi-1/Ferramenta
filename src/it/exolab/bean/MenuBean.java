@@ -35,6 +35,7 @@ public class MenuBean implements Serializable {
 	public void onTabChangeInserimento(TabChangeEvent<?> event) {
 		
 		log.info("--->>>OnTabChange");
+		log.error("errore");
 
 		//checkMessaggiDaEliminare
 		if(sessionBean.getSuccessMessage() != null) {
