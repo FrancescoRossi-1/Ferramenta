@@ -12,8 +12,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -27,7 +25,6 @@ import org.primefaces.model.StreamedContent;
 import it.exolab.constants.Constants;
 import it.exolab.dto.Articolo;
 import it.exolab.dto.Ordine;
-import it.exolab.dto.Utente;
 import it.exolab.pojo.UtentePOJO;
 
 

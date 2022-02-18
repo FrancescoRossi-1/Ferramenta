@@ -18,8 +18,6 @@ import javax.faces.context.FacesContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
-import org.primefaces.component.api.IterationStatus;
-
 import it.exolab.constants.Constants;
 import it.exolab.dao.AllegatoDAO;
 import it.exolab.dao.ArticoloDAO;

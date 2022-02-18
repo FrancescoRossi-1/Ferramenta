@@ -13,7 +13,6 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import it.exolab.dto.Articolo;
-import it.exolab.dto.DettagliOrdine;
 import it.exolab.dto.Ordine;
 
 public interface ArticoloMapper {

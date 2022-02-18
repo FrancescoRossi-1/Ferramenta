@@ -19,7 +19,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-import org.apache.logging.log4j.LogBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
@@ -32,7 +31,6 @@ import it.exolab.dao.IndirizzoDiSpedizioneDAO;
 import it.exolab.dao.OrdineDAO;
 import it.exolab.dto.Articolo;
 import it.exolab.dto.CartaDiCredito;
-import it.exolab.dto.DettagliOrdine;
 import it.exolab.dto.Indirizzo;
 import it.exolab.dto.IndirizzoDiSpedizione;
 import it.exolab.dto.Ordine;
