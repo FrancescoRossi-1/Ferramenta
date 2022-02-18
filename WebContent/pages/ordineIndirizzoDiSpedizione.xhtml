@@ -68,50 +68,49 @@
 			<p:tab title="Aggiungi un indirizzo">
 				<p>Inserisci un nuovo indirizzo di spedizione</p>
 				<p:panelGrid id="gridIndirizzoDiSpedizione">
-					<p:row>
-						<p:column>
-							<p:outputLabel for="provinciaIndirizzoSpedizione"
-								value="Provincia" />
-						</p:column>
-						<p:column>
-							<p:selectOneMenu id="provinciaIndirizzoSpedizione"
-								value="#{provinceBean.idProvinciaSelezionata}">
-								<f:selectItem itemLabel="Seleziona una scelta"
-									itemValue="#{null}" />
-								<f:selectItems value="#{provinceBean.allProvince}" var="item"
-									itemLabel="#{item.nome_province}"
-									itemValue="#{item.id_province}" />
-							</p:selectOneMenu>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column>
-							<p:outputLabel for="viaIndirizzoSpedizione" value="Via" />
-						</p:column>
-						<p:column>
-							<p:inputText id="viaIndirizzoSpedizione"
-								value="#{ordiniBean.addIndirizzo.via}" />
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column>
-							<p:outputLabel for="nCivicoIndirizzoSpedizione"
-								value="Numero Civico" />
-						</p:column>
-						<p:column>
-							<p:inputText id="nCivicoIndirizzoSpedizione"
-								value="#{ordiniBean.addIndirizzo.n_civico}" />
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column>
-							<p:outputLabel for="capIndirizzoSpedizione" value="CAP" />
-						</p:column>
-						<p:column>
-							<p:inputText id="capIndirizzoSpedizione"
-								value="#{ordiniBean.addIndirizzo.cap}" />
-						</p:column>
-					</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="provinciaIndirizzoDiSpedizione" value="Provincia" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="provinciaIndirizzoDiSpedizione"
+							value="#{provinceBean.idProvinciaSelezionata}">
+							<f:selectItem itemLabel="Seleziona una scelta"
+								itemValue="#{null}" />
+							<f:selectItems value="#{provinceBean.allProvince}" var="item"
+								itemLabel="#{item.nome_province}"
+								itemValue="#{item.id_province}" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="viaIndirizzoDiSpedizione" value="Via" />
+					</p:column>
+					<p:column>
+						<p:inputText id="viaIndirizzoDiSpedizione"
+							value="#{ordiniBean.addIndirizzoSpedizione.via}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="nCivicoIndirizzoDiSpedizione"
+							value="Numero Civico" />
+					</p:column>
+					<p:column>
+						<p:inputText id="nCivicoIndirizzoDiSpedizione"
+							value="#{ordiniBean.addIndirizzoSpedizione.n_civico}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="capIndirizzoDiSpedizione" value="CAP" />
+					</p:column>
+					<p:column>
+						<p:inputText id="capIndirizzoDiSpedizione"
+							value="#{ordiniBean.addIndirizzoSpedizione.cap}" />
+					</p:column>
+				</p:row>
 					<p:row>
 						<p:column>
 							<p:outputLabel for="scalaIndirizzoSpedizione" value="Scala" />

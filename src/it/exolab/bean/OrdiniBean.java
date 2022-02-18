@@ -63,7 +63,8 @@ public class OrdiniBean implements Serializable {
 	@ManagedProperty ( "#{indirizziBean}" )
 	private IndirizziBean indirizziBean;
 	
-	private Indirizzo addIndirizzo;
+	private Indirizzo addIndirizzoOrdine;
+	private Indirizzo addIndirizzoSpedizione;
 
 	private List<CartaDiCredito> allCarteDiCredito;
 	private List<CartaDiCredito> allCarteDiCreditoUtente;
@@ -101,17 +102,23 @@ public class OrdiniBean implements Serializable {
 	@PostConstruct
 	public void init() {
 
+		/*Istanze e inizializzazioni*/
 		ordineEffettuato = false;
 		ordineEffettuatoMessage = null;
 
 		addOrdine = new Ordine();
-		addIndirizzo = new Indirizzo();
+		addIndirizzoOrdine = new Indirizzo();
+		addIndirizzoSpedizione = new Indirizzo();
 		addCartaDiCredito = new CartaDiCredito();
 		cartaDiCreditoEIndirizzoFatturazione = new HashMap<>();
-		allCarteDiCredito = CartaDiCreditoDAO.getInstance().findAllCarte(); //estrazione di tutte le carte di credito
-		allCarteDiCreditoUtente = CartaDiCreditoDAO.getInstance().findAllByUserId(sessionBean.getLoggedUser()); //estrazione delle carte di credito dell'utente
+		addIndirizzoDiSpedizione = new IndirizzoDiSpedizione();
+		indirizzoDiSpedizioneSelezionato = new IndirizzoDiSpedizionePOJO();
+		indirizzoEIndirizzoSpedizioneUtente = new HashMap<>();
 		cartaDiCreditoSelezionata = new CartaDiCreditoPOJO();
 		allOrdiniAndDettagli = new HashMap<>();
+		
+		allCarteDiCredito = CartaDiCreditoDAO.getInstance().findAllCarte(); //estrazione di tutte le carte di credito
+		allCarteDiCreditoUtente = CartaDiCreditoDAO.getInstance().findAllByUserId(sessionBean.getLoggedUser()); //estrazione delle carte di credito dell'utente
 
 		for ( Indirizzo indirizzo : indirizziBean.getAllIndirizzi() ) {
 			for (CartaDiCredito cartaDiCredito : allCarteDiCreditoUtente) {
@@ -132,16 +139,10 @@ public class OrdiniBean implements Serializable {
 		anniScadenza = IntStream.rangeClosed( thisYear , maxYear ).boxed().collect(Collectors.toList());
 
 
-		addIndirizzo = new Indirizzo();
-		addIndirizzoDiSpedizione = new IndirizzoDiSpedizione();
-		indirizzoDiSpedizioneSelezionato = new IndirizzoDiSpedizionePOJO();
-		indirizzoEIndirizzoSpedizioneUtente = new HashMap<>();
-
 		/*Estrapola orini e dettagli*/
 		allOrdini = OrdineDAO.getInstance().findAllOrdini();
 		allDettagliOrdine = DettagliOrdineDAO.getInstance().findAllDettagliOrdini();
-		
-		allDettagliOrdine.forEach( dett -> log.info("Dett : " + dett));
+
 
 		/*Inizializzazione mappa con ordini e dettagli*/
 		for (OrdinePOJO ordine : allOrdini) {
@@ -157,22 +158,6 @@ public class OrdiniBean implements Serializable {
 			}
 		}
 		
-		/*Stampa Ordini*/
-		
-		Iterator<Entry<OrdinePOJO, List<DettagliOrdinePOJO>>> iter = allOrdiniAndDettagli.entrySet().iterator();
-		
-		while(iter.hasNext()) {
-			
-			Map.Entry<OrdinePOJO,List<DettagliOrdinePOJO>> entry = iter.next();
-			
-			log.info("Ordine: " + entry.getKey().toString() );
-			for (DettagliOrdinePOJO dettagliOrdine : entry.getValue()) {
-				log.info("Dettaglio: " + dettagliOrdine.toString());
-			}
-		}
-		
-		/////////////////////
-		
 		Set<Map.Entry<OrdinePOJO, List<DettagliOrdinePOJO>>> ordiniEDettagliSet = allOrdiniAndDettagli.entrySet();
 		allOrdiniAndDettagliEntry = new ArrayList<Map.Entry<OrdinePOJO,List<DettagliOrdinePOJO>>>(ordiniEDettagliSet);
 
@@ -187,8 +172,6 @@ public class OrdiniBean implements Serializable {
 				}
 			}
 		}
-
-
 
 		Set<Map.Entry<Indirizzo, IndirizzoDiSpedizione>> indirizziSet = indirizzoEIndirizzoSpedizioneUtente.entrySet();
 		indirizziMap = new ArrayList<Map.Entry<Indirizzo,IndirizzoDiSpedizione>>(indirizziSet);
@@ -264,10 +247,10 @@ public class OrdiniBean implements Serializable {
 
 		IndirizzoPOJO indirizzo = indirizzoDiSpedizioneSelezionato.getIndirizzoDiRiferimento();
 
-		message += "presso il seguente indirizzo: " + indirizzo.getVia() + " " + indirizzo.getNCivico() + " , " +  indirizzo.getCap() + "." ;
+		message += "presso il seguente indirizzo: " + indirizzo.getVia() + " " + indirizzo.getNCivico() + " , " +  indirizzo.getCap() + ".\n" ;
 
 
-		message += "La data prevista per la consegna è per il: " + new SimpleDateFormat().format(dataConsegna) + "." ;
+		message += "La data prevista per la consegna è per il: " + new SimpleDateFormat().format(dataConsegna) + ".\n" ;
 
 		ordineEffettuatoMessage = message;
 
@@ -278,8 +261,10 @@ public class OrdiniBean implements Serializable {
 		try {
 
 			ValidationService.checkParametersIndirizzoDiSpedizione(addIndirizzoDiSpedizione); //validazione
+			
+			//TODO CHECK BUG NON INSERISCE ID PROVINCIA E CAP
 
-			indirizziBean.setAddIndirizzo(addIndirizzo);
+			indirizziBean.setAddIndirizzo(addIndirizzoSpedizione);
 
 			log.info(indirizziBean.getAddIndirizzo().toString());
 			Long idIndirizzo = indirizziBean.insertIndirizzo();
@@ -332,7 +317,7 @@ public class OrdiniBean implements Serializable {
 
 			addCartaDiCredito.setId_utente(sessionBean.getLoggedUser().getId());
 
-			indirizziBean.setAddIndirizzo(addIndirizzo);
+			indirizziBean.setAddIndirizzo(addIndirizzoOrdine);
 			Long idIndirizzo = indirizziBean.insertIndirizzo();
 			addCartaDiCredito.setId_indirizzo_fatturazione(idIndirizzo);
 
@@ -502,12 +487,20 @@ public class OrdiniBean implements Serializable {
 		this.anniScadenza = anniScadenza;
 	}
 
-	public Indirizzo getAddIndirizzo() {
-		return addIndirizzo;
+	public Indirizzo getAddIndirizzoOrdine() {
+		return addIndirizzoOrdine;
 	}
 
-	public void setAddIndirizzo(Indirizzo addIndirizzo) {
-		this.addIndirizzo = addIndirizzo;
+	public void setAddIndirizzoOrdine(Indirizzo addIndirizzoOrdine) {
+		this.addIndirizzoOrdine = addIndirizzoOrdine;
+	}
+
+	public Indirizzo getAddIndirizzoSpedizione() {
+		return addIndirizzoSpedizione;
+	}
+
+	public void setAddIndirizzoSpedizione(Indirizzo addIndirizzoSpedizione) {
+		this.addIndirizzoSpedizione = addIndirizzoSpedizione;
 	}
 
 	public CartaDiCreditoPOJO getCartaDiCreditoSelezionata() {
