@@ -42,7 +42,7 @@ public class LoginBean implements Serializable {
 
 		try {
 			
-			sessionBean.setLoading(true);
+			log.info("######## inizio login");
 			
 			ValidationService.checkParametersLogin(loginUser);
 			ValidationService.checkExistingUserLogin(loginUser);
@@ -52,7 +52,7 @@ public class LoginBean implements Serializable {
 			sessionBean.setLoggedUser(loggedUser);			
 			sessionBean.setSuccessMessage(Constants.Messages.LOGIN_AVVENUTO);
 			
-			sessionBean.setLoading(false);
+			log.info("########## login OK");
 
 		} catch ( CampoRichiesto cr ) {
 			sessionBean.setErrorMessage(cr.getMessage());	
@@ -64,7 +64,7 @@ public class LoginBean implements Serializable {
 		} catch ( Exception e ) {
 
 			sessionBean.setErrorMessage(Constants.ExceptionMessages.UNKNOWN_ERROR);
-			log.info(e.getMessage(), e);
+			log.info(e.getMessage());
 
 		}
 

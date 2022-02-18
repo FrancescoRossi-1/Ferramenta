@@ -35,20 +35,6 @@ public class MenuBean implements Serializable {
 	public void onTabChangeInserimento(TabChangeEvent<?> event) {
 		
 		log.info("--->>>OnTabChange");
-		log.error("errore");
-
-		//checkMessaggiDaEliminare
-		if(sessionBean.getSuccessMessage() != null) {
-			sessionBean.setSuccessMessage(null);
-			PrimeFaces.current().ajax().update("menuForm");
-			log.info("Messaggio successo settato null.");
-		}
-		
-		if(sessionBean.getErrorMessage() != null) {
-			sessionBean.setErrorMessage(null);
-			PrimeFaces.current().ajax().update("menuForm");
-			log.info("Messaggio successo settato null.");
-		}
 		
 		String currentTabId = event.getTab().getId();
 		log.info("Current tab id: " + event.getTab().getId());

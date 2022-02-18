@@ -2,8 +2,10 @@ package it.exolab.bean;
 
 import java.io.Serializable;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,11 +23,6 @@ public class SessionBean implements Serializable {
 	static Logger log = LogManager.getLogger(SessionBean.class); 
 	
 	private UtentePOJO loggedUser = null; //user in sessione, se null l'utente non è loggato
-
-	
-	private Boolean loading = false;
-	private String successMessage = null;
-	private String errorMessage = null;
 		
 	public void logout() {
 		System.out.println("Logout.");
@@ -40,44 +37,12 @@ public class SessionBean implements Serializable {
 		this.loggedUser = loggedUser;
 	}
 
-
-
-	public Boolean getLoading() {
-		return loading;
-	}
-
-	public void setLoading(Boolean loading) {
-		this.loading = loading;
-		PrimeFaces.current().ajax().update("menuForm:loading");
-		log.info("->>>LOADING");
-	}
-
-	public String getSuccessMessage() {
-		return successMessage;
-	}
-
 	public void setSuccessMessage(String successMessage) {
-		
-		if(this.errorMessage != null) {
-			this.errorMessage = null;
-		}
-		
-		this.successMessage = successMessage;
-		PrimeFaces.current().ajax().update("messageDiv");
-	}
-
-	public String getErrorMessage() {
-		return errorMessage;
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", successMessage));
 	}
 
 	public void setErrorMessage(String errorMessage) {
-		
-		if(this.successMessage != null) {
-			this.successMessage = null;
-		}
-		
-		this.errorMessage = errorMessage;
-		PrimeFaces.current().ajax().update("messageDiv");
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Errore", errorMessage));
 	}
 
 }

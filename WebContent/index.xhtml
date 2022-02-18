@@ -34,26 +34,11 @@ function stop() {
 
 		<p:layoutUnit position="center" size="2500" maxSize="2500">
 			<div class="">
-
+				<p:messages id="messages" showDetail="true" closable="true">
+					<p:autoUpdate />
+				</p:messages>
 				<h:form id="menuForm" enctype="multipart/form-data">
 					<p:tabView id="tabView" activeIndex="#{menuBean.tabIndex}">
-						<p:outputPanel id="loading"
-							rendered="#{sessionBean.loading == true}" styleClass="loading">
-						Loading
-					</p:outputPanel>
-						<p:outputPanel rendered="#{sessionBean.errorMessage != null}"
-							id="messaggioSuccesso"
-							style="margin-left: auto; margin-right: auto;">
-							<p:staticMessage severity="error" summary="ERRORE!"
-								detail="#{sessionBean.errorMessage} " />
-						</p:outputPanel>
-						<p:outputPanel rendered="#{sessionBean.successMessage != null}"
-							id="messaggioErrore"
-							style="margin-left: auto; margin-right: auto;">
-							<p:staticMessage severity="info" summary="Successo!"
-								detail="#{sessionBean.successMessage}" />
-						</p:outputPanel>
-
 						<p:ajax event="tabChange"
 							listener="#{menuBean.onTabChangeInserimento}" />
 						<p:tab title="Home" id="tabHome">
