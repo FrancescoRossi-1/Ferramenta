@@ -72,7 +72,7 @@ public class ReportBean implements Serializable {
 			for( colNum = 0 ; colNum < 7; colNum ++ ) {
 				XSSFCell cell = row.createCell(colNum);
 				
-				cell.setCellStyle(subTitleStyle);
+				//cell.setCellStyle(subTitleStyle);
 				
 				switch ( colNum ) {
 				case 0:
@@ -122,10 +122,10 @@ public class ReportBean implements Serializable {
 					cell.setCellValue(ordine.getTotale_ordine());
 					break;
 				case 5:
-					cell.setCellValue(formatter.format(ordine.getData_ordine()));
+					//cell.setCellValue(formatter.format(ordine.getData_ordine()));
 					break;
 				case 6:
-					cell.setCellValue(formatter.format(ordine.getData_consegna()));
+					//cell.setCellValue(formatter.format(ordine.getData_consegna()));
 				}
 			}
 			

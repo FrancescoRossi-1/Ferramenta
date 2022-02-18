@@ -5,9 +5,20 @@
 	version="4.0">
 	<display-name>FerramentaWEB</display-name>
 
+    <listener>
+        <listener-class>org.apache.logging.log4j.web.Log4jServletContextListener</listener-class>
+    </listener>
+        <filter-mapping>
+        <filter-name>log4jServletFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
 	<context-param>
-		<param-name>log4j-config-location</param-name>
-		<param-value>WEB-INF/log4j.properties</param-value>
+		<param-name>log4jConfiguration</param-name>
+		<param-value>WEB-INF/log4j2.xml</param-value>
 	</context-param>
 
 
