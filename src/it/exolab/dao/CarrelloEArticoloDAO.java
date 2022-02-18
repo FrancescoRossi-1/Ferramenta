@@ -1,8 +1,11 @@
 package it.exolab.dao;
 
 import java.util.List;
-import org.apache.log4j.Logger;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import it.exolab.bean.OrdiniBean;
 import it.exolab.dto.Articolo;
 import it.exolab.dto.Carrello;
 import it.exolab.dto.CarrelloEArticolo;
@@ -10,7 +13,7 @@ import it.exolab.mybatis.SqlMapFactory;
 
 public class CarrelloEArticoloDAO {
 	
-	static Logger log = Logger.getLogger(CarrelloEArticolo.class);
+	static Logger log = LogManager.getLogger(OrdiniBean.class);
  
 	private static CarrelloEArticoloDAO instance = null;
 	

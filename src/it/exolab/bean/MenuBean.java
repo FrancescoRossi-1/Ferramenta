@@ -8,7 +8,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.TabChangeEvent;
 
@@ -21,7 +22,7 @@ public class MenuBean implements Serializable {
 
 	private static final long serialVersionUID = -4793276709821120300L;
 
-	private final static Logger log = Logger.getLogger(MenuBean.class);
+	private final static Logger log = LogManager.getLogger(MenuBean.class);
 	
 	@ManagedProperty("#{sessionBean}")
 	private SessionBean sessionBean;

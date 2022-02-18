@@ -2,6 +2,7 @@ package it.exolab.pojo;
 
 import java.util.Date;
 
+import it.exolab.dto.Carrello;
 import lombok.Data;
 import lombok.ToString;
 
@@ -19,5 +20,6 @@ public class UtentePOJO {
 	private Date dataIscrizione;
 	private Boolean isAdmin;
 	private IndirizzoPOJO indirizzoResidenza;
+	private Carrello carrelloDiRiferimento;
 
 }

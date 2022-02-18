@@ -1,7 +1,10 @@
 package it.exolab.dao;
 
+import java.util.List;
+
 import it.exolab.dto.Ordine;
 import it.exolab.mybatis.SqlMapFactory;
+import it.exolab.pojo.OrdinePOJO;
 
 public class OrdineDAO {
 	
@@ -21,6 +24,13 @@ public class OrdineDAO {
 		MainDAO.getOrdineMapper().insertOrdine(ordine);
 		SqlMapFactory.instance().commitSession();
 		MainDAO.closeTransaction();
+	}
+
+	public List<OrdinePOJO> findAllOrdini() {
+		MainDAO.beginTransaction();
+		List<OrdinePOJO> extrapolatedOrdini = MainDAO.getOrdineMapper().findAllOrdini();
+		MainDAO.closeTransaction();
+		return extrapolatedOrdini;
 	}
 	
 }

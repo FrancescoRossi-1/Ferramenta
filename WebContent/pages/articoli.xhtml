@@ -101,7 +101,7 @@
 				style="width: 25%"
 				rendered="#{articoliBean.articoloSelezionato.quantita_disponibile > 0}" />
 
-			<p:commandButton value="Aggiungi al carrello"
+			<p:commandButton value="Aggiungi al carrello" 
 				actionListener="#{carrelloBean.insertArticoloInCarrello}"
 				ajax="false"
 				rendered="#{articoliBean.articoloSelezionato.quantita_disponibile > 0}" />

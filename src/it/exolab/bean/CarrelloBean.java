@@ -12,11 +12,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
 
 import it.exolab.constants.Constants;
-import it.exolab.dao.ArticoloDAO;
 import it.exolab.dao.CarrelloDAO;
 import it.exolab.dao.CarrelloEArticoloDAO;
 import it.exolab.dao.UtenteDAO;
@@ -34,7 +34,7 @@ public class CarrelloBean implements Serializable {
 
 	private static final long serialVersionUID = 6699902300057086453L;
 
-	static Logger log = Logger.getLogger( CarrelloBean.class );
+	static Logger log = LogManager.getLogger( CarrelloBean.class );
 
 	private Carrello carrelloUtente;
 	private List<CarrelloEArticolo> righeUtente;
@@ -96,6 +96,7 @@ public class CarrelloBean implements Serializable {
 			init();
 
 			sessionBean.setSuccessMessage(Constants.Messages.SUCCESSFULLY_INSERTED_PRODUCT_SHOPPING_CART);
+			articoliBean.setQuantitaArticolo(0);
 
 		} catch ( OggettoEsistente oe ) {
 

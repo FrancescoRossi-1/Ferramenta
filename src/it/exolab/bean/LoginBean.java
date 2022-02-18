@@ -7,8 +7,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-import org.apache.log4j.Logger;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import it.exolab.constants.Constants;
 import it.exolab.dao.UtenteDAO;
 import it.exolab.dto.Utente;
@@ -22,7 +22,7 @@ import it.exolab.service.ValidationService;
 @SessionScoped
 public class LoginBean implements Serializable {
 
-	static Logger log = Logger.getLogger(LoginBean.class); 
+	static Logger log = LogManager.getLogger(LoginBean.class); 
 
 	private static final long serialVersionUID = 8439937226512877090L;
 

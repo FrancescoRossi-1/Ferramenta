@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -18,7 +19,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
 
 import it.exolab.constants.Constants;
@@ -29,6 +32,7 @@ import it.exolab.dao.IndirizzoDiSpedizioneDAO;
 import it.exolab.dao.OrdineDAO;
 import it.exolab.dto.Articolo;
 import it.exolab.dto.CartaDiCredito;
+import it.exolab.dto.DettagliOrdine;
 import it.exolab.dto.Indirizzo;
 import it.exolab.dto.IndirizzoDiSpedizione;
 import it.exolab.dto.Ordine;
@@ -36,7 +40,11 @@ import it.exolab.exception.CampoRichiesto;
 import it.exolab.exception.FormatoErrato;
 import it.exolab.exception.OggettoEsistente;
 import it.exolab.pojo.CartaDiCreditoPOJO;
+import it.exolab.pojo.DettagliOrdinePOJO;
 import it.exolab.pojo.IndirizzoDiSpedizionePOJO;
+import it.exolab.pojo.IndirizzoPOJO;
+import it.exolab.pojo.OrdinePOJO;
+import it.exolab.pojo.ProvinciaPOJO;
 import it.exolab.service.ValidationService;
 
 @SuppressWarnings( "deprecation" )
@@ -46,18 +54,20 @@ public class OrdiniBean implements Serializable {
 
 	private static final long serialVersionUID = -7859175842297874565L;
 
-	static Logger log = Logger.getLogger(OrdiniBean.class);
+	static Logger log = LogManager.getLogger(OrdiniBean.class);
 
 	@ManagedProperty("#{sessionBean}")
-	SessionBean sessionBean;
+	private SessionBean sessionBean;
 
 	@ManagedProperty("#{carrelloBean}")
-	CarrelloBean carrelloBean;
+	private CarrelloBean carrelloBean;
 
 	@ManagedProperty ( "#{indirizziBean}" )
 	private IndirizziBean indirizziBean;
+	
 	private Indirizzo addIndirizzo;
 
+	private List<CartaDiCredito> allCarteDiCredito;
 	private List<CartaDiCredito> allCarteDiCreditoUtente;
 	private Map<CartaDiCredito, Indirizzo> cartaDiCreditoEIndirizzoFatturazione;
 	private ArrayList<Map.Entry<CartaDiCredito,Indirizzo>> cartaDiCreditoMap;
@@ -78,7 +88,12 @@ public class OrdiniBean implements Serializable {
 	private IndirizzoDiSpedizione addIndirizzoDiSpedizione;
 	private IndirizzoDiSpedizionePOJO indirizzoDiSpedizioneSelezionato;
 
-	private List<Ordine> allOrdini;
+	private List<OrdinePOJO> allOrdini;
+	private List<DettagliOrdinePOJO> allDettagliOrdine;
+
+	private Map<OrdinePOJO,List<DettagliOrdinePOJO>> allOrdiniAndDettagli;
+	private ArrayList<Map.Entry<OrdinePOJO,List<DettagliOrdinePOJO>>> allOrdiniAndDettagliEntry;
+
 	private Ordine addOrdine;
 	private Date dataConsegna; 
 
@@ -95,8 +110,10 @@ public class OrdiniBean implements Serializable {
 		addIndirizzo = new Indirizzo();
 		addCartaDiCredito = new CartaDiCredito();
 		cartaDiCreditoEIndirizzoFatturazione = new HashMap<>();
+		allCarteDiCredito = CartaDiCreditoDAO.getInstance().findAllCarte(); //estrazione di tutte le carte di credito
 		allCarteDiCreditoUtente = CartaDiCreditoDAO.getInstance().findAllByUserId(sessionBean.getLoggedUser()); //estrazione delle carte di credito dell'utente
 		cartaDiCreditoSelezionata = new CartaDiCreditoPOJO();
+		allOrdiniAndDettagli = new HashMap<>();
 
 		for ( Indirizzo indirizzo : indirizziBean.getAllIndirizzi() ) {
 			for (CartaDiCredito cartaDiCredito : allCarteDiCreditoUtente) {
@@ -122,7 +139,46 @@ public class OrdiniBean implements Serializable {
 		indirizzoDiSpedizioneSelezionato = new IndirizzoDiSpedizionePOJO();
 		indirizzoEIndirizzoSpedizioneUtente = new HashMap<>();
 
-		allIndirizziDiSpedizione = IndirizzoDiSpedizioneDAO.getInstance().findAll(); //TODO ?????
+		/*Estrapola orini e dettagli*/
+		allOrdini = OrdineDAO.getInstance().findAllOrdini();
+		allDettagliOrdine = DettagliOrdineDAO.getInstance().findAllDettagliOrdini();
+		
+		allDettagliOrdine.forEach( dett -> log.info("Dett : " + dett));
+
+		/*Inizializzazione mappa con ordini e dettagli*/
+		for (OrdinePOJO ordine : allOrdini) {
+			int count = 0;
+			for (DettagliOrdinePOJO dettagliOrdine : allDettagliOrdine) {
+				if(ordine.getId().equals(dettagliOrdine.getOrdineDiRiferimento().getId_ordine())) {
+					if(count == 0) {
+						allOrdiniAndDettagli.put(ordine, new ArrayList<>());
+					}
+					allOrdiniAndDettagli.get(ordine).add(dettagliOrdine);
+					count++;
+				}
+			}
+		}
+		
+		/*Stampa Ordini*/
+		
+		Iterator<Entry<OrdinePOJO, List<DettagliOrdinePOJO>>> iter = allOrdiniAndDettagli.entrySet().iterator();
+		
+		while(iter.hasNext()) {
+			
+			Map.Entry<OrdinePOJO,List<DettagliOrdinePOJO>> entry = iter.next();
+			
+			log.info("Ordine: " + entry.getKey().toString() );
+			for (DettagliOrdinePOJO dettagliOrdine : entry.getValue()) {
+				log.info("Dettaglio: " + dettagliOrdine.toString());
+			}
+		}
+		
+		/////////////////////
+		
+		Set<Map.Entry<OrdinePOJO, List<DettagliOrdinePOJO>>> ordiniEDettagliSet = allOrdiniAndDettagli.entrySet();
+		allOrdiniAndDettagliEntry = new ArrayList<Map.Entry<OrdinePOJO,List<DettagliOrdinePOJO>>>(ordiniEDettagliSet);
+
+		allIndirizziDiSpedizione = IndirizzoDiSpedizioneDAO.getInstance().findAll(); 
 		indirizziSpedizioneUtente = IndirizzoDiSpedizioneDAO.getInstance().findAllByUserId(sessionBean.getLoggedUser());
 
 		/*Riempimento indirizzo e indirizzi spedizione*/
@@ -134,11 +190,11 @@ public class OrdiniBean implements Serializable {
 			}
 		}
 
+
+
 		Set<Map.Entry<Indirizzo, IndirizzoDiSpedizione>> indirizziSet = indirizzoEIndirizzoSpedizioneUtente.entrySet();
 		indirizziMap = new ArrayList<Map.Entry<Indirizzo,IndirizzoDiSpedizione>>(indirizziSet);
 
-
-		//TODO SELECT ORDINI
 		dataConsegna = new Date(System.currentTimeMillis() + Constants.Ordini.FOUR_DAYS_IN_MILLISECONDS);
 
 	} 
@@ -169,22 +225,21 @@ public class OrdiniBean implements Serializable {
 			/*Inserimento ordine e dettagli*/
 			OrdineDAO.getInstance().insertOrdine(addOrdine); 
 			DettagliOrdineDAO.getInstance().insertDettagliOrdine(addOrdine,(HashMap<Articolo, Integer>) carrelloBean.getArticoliEQuantita());
-			
+
 			List<Articolo> articoliOrdinati = new ArrayList<>(carrelloBean.getArticoliEQuantita().keySet());
-			log.info("--------------------------Articoli ordinati-------------------------");
-			articoliOrdinati.forEach(art -> log.info("Art ordinato : " + art.toString()));
-			ArticoloDAO.getInstance().updateQuantitaDisponibile(articoliOrdinati);
-			
-			
+
+			ArticoloDAO.getInstance().updateQuantitaDisponibileAll(articoliOrdinati,addOrdine);
+
+
 			carrelloBean.deleteCarrelloFromUserId(); //elimina il carrello dell'utente
-			
+
 			carrelloBean.getArticoliBean().init(); 
-			
+
 			ordineEffettuato = true;
 			fillOrdineEffettuatoMessage();
-			
+
 			PrimeFaces.current().ajax().update("menuForm:tabView:tabOrdine");
-			
+
 
 
 		} catch ( CampoRichiesto cr ) {
@@ -209,13 +264,13 @@ public class OrdiniBean implements Serializable {
 			message += "Il tuo articolo sarà recapitato ";
 		}
 
-		Indirizzo indirizzo = indirizzoDiSpedizioneSelezionato.getIndirizzoDiRiferimento();
-		
-		message += "presso il seguente indirizzo: " + indirizzo.getVia() + " " + indirizzo.getN_civico() + " , " +  indirizzo.getCap() + "." ;
-		
-		
+		IndirizzoPOJO indirizzo = indirizzoDiSpedizioneSelezionato.getIndirizzoDiRiferimento();
+
+		message += "presso il seguente indirizzo: " + indirizzo.getVia() + " " + indirizzo.getNCivico() + " , " +  indirizzo.getCap() + "." ;
+
+
 		message += "La data prevista per la consegna è per il: " + new SimpleDateFormat().format(dataConsegna) + "." ;
-		
+
 		ordineEffettuatoMessage = message;
 
 	}
@@ -376,6 +431,14 @@ public class OrdiniBean implements Serializable {
 		this.indirizziBean = indirizziBean;
 	}
 
+	public List<CartaDiCredito> getAllCarteDiCredito() {
+		return allCarteDiCredito;
+	}
+
+	public void setAllCarteDiCredito(List<CartaDiCredito> allCarteDiCredito) {
+		this.allCarteDiCredito = allCarteDiCredito;
+	}
+
 	public List<CartaDiCredito> getAllCarteDiCreditoUtente() {
 		return allCarteDiCreditoUtente;
 	}
@@ -465,8 +528,18 @@ public class OrdiniBean implements Serializable {
 			cartaDiCreditoSelezionata = new CartaDiCreditoPOJO();
 		}else {			
 			/*Casting manuale da dto a pojo*/
+			
+			IndirizzoPOJO indirizzoPOJO = new IndirizzoPOJO();
+			indirizzoPOJO.setIdIndirizzo(indirizzo.getId_indirizzo());
+			indirizzoPOJO.setNCivico(indirizzo.getN_civico());
+			indirizzoPOJO.setVia(indirizzo.getVia());
+			
+			ProvinciaPOJO provinciaPOJO = new ProvinciaPOJO();
+			provinciaPOJO.setIdProvincia(indirizzo.getId_provincia());
+			
+			indirizzoPOJO.setProvinciaAppartenente(provinciaPOJO);
 
-			cartaDiCreditoSelezionata.setIndirizzoFatturazione(indirizzo);
+			cartaDiCreditoSelezionata.setIndirizzoFatturazione(indirizzoPOJO);
 			cartaDiCreditoSelezionata.setUtenteDiRiferimento(sessionBean.getLoggedUser());
 			cartaDiCreditoSelezionata.setId(cartaDiCredito.getId_carte_di_credito());
 			cartaDiCreditoSelezionata.setNumeroCarta(cartaDiCredito.getNumero_carta());
@@ -478,12 +551,37 @@ public class OrdiniBean implements Serializable {
 
 	}
 
-	public List<Ordine> getAllOrdini() {
+	public List<OrdinePOJO> getAllOrdini() {
 		return allOrdini;
 	}
 
-	public void setAllOrdini(List<Ordine> allOrdini) {
+	public void setAllOrdini(List<OrdinePOJO> allOrdini) {
 		this.allOrdini = allOrdini;
+	}
+
+	public List<DettagliOrdinePOJO> getAllDettagliOrdine() {
+		return allDettagliOrdine;
+	}
+
+	public void setAllDettagliOrdine(List<DettagliOrdinePOJO> allDettagliOrdine) {
+		this.allDettagliOrdine = allDettagliOrdine;
+	}
+
+	public Map<OrdinePOJO, List<DettagliOrdinePOJO>> getAllOrdiniAndDettagli() {
+		return allOrdiniAndDettagli;
+	}
+
+	public void setAllOrdiniAndDettagli(Map<OrdinePOJO, List<DettagliOrdinePOJO>> allOrdiniAndDettagli) {
+		this.allOrdiniAndDettagli = allOrdiniAndDettagli;
+	}
+
+	public ArrayList<Map.Entry<OrdinePOJO, List<DettagliOrdinePOJO>>> getAllOrdiniAndDettagliEntry() {
+		return allOrdiniAndDettagliEntry;
+	}
+
+	public void setAllOrdiniAndDettagliEntry(
+			ArrayList<Map.Entry<OrdinePOJO, List<DettagliOrdinePOJO>>> allOrdiniAndDettagliEntry) {
+		this.allOrdiniAndDettagliEntry = allOrdiniAndDettagliEntry;
 	}
 
 	public Ordine getAddOrdine() {
@@ -568,7 +666,18 @@ public class OrdiniBean implements Serializable {
 			indirizzoDiSpedizioneSelezionato = new IndirizzoDiSpedizionePOJO();
 		}else {
 			/*Casting manuale da dto a pojo*/
-			indirizzoDiSpedizioneSelezionato.setIndirizzoDiRiferimento(indirizzo);
+			
+			IndirizzoPOJO indirizzoPOJO = new IndirizzoPOJO();
+			indirizzoPOJO.setIdIndirizzo(indirizzo.getId_indirizzo());
+			indirizzoPOJO.setNCivico(indirizzo.getN_civico());
+			indirizzoPOJO.setVia(indirizzo.getVia());
+			
+			ProvinciaPOJO provinciaPOJO = new ProvinciaPOJO();
+			provinciaPOJO.setIdProvincia(indirizzo.getId_provincia());
+			
+			indirizzoPOJO.setProvinciaAppartenente(provinciaPOJO);
+			
+			indirizzoDiSpedizioneSelezionato.setIndirizzoDiRiferimento(indirizzoPOJO);
 			indirizzoDiSpedizioneSelezionato.setUtenteDiRiferimento(sessionBean.getLoggedUser());
 			indirizzoDiSpedizioneSelezionato.setId(indirizzoDiSpedizione.getId_indirizzo_spedizione());
 			indirizzoDiSpedizioneSelezionato.setScala(indirizzoDiSpedizione.getScala());

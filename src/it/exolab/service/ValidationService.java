@@ -5,7 +5,8 @@ import java.util.List;
 
 import javax.faces.bean.ManagedProperty;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.primefaces.model.file.UploadedFile;
 import org.primefaces.model.file.UploadedFiles;
 
@@ -17,7 +18,6 @@ import it.exolab.dto.CartaDiCredito;
 import it.exolab.dto.Categoria;
 import it.exolab.dto.Indirizzo;
 import it.exolab.dto.IndirizzoDiSpedizione;
-import it.exolab.dto.Provincia;
 import it.exolab.dto.Utente;
 import it.exolab.exception.CampoRichiesto;
 import it.exolab.exception.FileImmagineNonSupportato;
@@ -30,7 +30,7 @@ import it.exolab.pojo.UtentePOJO;
 
 public class ValidationService {
 
-	static Logger log = Logger.getLogger(ValidationService.class);
+	static Logger log = LogManager.getLogger(ValidationService.class);
 
 	@SuppressWarnings("deprecation")
 	@ManagedProperty ( "#{utentiBean}" )

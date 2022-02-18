@@ -11,6 +11,17 @@ import it.exolab.dto.CartaDiCredito;
 import it.exolab.pojo.UtentePOJO;
 
 public interface CartaDiCreditoMapper {
+	
+	static final String FIND_ALL_CARTE = " SELECT "
+			+ " id_carte_di_credito, "
+			+ " numero_carta, "
+			+ " data_scadenza, "
+			+ " cvv, "
+			+ " nome_circuito, "
+			+ " nominativo_proprietario, "
+			+ " id_indirizzo_fatturazione "
+			+ "FROM  "
+			+ " CARTE_DI_CREDITO ";
 
 	static final String FIND_BY_USER_ID = " SELECT "
 			+ " id_carte_di_credito, "
@@ -54,6 +65,9 @@ public interface CartaDiCreditoMapper {
 			+ "WHERE " 
 			+ " id_carte_di_credito = #{id_carte_di_credito} "; 
 
+	@Select ( FIND_ALL_CARTE )
+	List<CartaDiCredito> findAllCarte();
+	
 	@Select ( FIND_BY_USER_ID )
 	@ResultType( CartaDiCredito.class )
 	List<CartaDiCredito> findAllByUserId( UtentePOJO utente );
@@ -63,5 +77,7 @@ public interface CartaDiCreditoMapper {
 
 	@Delete ( DELETE_FROM_ID )
 	void deleteCartaDiCreditoFromId(CartaDiCredito cartaDiCredito);
+
+
 
 }

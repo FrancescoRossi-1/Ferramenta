@@ -15,9 +15,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
-
+import org.primefaces.component.api.IterationStatus;
 
 import it.exolab.constants.Constants;
 import it.exolab.dao.AllegatoDAO;
@@ -26,6 +27,7 @@ import it.exolab.dto.Allegato;
 import it.exolab.dto.Articolo;
 import it.exolab.exception.CampoRichiesto;
 import it.exolab.exception.FileImmagineNonSupportato;
+import it.exolab.exception.GenericException;
 import it.exolab.exception.GenericFileException;
 import it.exolab.exception.OggettoEsistente;
 import it.exolab.service.ValidationService;
@@ -37,7 +39,7 @@ public class ArticoliBean implements Serializable {
 
 	private static final long serialVersionUID = -7173788432598696339L;
 
-	static Logger log = Logger.getLogger(ArticoliBean.class);
+	static Logger log = LogManager.getLogger(ArticoliBean.class);
 
 	@ManagedProperty("#{sessionBean}")
 	private SessionBean sessionBean;
@@ -53,17 +55,17 @@ public class ArticoliBean implements Serializable {
 	private List<String> stringPhotos;
 	private Articolo articoloSelezionato;
 	private Integer quantitaArticolo;
+	private List<Integer> quantitaArticoloModifica;
 
 	private Articolo addArticolo;
 
 
 	@PostConstruct
 	public void init() {
-
+		
 		allArticoli = ArticoloDAO.getInstance().selectAllArticoli();
 		articoloEImmagini = new HashMap<>();
 		addArticolo = new Articolo();
-
 		for (Articolo articolo : allArticoli) {
 			Integer count = 0;
 			for ( Allegato allegato : allegatiBean.getAllAllegati() ) {
@@ -77,13 +79,9 @@ public class ArticoliBean implements Serializable {
 				}
 			}
 		}
+		
 
-		for (Articolo articolo : articoloEImmagini.keySet()) {
-			log.info("Articolo: " + articolo.toString());
-			for (String str : articoloEImmagini.get(articolo)) {
-				log.info("Stringa " + str);
-			}
-		}
+		quantitaArticoloModifica = new ArrayList<>(articoloEImmagini.size());
 
 	}
 
@@ -91,7 +89,7 @@ public class ArticoliBean implements Serializable {
 		log.info("--> Inserimento articolo.");
 
 		try {
-
+			
 			ValidationService.checkParametersArticolo(getAddArticolo());
 			ValidationService.checkEqualsArticolo(getAddArticolo(), getAllArticoli());
 
@@ -147,6 +145,41 @@ public class ArticoliBean implements Serializable {
 			log.info(e.getMessage(),e);
 		}
 
+	}
+	
+	public void aggiungiQuantitaArticolo(Articolo articolo) {
+	
+		
+		try {
+			
+			log.info("Quantita Disponibile modificata -> " + articolo.getQuantita_disponibile());			
+			
+			if(articolo.getQuantita_disponibile() <= 0) {
+				throw new GenericException(Constants.ExceptionMessages.QUANTITA_ARTICOLO_MINORE);
+			}
+			
+			if(articolo.getQuantita_disponibile() > 150) {
+				throw new GenericException(Constants.ExceptionMessages.QUANTITA_ARTICOLO_MAGGIORE);
+			}
+			
+			ArticoloDAO.getInstance().updateQuantitaDisponibile(articolo);
+			
+			init();
+			
+			PrimeFaces.current().ajax().update("menuForm:tabView:menuAreaRiservata:gestioneArticoli");
+			
+		} catch ( GenericException ge ) {
+			
+			sessionBean.setErrorMessage(ge.getMessage());
+			
+		} catch ( Exception e ) {
+			
+			sessionBean.setErrorMessage(Constants.ExceptionMessages.UNKNOWN_ERROR);
+			
+			log.info(e.getMessage(), e);
+			
+		}
+		
 	}
 	
 	public ArrayList<Entry<Articolo, List<String>>> getImages() {
@@ -217,6 +250,14 @@ public class ArticoliBean implements Serializable {
 
 	public void setQuantitaArticolo(Integer quantitaArticolo) {
 		this.quantitaArticolo = quantitaArticolo;
+	}
+
+	public List<Integer> getQuantitaArticoloModifica() {
+		return quantitaArticoloModifica;
+	}
+
+	public void setQuantitaArticoloModifica(List<Integer> quantitaArticoloModifica) {
+		this.quantitaArticoloModifica = quantitaArticoloModifica;
 	}
 
 	public Articolo getAddArticolo() {

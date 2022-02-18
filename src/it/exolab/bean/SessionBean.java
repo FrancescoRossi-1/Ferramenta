@@ -5,7 +5,8 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
 
 import it.exolab.pojo.UtentePOJO;
@@ -17,7 +18,7 @@ public class SessionBean implements Serializable {
 	
 	private static final long serialVersionUID = -5201806537959508743L;
 
-	static Logger log = Logger.getLogger(SessionBean.class); 
+	static Logger log = LogManager.getLogger(SessionBean.class); 
 	
 	private UtentePOJO loggedUser = null; //user in sessione, se null l'utente non è loggato
 

@@ -3,10 +3,35 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-	
+
 <h:body>
 
-<h1>Visualizza Ordini</h1>
+	<h1>Visualizza Ordini</h1>
+
+	<p:dataTable var="ordini" value="#{ordiniBean.allOrdiniAndDettagliEntry}" id="ordiniTable">
+		<p:column headerText="Id">
+			<h:outputText value="#{ordini.key.id}" />
+		</p:column>
+
+		<p:column headerText="Stato">
+			<h:outputText value="#{ordini.key.stato}" />
+		</p:column>
+
+		<p:column headerText="Articoli acquistati">
+			<h:outputText value="#{ordini.value.size()}" />
+		</p:column>
+
+		<p:column headerText="Prezzo totale">
+			<h:outputText value="#{ordini.key.totaleOrdine}" />
+		</p:column>
+		
+		<p:column headerText="Acquirente">
+			<h:outputText value="#{ordini.key.acquirente.nome} #{ordini.key.acquirente.cognome}" />
+		</p:column>
+		
+		
+		
+	</p:dataTable>
 
 </h:body>
 

@@ -12,7 +12,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.primefaces.model.file.UploadedFile;
 import org.primefaces.model.file.UploadedFiles;
 
@@ -25,8 +26,8 @@ import it.exolab.dto.Articolo;
 @SessionScoped
 public class AllegatiBean implements Serializable {
 
-	static Logger log = Logger.getLogger(AllegatiBean.class);
-
+	static Logger log = LogManager.getLogger(AllegatiBean.class);
+	
 	private static final long serialVersionUID = -6254618809475372643L;
 
 	private List<Allegato> allAllegati;

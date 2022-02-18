@@ -3,6 +3,8 @@ package it.exolab.dao;
 import java.util.List;
 
 import it.exolab.dto.Articolo;
+import it.exolab.dto.DettagliOrdine;
+import it.exolab.dto.Ordine;
 import it.exolab.mybatis.SqlMapFactory;
 
 public class ArticoloDAO {
@@ -41,9 +43,16 @@ public class ArticoloDAO {
 		MainDAO.closeTransaction();
 	}
 
-	public void updateQuantitaDisponibile(List<Articolo> articoli) {
+	public void updateQuantitaDisponibileAll(List<Articolo> articoli, Ordine ordine) {
 		MainDAO.beginTransaction();
-		MainDAO.getArticoloMapper().updateQuantitaDisponibile(articoli);
+		MainDAO.getArticoloMapper().updateQuantitaDisponibileAll(articoli,ordine);
+		SqlMapFactory.instance().commitSession();
+		MainDAO.closeTransaction();
+	}
+
+	public void updateQuantitaDisponibile(Articolo articolo) {
+		MainDAO.beginTransaction();
+		MainDAO.getArticoloMapper().updateQuantitaDisponibile(articolo);
 		SqlMapFactory.instance().commitSession();
 		MainDAO.closeTransaction();
 	}

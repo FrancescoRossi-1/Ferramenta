@@ -8,9 +8,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import it.exolab.constants.Constants;
 import it.exolab.dao.IndirizzoDAO;
 import it.exolab.dto.Indirizzo;
 import it.exolab.exception.CampoRichiesto;
@@ -22,7 +22,7 @@ import it.exolab.service.ValidationService;
 @SessionScoped
 public class IndirizziBean implements Serializable {
 
-	static Logger log = Logger.getLogger(IndirizziBean.class);
+	static Logger log = LogManager.getLogger(IndirizziBean.class);
 
 	private static final long serialVersionUID = 6282344715354864997L;
 
@@ -30,6 +30,7 @@ public class IndirizziBean implements Serializable {
 	private SessionBean sessionBean;
 
 
+	
 	@ManagedProperty ( "#{provinceBean}" )
 	private ProvinceBean provinceBean;
 

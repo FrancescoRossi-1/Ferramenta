@@ -13,6 +13,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import it.exolab.dto.Articolo;
+import it.exolab.dto.DettagliOrdine;
+import it.exolab.dto.Ordine;
 
 public interface ArticoloMapper {
 
@@ -64,7 +66,7 @@ public interface ArticoloMapper {
 			+ "WHERE " 
 			+ " id_articolo = #{id_articolo} ";
 
-	static final String UPDATE_QUANTITA_DISPONIBILE = "<script>"
+	static final String UPDATE_QUANTITA_DISPONIBILE_ALL = "<script>"
 			+ " UPDATE "
 			+ " ARTICOLI a "
 			+ "JOIN "
@@ -77,8 +79,16 @@ public interface ArticoloMapper {
 			+ "<foreach collection=\"articoli\" item=\"articolo\" separator=\" OR \">"
 			+ " a.id_articolo = #{articolo.id_articolo} "
 			+ "</foreach>"
+			+ "AND "
+			+ " id_ordine = #{ordine.id_ordine}"
 			+ "</script>";
 
+	static final String UPDATE_QUANTITA_DISPONIBILE =  " UPDATE "
+			+ " ARTICOLI a "
+			+ "SET "
+			+ " a.quantita_disponibile = (a.quantita_disponibile + #{quantita_disponibile}) "
+			+ "WHERE  "
+			+ " id_articolo = #{id_articolo} ";
 
 	@Results( value = {
 			@Result(property = "id_articolo", column = "id_articolo", id = true),
@@ -103,8 +113,10 @@ public interface ArticoloMapper {
 	@Delete ( DELETE_FROM_ID )
 	void deleteArticoloFromId(Long idArticolo);
 
-	@Update ( UPDATE_QUANTITA_DISPONIBILE )
-	void updateQuantitaDisponibile(@Param("articoli") List<Articolo> articoli);
+	@Update ( UPDATE_QUANTITA_DISPONIBILE_ALL )
+	void updateQuantitaDisponibileAll(@Param("articoli") List<Articolo> articoli,@Param("ordine") Ordine ordine);
 
+	@Update ( UPDATE_QUANTITA_DISPONIBILE )
+	void updateQuantitaDisponibile(Articolo articolo);
 
 }

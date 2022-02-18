@@ -32,32 +32,43 @@
 
 		</p:fieldset>
 
-	<div>
+		<div>
 
-		<p:panel id="basic" header="Effettua ordine" footer="Effettua ordine"
-			style="margin-bottom:20px;margin-top:4%">
-			<h:panelGrid columns="2" cellpadding="10">
-				<h:outputText value="Data di consegna prevista: " />
-				<h:outputText value="#{ordiniBean.dataConsegna}">
-					<f:convertDateTime pattern="dd/MM/yyyy" />
-				</h:outputText>
-
-
-				<p:commandButton value="Procedi al checkout"
-					actionListener="#{ordiniBean.insertOrdine}" ajax="false" />
-
-			</h:panelGrid>
-		</p:panel>
+			<p:panel id="basic" header="Effettua ordine" footer="Effettua ordine"
+				style="margin-bottom:20px;margin-top:4%">
+				<h:panelGrid columns="2" cellpadding="10">
+					<h:outputText value="Data di consegna prevista: " />
+					<h:outputText value="#{ordiniBean.dataConsegna}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
 
 
-	</div>
+					<p:commandButton value="Procedi al checkout"
+						actionListener="#{ordiniBean.insertOrdine}" ajax="false" />
+
+				</h:panelGrid>
+			</p:panel>
+
+
+		</div>
 
 	</p:panel>
 	<div>
 
 		<p:panel rendered="#{ordiniBean.ordineEffettuato}">
 
-			<h:outputText value="#{ordiniBean.ordineEffettuatoMessage}" styleClass="preformatted"/>
+			<h:outputText value="#{ordiniBean.ordineEffettuatoMessage}"
+				styleClass="preformatted" />
+			<h:outputText
+				value="Clicca qui per scaricare il report dell'ordine: " />
+			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+				draggable="false" closable="false" resizable="false" />
+			<p:commandButton value="Download" ajax="false" actionListener="#{reportBean.generateReportPerUtente()}"
+				onclick="PrimeFaces.monitorDownload(start, stop);"
+				icon="pi pi-arrow-down">
+				<p:fileDownload value="#{reportBean.file}" />
+			</p:commandButton>
+
 
 		</p:panel>
 

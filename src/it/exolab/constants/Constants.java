@@ -32,6 +32,8 @@ public class Constants {
 		public static final String QUANTITA_ARTICOLI_MAGGIORE = "Hai inserito una quantità di articoli maggiore di quella disponibile, riprova.";
 		public static final String INDIRIZZO_DI_SPEDIZIONE_ESISTENTE = "Hai inserito un indirizzo di spedizione già presente nel tuo account, ricontrolla.";
 		public static final String METODO_DI_PAGAMENTO_ESISTENTE = "Hai inserito un metodo di pagamento già presente nel tuo account, ricontolla.";
+		public static final String QUANTITA_ARTICOLO_MINORE = "Non puoi inserire meno di un'articolo, riprova.";
+		public static final String QUANTITA_ARTICOLO_MAGGIORE = "Non puoi inserire più di 150 articoli, riprova.";
 	}
 	
 	public class Messages {
@@ -72,12 +74,16 @@ public class Constants {
 	
 	public static class File {
 		public static final String XHTML = ".xhtml";
+		public static final String XLSX = ".xlsx";
 		public static final String[] SUPPORTED_IMAGE_EXTENSIONS = { "jpg", "png", "gif" };
 		public static final Double MAX_SUPPORTED_DIMENSION = 65534.00; //64KB
 	}
 	
 	public static class Paths {
-		public static final ServletContext SERVLET_CONTEXT = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();		
+		public static final ServletContext SERVLET_CONTEXT = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();	
+		public static final String RESOURCE_PATH = SERVLET_CONTEXT.getRealPath("resources");
+		public static final String RESOUSCE_PATH_REPORT_ORDINE = RESOURCE_PATH + "/reports/ordini";
+		
 	}
 	
 	public static class  Ordini {
@@ -85,4 +91,13 @@ public class Constants {
 		public static final List<String> CIRCUITI_ACCETTATI = new ArrayList<>(Arrays.asList("VISA","AMERICAN EXPRESS","MASTER CARD"));
 		public static final Long FOUR_DAYS_IN_MILLISECONDS = 345600000L;
 	}
+	
+	public class ContentTypes {
+		public static final String XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+	}
+	
+	public class Caratteri {
+		public static final String UNDERSCORE = "_";
+	}
+	
 }

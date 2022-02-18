@@ -1,6 +1,5 @@
 package it.exolab.pojo;
 
-import it.exolab.dto.Indirizzo;
 import lombok.Data;
 import lombok.ToString;
 
@@ -15,6 +14,6 @@ public class CartaDiCreditoPOJO {
 	private String nominativoProprietario;
 	private String nomeCircuito;
 	private UtentePOJO utenteDiRiferimento;
-	private Indirizzo indirizzoFatturazione;
+	private IndirizzoPOJO indirizzoFatturazione;
 	
 }

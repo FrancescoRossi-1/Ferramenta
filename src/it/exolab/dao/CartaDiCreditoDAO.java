@@ -19,8 +19,14 @@ public class CartaDiCreditoDAO {
 		return instance;
 	}
 	
+	public List<CartaDiCredito> findAllCarte() {
+		MainDAO.beginTransaction();
+		List<CartaDiCredito> allCarteDiCreditoUtente = MainDAO.getCartaDiCreditoMapper().findAllCarte();
+		MainDAO.closeTransaction();
+		return allCarteDiCreditoUtente;
+	}
+	
 	public List<CartaDiCredito> findAllByUserId( UtentePOJO utente ) {
-		
 		MainDAO.beginTransaction();
 		List<CartaDiCredito> allCarteDiCreditoUtente = MainDAO.getCartaDiCreditoMapper().findAllByUserId(utente);
 		MainDAO.closeTransaction();

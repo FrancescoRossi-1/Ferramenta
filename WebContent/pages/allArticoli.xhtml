@@ -8,46 +8,53 @@
 
 	<h1>Gestione Articoli</h1>
 
-	<p:dataTable id="gestioneArticoli" var="articolo" value="#{articoliBean.allArticoli}">
-		<p:column headerText="Id">
-			<h:outputText value="#{articolo.id_articolo}" />
-		</p:column>
+	<table class="tabellaArticoliAreaRiservata" style="width: 100%;border: 2px solid;" cellspacing="10">
 
-		<p:column headerText="Titolo">
-			<h:outputText value="#{articolo.titolo_articolo}" />
-		</p:column>
+		<thead>
 
-		<p:column headerText="Descrizione">
-			<h:outputText value="#{articolo.descrizione_articolo}" />
-		</p:column>
+			<tr>
+				<th>Nome</th>
+				<th>Quantità</th>
+				<th>N. Immagini</th>
+				<th>Prezzo</th>
+				<th>Categoria</th>
+				<th>Marca</th>
+				<th>Colore</th>
+				<th colspan="2">Azioni</th>
+			</tr>
 
-		<p:column headerText="Immagini Articolo">
-			<h:outputText value="#{articoliBean.articoloEImmagini.get(articolo).size()}" />
-		</p:column>
+		</thead>
+		<tbody>
+			<ui:repeat id="gestioneArticoli" var="articolo" varStatus="loop"
+				value="#{articoliBean.allArticoli}">
 
-		<p:column headerText="Prezzo">
-			<h:outputText value="€ #{articolo.prezzo_unitario}" />
-		</p:column>
+				<tr>
 
-		<p:column headerText="Categoria">
-			<h:outputText
-				value="#{articolo.categoriaDiAppartenenza.nome_categoria}" />
-		</p:column>
+					<td><h:outputText value="#{articolo.titolo_articolo}" /></td>
+					<td><h:outputText value="#{articolo.quantita_disponibile}"
+							rendered="#{articolo.quantita_disponibile > 0}" /> <h:outputText
+							value="Articolo terminato"
+							rendered="#{articolo.quantita_disponibile == 0}"
+							style="color: red" /></td>
+					<td><h:outputText
+							value="#{articoliBean.articoloEImmagini.get(articolo).size()}" /></td>
+					<td><h:outputText value="€ #{articolo.prezzo_unitario}" /></td>
+					<td><h:outputText
+							value="#{articolo.categoriaDiAppartenenza.nome_categoria}" /></td>
+					<td><h:outputText value="#{articolo.marchio}" /></td>
+					<td><h:outputText value="#{articolo.colore}" /></td>
+					<td><p:commandButton value="Elimina"
+							action="#{articoliBean.deleteArticolo(articolo.id_articolo)}" /></td>
+					<td><p:spinner id="quantArticolo"
+							value="#{articolo.quantita_disponibile}" style="width: 50%"  />
+						<p:commandButton for="quantArticolo" value="Aggiungi quantità"
+							action="#{articoliBean.aggiungiQuantitaArticolo(articolo)}"
+							ajax="false" /></td>
+				</tr>
+				</ui:repeat>
+		</tbody>
 
-		<p:column headerText="Marchio">
-			<h:outputText value="#{articolo.marchio}" />
-		</p:column>
-
-		<p:column headerText="Colore">
-			<h:outputText value="#{articolo.colore}" />
-		</p:column>
-
-		<p:column headerText="Elimina">
-			<p:commandButton value="Elimina" action="#{articoliBean.deleteArticolo(articolo.id_articolo)}">
-			
-			</p:commandButton>
-		</p:column>
-	</p:dataTable>
+	</table>
 
 </h:body>
 

@@ -7,7 +7,10 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import it.exolab.dao.UtenteDAO;
 import it.exolab.pojo.UtentePOJO;
 
@@ -18,7 +21,7 @@ public class UtentiBean implements Serializable {
 	
 	private static final long serialVersionUID = -681643631408265088L;
 
-	static Logger log = Logger.getLogger(UtentiBean.class);
+	static Logger log = LogManager.getLogger(UtentiBean.class);
 	
 	List<UtentePOJO> allUtenti;
 	UtentePOJO utenteSelezionato;

@@ -1,8 +1,6 @@
 package it.exolab.mapper;
 
 import it.exolab.dto.Indirizzo;
-import it.exolab.dto.Provincia;
-
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;

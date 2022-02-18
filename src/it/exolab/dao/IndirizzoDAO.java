@@ -3,7 +3,6 @@ package it.exolab.dao;
 import java.util.List;
 
 import it.exolab.dto.Indirizzo;
-import it.exolab.dto.Provincia;
 import it.exolab.mybatis.SqlMapFactory;
 
 public class IndirizzoDAO {

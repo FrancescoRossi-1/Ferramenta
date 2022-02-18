@@ -7,7 +7,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
 
 import it.exolab.constants.Constants;
@@ -21,7 +22,7 @@ import it.exolab.service.ValidationService;
 @SessionScoped
 public class CategorieBean {
 	
-	static Logger log = Logger.getLogger(CategorieBean.class);
+	static Logger log = LogManager.getLogger(CategorieBean.class);
 	
 	@ManagedProperty("#{sessionBean}")
 	private SessionBean sessionBean;
