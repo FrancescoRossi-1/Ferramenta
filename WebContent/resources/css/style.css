@@ -15,3 +15,8 @@
 .preformatted {
     white-space: pre-wrap;
 }
+
+
+.ui-button .ui-widget .ui-state-default .ui-corner-all .ui-button-text-icon-left .downloadReport {
+     background-color: green !important;
+}
