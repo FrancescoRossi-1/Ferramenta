@@ -42,6 +42,7 @@ import it.exolab.pojo.DettagliOrdinePOJO;
 import it.exolab.pojo.IndirizzoDiSpedizionePOJO;
 import it.exolab.pojo.IndirizzoPOJO;
 import it.exolab.pojo.OrdinePOJO;
+import it.exolab.pojo.OrdineReport;
 import it.exolab.pojo.ProvinciaPOJO;
 import it.exolab.service.ValidationService;
 
@@ -70,13 +71,11 @@ public class OrdiniBean implements Serializable {
 	private List<CartaDiCredito> allCarteDiCreditoUtente;
 	private Map<CartaDiCredito, Indirizzo> cartaDiCreditoEIndirizzoFatturazione;
 	private ArrayList<Map.Entry<CartaDiCredito,Indirizzo>> cartaDiCreditoMap;
-
 	private CartaDiCredito addCartaDiCredito;
 	private String meseScadenza;
 	private String annoScadenza;
 	private List<Integer> mesiScadenza;
 	private List<Integer> anniScadenza;
-
 	private CartaDiCreditoPOJO cartaDiCreditoSelezionata;
 
 	private List<IndirizzoDiSpedizione> allIndirizziDiSpedizione;
@@ -89,6 +88,7 @@ public class OrdiniBean implements Serializable {
 
 	private List<OrdinePOJO> allOrdini;
 	private List<DettagliOrdinePOJO> allDettagliOrdine;
+	private OrdineReport ordineEDettagliReport;
 
 	private Map<OrdinePOJO,List<DettagliOrdinePOJO>> allOrdiniAndDettagli;
 	private ArrayList<Map.Entry<OrdinePOJO,List<DettagliOrdinePOJO>>> allOrdiniAndDettagliEntry;
@@ -212,12 +212,14 @@ public class OrdiniBean implements Serializable {
 
 			ArticoloDAO.getInstance().updateQuantitaDisponibileAll(articoliOrdinati,addOrdine);
 
-
 			carrelloBean.deleteCarrelloFromUserId(); //elimina il carrello dell'utente
 
 			carrelloBean.getArticoliBean().init(); 
 
 			ordineEffettuato = true;
+			
+			fillDataForReport();
+			
 			fillOrdineEffettuatoMessage();
 
 			PrimeFaces.current().ajax().update("menuForm:tabView:tabOrdine");
@@ -235,6 +237,20 @@ public class OrdiniBean implements Serializable {
 
 		}
 
+	}
+
+	private void fillDataForReport() {
+		
+		ordineEDettagliReport = new OrdineReport();
+		
+		log.info("#### id dell'ordine : " + addOrdine.getId_ordine());
+		OrdinePOJO ordineDelCliente = OrdineDAO.getInstance().findPOJOFromId(addOrdine);
+		log.info("###### ordine del cliente: " + ordineDelCliente.toString());
+		ordineEDettagliReport.setOrdine(ordineDelCliente);
+		List<DettagliOrdinePOJO> dettagliOrdineCliente = DettagliOrdineDAO.getInstance().findFromIdOrdine(addOrdine);
+		ordineEDettagliReport.setDettagliOrdine(dettagliOrdineCliente);
+		
+		
 	}
 
 	private void fillOrdineEffettuatoMessage() {
@@ -262,8 +278,6 @@ public class OrdiniBean implements Serializable {
 		try {
 
 			ValidationService.checkParametersIndirizzoDiSpedizione(addIndirizzoDiSpedizione); //validazione
-			
-			//TODO CHECK BUG NON INSERISCE ID PROVINCIA E CAP
 
 			indirizziBean.setAddIndirizzo(addIndirizzoSpedizione);
 
@@ -524,6 +538,7 @@ public class OrdiniBean implements Serializable {
 			IndirizzoPOJO indirizzoPOJO = new IndirizzoPOJO();
 			indirizzoPOJO.setIdIndirizzo(indirizzo.getId_indirizzo());
 			indirizzoPOJO.setNCivico(indirizzo.getN_civico());
+			indirizzoPOJO.setCap(indirizzo.getCap());
 			indirizzoPOJO.setVia(indirizzo.getVia());
 			
 			ProvinciaPOJO provinciaPOJO = new ProvinciaPOJO();
@@ -557,6 +572,14 @@ public class OrdiniBean implements Serializable {
 
 	public void setAllDettagliOrdine(List<DettagliOrdinePOJO> allDettagliOrdine) {
 		this.allDettagliOrdine = allDettagliOrdine;
+	}
+
+	public OrdineReport getOrdineEDettagliReport() {
+		return ordineEDettagliReport;
+	}
+
+	public void setOrdineEDettagliReport(OrdineReport ordineEDettagliReport) {
+		this.ordineEDettagliReport = ordineEDettagliReport;
 	}
 
 	public Map<OrdinePOJO, List<DettagliOrdinePOJO>> getAllOrdiniAndDettagli() {
@@ -611,7 +634,7 @@ public class OrdiniBean implements Serializable {
 		this.indirizziSpedizioneUtente = indirizziSpedizioneUtente;
 	}
 
-
+	
 	public Map<Indirizzo, IndirizzoDiSpedizione> getIndirizzoEIndirizzoSpedizioneUtente() {
 		return indirizzoEIndirizzoSpedizioneUtente;
 	}
@@ -662,6 +685,7 @@ public class OrdiniBean implements Serializable {
 			IndirizzoPOJO indirizzoPOJO = new IndirizzoPOJO();
 			indirizzoPOJO.setIdIndirizzo(indirizzo.getId_indirizzo());
 			indirizzoPOJO.setNCivico(indirizzo.getN_civico());
+			indirizzoPOJO.setCap(indirizzo.getCap());
 			indirizzoPOJO.setVia(indirizzo.getVia());
 			
 			ProvinciaPOJO provinciaPOJO = new ProvinciaPOJO();

@@ -27,16 +27,16 @@ public interface IndirizzoMapper extends ProvinciaMapper {
 			+ " cap, " 
 			+ " id_provincia) " 
 			+ "VALUES " 
-			+ " (#{param1.via}, "  
-			+ " #{param1.n_civico},  " 
-			+ " #{param1.cap}, "  
-			+ " #{param2} ) ";
+			+ " (#{via}, "  
+			+ " #{n_civico},  " 
+			+ " #{cap}, "  
+			+ " #{id_provincia} ) ";
 	
 
 
 	@Insert( INSERT_INDIRIZZO )
-	@Options(useGeneratedKeys = true, keyProperty = "param1.id_indirizzo", keyColumn = "id_indirizzo")
-	void insertAddress(Indirizzo indirizzoResidenza, Long idProvincia);
+	@Options(useGeneratedKeys = true, keyProperty = "id_indirizzo", keyColumn = "id_indirizzo")
+	void insertAddress(Indirizzo indirizzo);
 
 	@Select ( SELECT_ALL_INDIRIZZI )
 	@ResultType ( Indirizzo.class )

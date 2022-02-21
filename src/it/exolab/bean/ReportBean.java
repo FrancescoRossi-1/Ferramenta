@@ -5,8 +5,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -19,6 +27,7 @@ import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Header;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -30,7 +39,13 @@ import org.primefaces.model.StreamedContent;
 
 import it.exolab.constants.Constants;
 import it.exolab.dto.Articolo;
+import it.exolab.dto.IndirizzoDiSpedizione;
 import it.exolab.dto.Ordine;
+import it.exolab.pojo.CartaDiCreditoPOJO;
+import it.exolab.pojo.DettagliOrdinePOJO;
+import it.exolab.pojo.IndirizzoDiSpedizionePOJO;
+import it.exolab.pojo.OrdinePOJO;
+import it.exolab.pojo.OrdineReport;
 import it.exolab.pojo.UtentePOJO;
 
 
@@ -61,90 +76,82 @@ public class ReportBean implements Serializable {
 
 			Integer rowNum = 0;
 			Integer colNum = 0;
+			Integer maxColNum = Constants.ExcelReport.FIELDS_FOR_CUSTOMER.size();
 
 			XSSFWorkbook workbook = new XSSFWorkbook();
 			XSSFSheet sheet = workbook.createSheet();
 
-			/*-------Modelli utili------*/
-			UtentePOJO utente = ordiniBean.getSessionBean().getLoggedUser();
-			Ordine ordine = ordiniBean.getAddOrdine();
-			Map<Articolo,Integer> dettagliOrdine = ordiniBean.getCarrelloBean().getArticoliEQuantita();
-
 			/*Styles*/
+			XSSFCellStyle titleStyle = generateTitleStyle(workbook);
 			XSSFCellStyle subTitleStyle = generateSubTitleStyle(workbook);
-			XSSFCellStyle dateFormat = generateDateFormatStyle(workbook);
+			XSSFCellStyle fieldStyle = generateFieldStile(workbook);
 
 			/*Header*/
-			Header header = sheet.getHeader();
-			header.setCenter("Report ordine");
-			
+			XSSFRow titleRow = sheet.createRow(rowNum);
+			XSSFCell titleCell = titleRow.createCell(colNum);
+			titleCell.setCellValue(Constants.ExcelReport.TITLE_FOR_CUSTOMER);
+			titleCell.setCellStyle(titleStyle);
+			sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, maxColNum-1));
+
 			/*Subtitles*/
-			XSSFRow row = sheet.createRow(rowNum);			
-			for( colNum = 0 ; colNum < 7; colNum ++ ) {
-				XSSFCell cell = row.createCell(colNum);
+			XSSFRow subtitleRow = sheet.createRow(++rowNum);
+			for (String subtitleText  : Constants.ExcelReport.SUBTITLES_FOR_CUSTOMER) {
 
-				cell.setCellStyle(subTitleStyle);
+				XSSFCell subtitleCell;
 
-				switch ( colNum ) {
-				case 0:
-					cell.setCellValue("Id Ordine");
-					break;
-				case 1:
-					cell.setCellValue("Nome Cliente");
-					break;
-				case 2:
-					cell.setCellValue("Cognome Cliente");
-					break;
-				case 3:
-					cell.setCellValue("Email Cliente");
-					break;
-				case 4:
-					cell.setCellValue("Totale Ordine");
-					break;
-				case 5:
-					cell.setCellValue("Data Ordine");
-					break;
-				case 6:
-					cell.setCellValue("Data Consegna Prevista");
+				int startColumn;
+				if(Constants.ExcelReport.SUBTITLES_FOR_CUSTOMER.indexOf(subtitleText) == 0) {
+					subtitleCell = subtitleRow.createCell(0); 
+					startColumn = 0;
+				}else {
+					startColumn = Constants.ExcelReport.ROW_NUMBER_OF_SUBTITLES[Constants.ExcelReport.SUBTITLES_FOR_CUSTOMER.indexOf(subtitleText)-1] + 1;
+					subtitleCell = subtitleRow.createCell(startColumn);
 				}
 
+				int endColumn = Constants.ExcelReport.ROW_NUMBER_OF_SUBTITLES[Constants.ExcelReport.SUBTITLES_FOR_CUSTOMER.indexOf(subtitleText)];
 
-				sheet.autoSizeColumn(colNum); //aggiusta il width della colonna automaticamente
+				subtitleCell.setCellValue(subtitleText);
+				CellRangeAddress rangeAddress = new CellRangeAddress(rowNum, rowNum, startColumn, endColumn);
+				sheet.addMergedRegion(rangeAddress);
+				subtitleCell.setCellStyle(subTitleStyle);
 
 			}
 
-			/*Riempimento primo stage*/
-			XSSFRow row1 = sheet.createRow(++rowNum);		
-			for(Integer col = 0; col<colNum; col++) {
-				XSSFCell cell = row1.createCell(col);
+			colNum = 0; //riinizia dalla prima colonna
 
+			/*Campi*/
+			XSSFRow fieldRow = sheet.createRow(++rowNum);			
+			for (String fieldText : Constants.ExcelReport.FIELDS_FOR_CUSTOMER) {
+				XSSFCell fieldCell = fieldRow.createCell(colNum++);
+				fieldCell.setCellValue(fieldText);
+				fieldCell.setCellStyle(fieldStyle);
+			}
 
-				switch ( col ) {
-				case 0:
-					cell.setCellValue(ordine.getId_ordine());
-					break;
-				case 1:
-					cell.setCellValue(utente.getNome());
-					break;
-				case 2:
-					cell.setCellValue(utente.getCognome());
-					break;
-				case 3:
-					cell.setCellValue(utente.getEmail());
-					break;
-				case 4:
-					cell.setCellValue(ordine.getTotale_ordine());
-					break;
-				case 5:
-					cell.setCellValue(ordine.getData_ordine());
-					cell.setCellStyle(dateFormat);
-					break;
-				case 6:
-					cell.setCellValue(ordine.getData_consegna());
-					cell.setCellStyle(dateFormat);
+			colNum = 0; //riinizializza a 0 numero di colonne
+
+			/*Riempimento*/
+			
+			OrdineReport reportData = ordiniBean.getOrdineEDettagliReport();
+			XSSFRow valueRow = sheet.createRow(++rowNum);
+			XSSFCell columnsCell [] = new XSSFCell[maxColNum];
+			
+			int count = 0;
+			for (DettagliOrdinePOJO dettagliOrdine : reportData.getDettagliOrdine()) {
+				if(count == 0) {
+					OrdinePOJO ordineData = reportData.getOrdine();
+					fillFirstRow(valueRow,columnsCell,ordineData,dettagliOrdine);
+					columnsCell = new XSSFCell[maxColNum];
+				}else {
+					XSSFRow articoliRow = sheet.createRow(++rowNum);
+					fillArticoliRow(articoliRow,columnsCell,dettagliOrdine);
 				}
-			}			
+				count++;
+			}
+			
 
+			for (int col = 0; col < maxColNum; col++) {				
+				sheet.autoSizeColumn(col); //aggiusta il width delle colonne automaticamente
+			}
 
 			workbook.write(bos);
 			workbook.close();
@@ -154,19 +161,96 @@ public class ReportBean implements Serializable {
 		}catch(Exception e) {  
 			log.info(e.getMessage(), e);
 		}
+		
+		//TODO RISOLVERE PROBLEMA DOPPIO ORDINE IN UNA SESSIONE DOWNLOAD DELLO STESSO FILE
 
 
 		return bos.toByteArray();
 	}
 
+	private void fillFirstRow(XSSFRow row, XSSFCell[] columnsCell, OrdinePOJO ordineData, DettagliOrdinePOJO dettagliOrdine) {	
+		
+		/*Instazio le celle*/
+		for(int i = 0; i<16; i++) {			
+			columnsCell[i] = row.createCell(i);
+		}
+		
+		log.info("#### id ordine: " + ordineData.getId());
+		log.info("#### nome cliente: " + ordineData.getAcquirente().getNome());
+		
+		columnsCell[0].setCellValue(ordineData.getId());
+		columnsCell[1].setCellValue(ordineData.getAcquirente().getNome());
+		columnsCell[2].setCellValue(ordineData.getAcquirente().getCognome());
+		columnsCell[3].setCellValue(ordineData.getAcquirente().getEmail());
+		columnsCell[4].setCellValue(ordineData.getTotaleOrdine());
+		columnsCell[5].setCellValue(ordineData.getDataOrdine());
+		columnsCell[6].setCellValue(ordineData.getDataConsegna());
+		columnsCell[7].setCellValue(ordineData.getIndirizzoDiSpedizione().getIndirizzoDiRiferimento().getVia());
+		columnsCell[8].setCellValue(ordineData.getIndirizzoDiSpedizione().getIndirizzoDiRiferimento().getNCivico());
+		columnsCell[9].setCellValue(ordineData.getIndirizzoDiSpedizione().getIndirizzoDiRiferimento().getCap());
+		
+		if(ordineData.getIndirizzoDiSpedizione().getScala().isEmpty()) {
+			columnsCell[10].setCellValue("n/d");
+		}else {
+			columnsCell[10].setCellValue(ordineData.getIndirizzoDiSpedizione().getScala());
+		}
+		
+		columnsCell[11].setCellValue(ordineData.getIndirizzoDiSpedizione().getInterno());
+		columnsCell[12].setCellValue(ordineData.getCartaDiCredito().getNumeroCarta());
+		columnsCell[13].setCellValue(ordineData.getCartaDiCredito().getDataScadenza());
+		columnsCell[14].setCellValue(ordineData.getCartaDiCredito().getCVV());
+		columnsCell[15].setCellValue(ordineData.getCartaDiCredito().getNominativoProprietario());
+		
+		fillArticoliRow(row,columnsCell,dettagliOrdine);
 
-	public XSSFCellStyle generateSubTitleStyle(XSSFWorkbook workbook) {
+	}
+	
+	private void fillArticoliRow(XSSFRow row, XSSFCell[] columnsCell, DettagliOrdinePOJO dettagliOrdine) {
+		for(int i = 16; i<23; i++ ) {
+			columnsCell[i] = row.createCell(i);
+		}
+		
+		columnsCell[16].setCellValue(dettagliOrdine.getArticoloAcquistato().getTitolo());
+		columnsCell[17].setCellValue(dettagliOrdine.getArticoloAcquistato().getMarchio());
+		columnsCell[18].setCellValue(dettagliOrdine.getArticoloAcquistato().getPrezzoUnitario());
+		columnsCell[19].setCellValue(dettagliOrdine.getArticoloAcquistato().getColore());
+		columnsCell[20].setCellValue(dettagliOrdine.getArticoloAcquistato().getDescrizione());
+		columnsCell[21].setCellValue(dettagliOrdine.getArticoloAcquistato().getCategoriaDiAppartenenza().getNome_categoria());
+		columnsCell[22].setCellValue(dettagliOrdine.getQuantitaArticolo());
+		
+	}
+
+
+
+	private XSSFCellStyle generateTitleStyle(XSSFWorkbook workbook) {
 		XSSFCellStyle style = workbook.createCellStyle();
 		style.setBorderTop(BorderStyle.MEDIUM);
 		style.setBorderBottom(BorderStyle.MEDIUM);
+		style.setBorderLeft(BorderStyle.MEDIUM);
+		style.setBorderRight(BorderStyle.MEDIUM);
 		style.setAlignment(HorizontalAlignment.CENTER);
 		XSSFFont font = workbook.createFont();
-		font.setFontHeightInPoints((short) 15);
+		font.setFontHeightInPoints((short) 25);
+		font.setBold(true);
+		style.setFont(font);       
+		return style;
+	}
+
+	public XSSFCellStyle generateSubTitleStyle(XSSFWorkbook workbook) {
+		XSSFCellStyle style = workbook.createCellStyle();
+		style.setAlignment(HorizontalAlignment.CENTER);
+		XSSFFont font = workbook.createFont();
+		font.setFontHeightInPoints((short) 18);
+		font.setBold(true);
+		style.setFont(font);       
+		return style;
+	}
+
+	public XSSFCellStyle generateFieldStile(XSSFWorkbook workbook) {
+		XSSFCellStyle style = workbook.createCellStyle();
+		style.setAlignment(HorizontalAlignment.CENTER);
+		XSSFFont font = workbook.createFont();
+		font.setFontHeightInPoints((short) 14);
 		font.setBold(true);
 		style.setFont(font);       
 		return style;
@@ -182,11 +266,9 @@ public class ReportBean implements Serializable {
 	public StreamedContent convertByteToStreamedContent(byte[] byteFile) {
 
 		InputStream is = new ByteArrayInputStream(byteFile);
+		OrdineReport data = ordiniBean.getOrdineEDettagliReport();
 
-		UtentePOJO utente = ordiniBean.getSessionBean().getLoggedUser();
-		Ordine ordine = ordiniBean.getAddOrdine();
-
-		String filename = utente.getNome() + Constants.Caratteri.UNDERSCORE + utente.getCognome() + Constants.Caratteri.UNDERSCORE + ordine.getId_ordine() + Constants.File.XLSX;
+		String filename = data.getOrdine().getAcquirente().getNome() + Constants.Caratteri.UNDERSCORE + data.getOrdine().getAcquirente().getCognome() + Constants.Caratteri.UNDERSCORE + data.getOrdine().getId() + Constants.File.XLSX;
 
 		StreamedContent file = DefaultStreamedContent.builder()
 				.name(filename)
@@ -195,7 +277,6 @@ public class ReportBean implements Serializable {
 				.build();
 
 		return file;
-
 
 	}
 

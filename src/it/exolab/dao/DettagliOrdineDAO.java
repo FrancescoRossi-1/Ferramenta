@@ -35,6 +35,13 @@ public class DettagliOrdineDAO {
 		MainDAO.closeTransaction();
 	}
 
+	public List<DettagliOrdinePOJO> findFromIdOrdine(Ordine ordine) {
+		MainDAO.beginTransaction();
+		List<DettagliOrdinePOJO> extrapolatedDettagliOrdini = MainDAO.getDettagliOrdineMapper().findFromIdOrdine(ordine);
+		MainDAO.closeTransaction();
+		return extrapolatedDettagliOrdini;
+	}
+
 
 
 }

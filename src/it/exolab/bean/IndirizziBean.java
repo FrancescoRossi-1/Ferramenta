@@ -54,9 +54,8 @@ public class IndirizziBean implements Serializable {
 		Long id_indirizzo = null;
 
 		ValidationService.checkParametersIndirizzo(addIndirizzo);
-
-		addIndirizzo.setId_provincia(provinceBean.getIdProvinciaSelezionata());
-
+		
+		
 		if(allIndirizzi.contains(addIndirizzo)) { //indirizzo già esistente
 			for (Indirizzo indirizzo : allIndirizzi) {
 				if(indirizzo.equals(addIndirizzo)) {
@@ -64,8 +63,10 @@ public class IndirizziBean implements Serializable {
 				}
 			}
 		}else {
-			addIndirizzo.setId_provincia(provinceBean.getIdProvinciaSelezionata());
-			IndirizzoDAO.getInstance().insertAddress(addIndirizzo,provinceBean.getIdProvinciaSelezionata());
+			if(addIndirizzo.getId_provincia() == null) {
+				addIndirizzo.setId_provincia(provinceBean.getIdProvinciaSelezionata());
+			}
+			IndirizzoDAO.getInstance().insertAddress(addIndirizzo);
 			id_indirizzo = addIndirizzo.getId_indirizzo();
 			
 		}

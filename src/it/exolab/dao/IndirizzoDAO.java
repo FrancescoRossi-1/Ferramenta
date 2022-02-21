@@ -21,9 +21,9 @@ public class IndirizzoDAO {
 	}
 
 	
-	public void insertAddress(Indirizzo indirizzoResidenza, Long idProvincia) {
+	public void insertAddress(Indirizzo indirizzoResidenza) {
 		MainDAO.beginTransaction();
-		MainDAO.getIndirizzoMapper().insertAddress(indirizzoResidenza, idProvincia);
+		MainDAO.getIndirizzoMapper().insertAddress(indirizzoResidenza);
 		SqlMapFactory.instance().commitSession();
 		MainDAO.closeTransaction();
 	}

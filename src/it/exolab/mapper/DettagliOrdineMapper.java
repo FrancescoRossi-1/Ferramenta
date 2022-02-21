@@ -60,6 +60,12 @@ public interface DettagliOrdineMapper {
 			+ " ) "
 			+ "	</foreach> "
 			+ "</script>" ;
+	
+	static final String FIND_FROM_ID_ORDINE = 
+			FIND_ALL_DETTAGLI_ORDINI
+			+ "WHERE "
+			+ " ordi.id_ordine = #{id_ordine}";
+	
 
 	@Results({
 		@Result(property = "id", column = "id_dettagli_ordine", id = true),
@@ -81,6 +87,24 @@ public interface DettagliOrdineMapper {
 	
 	@Insert( INSERT_DETTAGLI_ORDINE )
 	void insertDettagliOrdine(Ordine ordine, @Param("entries") HashMap<Articolo, Integer> articoliEQuantita);
+
+	@Results({
+		@Result(property = "id", column = "id_dettagli_ordine", id = true),
+		@Result(property = "quantitaArticolo", column = "quantita"),
+		@Result(property = "articoloAcquistato.id", column = "id_articolo", id = true),
+		@Result(property = "articoloAcquistato.titolo", column = "titolo_articolo"),
+		@Result(property = "articoloAcquistato.descrizione", column = "descrizione_articolo"),
+		@Result(property = "articoloAcquistato.marchio", column = "marchio"),
+		@Result(property = "articoloAcquistato.colore", column = "colore"),
+		@Result(property = "articoloAcquistato.quantitaDisponibile", column = "quantita_disponibile"),
+		@Result(property = "articoloAcquistato.prezzoUnitario", column = "prezzo_unitario"),
+		@Result(property = "articoloAcquistato.categoriaDiAppartenenza.id_categoria", column = "id_categoria", id = true),
+		@Result(property = "articoloAcquistato.categoriaDiAppartenenza.nome_categoria", column = "nome_categoria"),
+		@Result(property = "articoloAcquistato.categoriaDiAppartenenza.descrizione_categoria", column = "descrizione_categoria"),
+		@Result(property = "ordineDiRiferimento.id_ordine", column = "id_ordine" ),
+	})
+	@Select ( FIND_FROM_ID_ORDINE )
+	List<DettagliOrdinePOJO> findFromIdOrdine(Ordine ordine);
 
 	
 

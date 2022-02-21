@@ -100,4 +100,11 @@ public class Constants {
 		public static final String UNDERSCORE = "_";
 	}
 	
+	public static class ExcelReport {
+		
+		public static final String TITLE_FOR_CUSTOMER = "Resoconto Ordine";
+		public static final List<String> SUBTITLES_FOR_CUSTOMER = new ArrayList<>(Arrays.asList("Cliente", "Ordine", "Indirizzo di Spedizione", "Metodo di Pagamento", "Articoli Acquistati"));
+		public static final int [] ROW_NUMBER_OF_SUBTITLES = { 3, 6, 11, 15, 21 };
+		public static final List<String> FIELDS_FOR_CUSTOMER = new ArrayList<>(Arrays.asList("ID Ordine", "Nome", "Cognome", "Email", "Totale Ordine", "Data", "Data consegna", "Via", "Numero Civico", "CAP", "Scala", "Interno", "Numero Carta", "Data Scadenza", "CVV", "Intestatario", "Nome", "Marca", "Prezzo", "Colore", "Descrizione", "Categoria", "Quantità" ));	}
+	
 }
