@@ -32,7 +32,7 @@ public interface OrdineMapper {
 			+ " #{id_ordine}, " 
 			+ " #{id_utente}, " 
 			+ " #{totale_ordine}, " 
-			+ " now() , " 
+			+ " #{data_ordine} , " 
 			+ " #{stato}, " 
 			+ " #{id_indirizzo_spedizione}, " 
 			+ " #{id_carta_credito}, "

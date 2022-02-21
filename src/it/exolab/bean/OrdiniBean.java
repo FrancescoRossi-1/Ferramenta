@@ -202,6 +202,7 @@ public class OrdiniBean implements Serializable {
 			addOrdine.setId_utente(sessionBean.getLoggedUser().getId());
 			addOrdine.setStato(Constants.Ordini.STATI_ORDINE.get(0));
 			addOrdine.setData_consegna(dataConsegna);
+			addOrdine.setData_ordine(new Date());
 
 			/*Inserimento ordine e dettagli*/
 			OrdineDAO.getInstance().insertOrdine(addOrdine); 
