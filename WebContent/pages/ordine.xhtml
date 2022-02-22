@@ -43,7 +43,8 @@
 					</h:outputText>
 
 
-					<p:commandButton value="Procedi al checkout" styleClass="downloadReport"
+					<p:commandButton value="Procedi al checkout"
+						styleClass="downloadReport"
 						actionListener="#{ordiniBean.insertOrdine}" ajax="false" />
 
 				</h:panelGrid>
@@ -60,10 +61,21 @@
 			<h:outputText value="#{ordiniBean.ordineEffettuatoMessage}"
 				styleClass="preformatted" />
 			<h:outputText
-				value="Clicca qui per scaricare il report dell'ordine: " />
+				value="Clicca qui per scaricare il report dell'ordine in formato XSLX: " />
 			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
 				draggable="false" closable="false" resizable="false" />
-			<p:commandButton value="Download" ajax="false" actionListener="#{reportBean.generateReportUtente()}"
+			<p:commandButton value="Download" ajax="false"
+				actionListener="#{reportBean.generateReportUtenteExcel()}"
+				onclick="PrimeFaces.monitorDownload(start, stop);"
+				icon="pi pi-arrow-down">
+				<p:fileDownload value="#{reportBean.file}" />
+			</p:commandButton>
+			<h:outputText
+				value="Clicca qui per scaricare il report dell'ordine in formato PDF: " />
+			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+				draggable="false" closable="false" resizable="false" />
+			<p:commandButton value="Download" ajax="false"
+				actionListener="#{reportBean.generateReportUtentePDF()}"
 				onclick="PrimeFaces.monitorDownload(start, stop);"
 				icon="pi pi-arrow-down">
 				<p:fileDownload value="#{reportBean.file}" />

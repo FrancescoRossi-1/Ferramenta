@@ -7,6 +7,12 @@ import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
+import org.apache.poi.xssf.usermodel.XSSFCell;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Font;
+
 public class Constants {
 
 	public class Regex {
@@ -35,7 +41,7 @@ public class Constants {
 		public static final String QUANTITA_ARTICOLO_MINORE = "Non puoi inserire meno di un'articolo, riprova.";
 		public static final String QUANTITA_ARTICOLO_MAGGIORE = "Non puoi inserire più di 150 articoli, riprova.";
 	}
-	
+
 	public class Messages {
 		public static final String REGISTRAZIONE_AVVENUTA = "Registrazione avvenuta con successo!";
 		public static final String LOGIN_AVVENUTO = "Login effettuato con successo";
@@ -50,7 +56,7 @@ public class Constants {
 		public static final String INSERT_METODO_PAGAMENTO_SUCCESS = "Metodo di pagamento inserito con successo.";
 		public static final String DELETE_METODO_DI_PAGAMENTO_SUCCESS = "Metodo di pagamento rimosso con successo.";
 	}
-	
+
 	public class Tabs {
 		public static final String TAB_HOMEPAGE = "tabHome";
 		public static final String TAB_LOGIN = "tabLogin";
@@ -71,40 +77,67 @@ public class Constants {
 		public static final int ID_TAB_ORDINE = 5;
 		public static final int ID_TAB_LOGOUT = 6;
 	}
-	
+
 	public static class File {
 		public static final String XHTML = ".xhtml";
 		public static final String XLSX = ".xlsx";
+		public static final String PDF = ".pdf";
 		public static final String[] SUPPORTED_IMAGE_EXTENSIONS = { "jpg", "png", "gif" };
 		public static final Double MAX_SUPPORTED_DIMENSION = 65534.00; //64KB
 	}
-	
+
 	public static class Paths {
 		public static final ServletContext SERVLET_CONTEXT = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();	
 		public static final String RESOURCE_PATH = SERVLET_CONTEXT.getRealPath("resources");
 		public static final String RESOUSCE_PATH_REPORT_ORDINE = RESOURCE_PATH + "/reports/ordini";
-		
+
 	}
-	
+
 	public static class  Ordini {
 		public static final List<String> STATI_ORDINE = new ArrayList<>( Arrays.asList("Ordinato" , "In spedizione" , "Spedito" , "Consegnato" , "Annullato"));
 		public static final List<String> CIRCUITI_ACCETTATI = new ArrayList<>(Arrays.asList("VISA","AMERICAN EXPRESS","MASTER CARD"));
 		public static final Long FOUR_DAYS_IN_MILLISECONDS = 345600000L;
 	}
-	
+
 	public class ContentTypes {
 		public static final String XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+		public static final String PDF = "application/pdf";
 	}
-	
+
 	public class Caratteri {
 		public static final String UNDERSCORE = "_";
 	}
+
+	public static class Fonts {
+		public static final Font CAT_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 22, Font.BOLD);
+		public static final Font MEDIUM_BOLD = new Font(Font.FontFamily.TIMES_ROMAN, 15, Font.BOLD);
+		public static final Font RED_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.RED);
+		public static Font SUB_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
+		public static final Font SMALL_BOLD = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+	}
 	
-	public static class ExcelReport {
+	public static class PDFReport {
+		public static final String TITLE_FOR_ALL_ORDINI = "Resoconto Ordini";
+		public static final String TITLE_FOR_ORDINE = "Resoconto Ordine";
+		public static final String CREATOR = "Francesco Rossi";
+		public static final String SUBJECT_FOR_ALL_ORDINI = "Resosconto degli ordini di tutti i clienti.";
+		public static final String TESTO_DESCRIZIONE_ALL_ORDINI = "In questo documento troverai tutti gli ordini effettuati dai clienti con i loro relativi dettagli.";
 		
+	}
+
+	public static class ExcelReport {
 		public static final String TITLE_FOR_CUSTOMER = "Resoconto Ordine";
-		public static final List<String> SUBTITLES_FOR_CUSTOMER = new ArrayList<>(Arrays.asList("Cliente", "Ordine", "Indirizzo di Spedizione", "Metodo di Pagamento", "Articoli Acquistati"));
+		public static final String TITLE_FOR_ALL_ORDINI = "Resoconto Ordini";
+		public static final String TITLE_FOR_ARTICOLI_ACQUISTATI = "Dettagli Ordini";
+		public static final List<String> SUBTITLES_FOR_CUSTOMER_AND_ORDINI = new ArrayList<>(Arrays.asList("Cliente", "Ordine", "Indirizzo di Spedizione", "Metodo di Pagamento", "Articoli Acquistati"));
+		public static final List<String> SUBTITLES_FOR_ARTICOLI_ACQUISTATI = new ArrayList<>(Arrays.asList("Ordine", "Articoli Acquistati"));
+		public static final List<String> FIELDS_FOR_ARTICOLI_ACQUISTATI = new ArrayList<>(Arrays.asList("ID Ordine", "Nome", "Marca", "Prezzo", "Colore", "Descrizione", "Categoria", "Quantità"));
+		public static final int[] ROW_NUMBER_FOR_ARTICOLI_ACQUISTATI = { 0, 7 };
+		public static final List<String> FIELDS_FOR_CUSTOMER = new ArrayList<>(Arrays.asList("ID Ordine", "Nome", "Cognome", "Email", "Totale Ordine", "Data", "Data consegna", "Via", "Numero Civico", "CAP", "Scala", "Interno", "Numero Carta", "Data Scadenza", "CVV", "Intestatario", "Nome", "Marca", "Prezzo", "Colore", "Descrizione", "Categoria", "Quantità" ));	
 		public static final int [] ROW_NUMBER_OF_SUBTITLES = { 3, 6, 11, 15, 21 };
-		public static final List<String> FIELDS_FOR_CUSTOMER = new ArrayList<>(Arrays.asList("ID Ordine", "Nome", "Cognome", "Email", "Totale Ordine", "Data", "Data consegna", "Via", "Numero Civico", "CAP", "Scala", "Interno", "Numero Carta", "Data Scadenza", "CVV", "Intestatario", "Nome", "Marca", "Prezzo", "Colore", "Descrizione", "Categoria", "Quantità" ));	}
-	
+		public static final List<String> FIELDS_FOR_ALL_ORDINI = new ArrayList<>(Arrays.asList("ID Ordine", "Nome", "Cognome", "Email", "Totale Ordine", "Data", "Data consegna", "Via", "Numero Civico", "CAP", "Scala", "Interno", "Numero Carta", "Data Scadenza", "CVV", "Intestatario", "INFO" ));
+		public static final int [] ROW_NUMBER_OF_ALL_ORDINI = { 3, 6, 11, 15, 15 };
+		public static final String INFO_ARTICOLI_ACQUISTATI = "Per consultare gli articoli acquistati rivolgersi al foglio 2";
+	}
+
 }

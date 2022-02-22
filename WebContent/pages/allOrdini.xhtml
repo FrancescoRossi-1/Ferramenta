@@ -8,7 +8,30 @@
 
 	<h1>Visualizza Ordini</h1>
 
-	<p:dataTable var="ordini" value="#{ordiniBean.allOrdiniAndDettagliEntry}" id="ordiniTable">
+	<h:outputText
+		value="Clicca qui per scaricare il report di tutti gli ordini in formato XLSX: " />
+	<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+		draggable="false" closable="false" resizable="false" />
+	<p:commandButton value="Download" ajax="false"
+		actionListener="#{reportBean.generateReportAllOrdiniExcel()}"
+		onclick="PrimeFaces.monitorDownload(start, stop);"
+		icon="pi pi-arrow-down">
+		<p:fileDownload value="#{reportBean.file}" />
+	</p:commandButton>
+	<br />
+	<h:outputText
+		value="Clicca qui per scaricare il report di tutti gli ordini in formato PDF: " />
+	<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+		draggable="false" closable="false" resizable="false" />
+	<p:commandButton value="Download" ajax="false"
+		actionListener="#{reportBean.generateReportAllOrdiniPDF()}"
+		onclick="PrimeFaces.monitorDownload(start, stop);"
+		icon="pi pi-arrow-down">
+		<p:fileDownload value="#{reportBean.file}" />
+	</p:commandButton>
+
+	<p:dataTable var="ordini"
+		value="#{ordiniBean.allOrdiniAndDettagliEntry}" id="ordiniTable">
 		<p:column headerText="Id">
 			<h:outputText value="#{ordini.key.id}" />
 		</p:column>
@@ -24,13 +47,14 @@
 		<p:column headerText="Prezzo totale">
 			<h:outputText value="#{ordini.key.totaleOrdine}" />
 		</p:column>
-		
+
 		<p:column headerText="Acquirente">
-			<h:outputText value="#{ordini.key.acquirente.nome} #{ordini.key.acquirente.cognome}" />
+			<h:outputText
+				value="#{ordini.key.acquirente.nome} #{ordini.key.acquirente.cognome}" />
 		</p:column>
-		
-		
-		
+
+
+
 	</p:dataTable>
 
 </h:body>

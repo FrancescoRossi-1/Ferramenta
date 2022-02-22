@@ -63,7 +63,7 @@ public class OrdiniBean implements Serializable {
 
 	@ManagedProperty ( "#{indirizziBean}" )
 	private IndirizziBean indirizziBean;
-	
+
 	private Indirizzo addIndirizzoOrdine;
 	private Indirizzo addIndirizzoSpedizione;
 
@@ -92,6 +92,7 @@ public class OrdiniBean implements Serializable {
 
 	private Map<OrdinePOJO,List<DettagliOrdinePOJO>> allOrdiniAndDettagli;
 	private ArrayList<Map.Entry<OrdinePOJO,List<DettagliOrdinePOJO>>> allOrdiniAndDettagliEntry;
+	private List<OrdineReport> allOrdiniReport;
 
 	private Ordine addOrdine;
 	private Date dataConsegna; 
@@ -116,7 +117,7 @@ public class OrdiniBean implements Serializable {
 		indirizzoEIndirizzoSpedizioneUtente = new HashMap<>();
 		cartaDiCreditoSelezionata = new CartaDiCreditoPOJO();
 		allOrdiniAndDettagli = new HashMap<>();
-		
+
 		allCarteDiCredito = CartaDiCreditoDAO.getInstance().findAllCarte(); //estrazione di tutte le carte di credito
 		allCarteDiCreditoUtente = CartaDiCreditoDAO.getInstance().findAllByUserId(sessionBean.getLoggedUser()); //estrazione delle carte di credito dell'utente
 
@@ -143,6 +144,7 @@ public class OrdiniBean implements Serializable {
 		allOrdini = OrdineDAO.getInstance().findAllOrdini();
 		allDettagliOrdine = DettagliOrdineDAO.getInstance().findAllDettagliOrdini();
 
+		fillAllOrdiniReport(allOrdini, allDettagliOrdine);
 
 		/*Inizializzazione mappa con ordini e dettagli*/
 		for (OrdinePOJO ordine : allOrdini) {
@@ -157,7 +159,7 @@ public class OrdiniBean implements Serializable {
 				}
 			}
 		}
-		
+
 		Set<Map.Entry<OrdinePOJO, List<DettagliOrdinePOJO>>> ordiniEDettagliSet = allOrdiniAndDettagli.entrySet();
 		allOrdiniAndDettagliEntry = new ArrayList<Map.Entry<OrdinePOJO,List<DettagliOrdinePOJO>>>(ordiniEDettagliSet);
 
@@ -179,6 +181,41 @@ public class OrdiniBean implements Serializable {
 		dataConsegna = new Date(System.currentTimeMillis() + Constants.Ordini.FOUR_DAYS_IN_MILLISECONDS);
 
 	} 
+
+	private void fillAllOrdiniReport(List<OrdinePOJO> ordini, List<DettagliOrdinePOJO> dettagli) {
+
+		allOrdiniReport = new ArrayList<>();
+		OrdineReport newReport = null;
+
+		int count = 0;
+
+		for (OrdinePOJO ordine : ordini) {
+			count = 0;
+			for (DettagliOrdinePOJO dettagliOrdine : dettagli) {
+
+				if(count == 0) {
+					newReport = new OrdineReport();
+				}
+				if(newReport.getOrdine() == null) {
+					newReport.setOrdine(ordine);
+					newReport.setDettagliOrdine(new ArrayList<>());
+				}
+				if ( ordine.getId().equals(dettagliOrdine.getOrdineDiRiferimento().getId_ordine())) {
+					newReport.getDettagliOrdine().add(dettagliOrdine);
+				}
+				count++;
+			}
+
+			if(newReport != null) {
+				allOrdiniReport.add(newReport);
+			}
+		}
+
+		allOrdiniReport.forEach( ( report ) -> log.info(report.getOrdine().toString() + report.getDettagliOrdine().toString()) );
+
+		log.info("#### terminato");
+
+	}
 
 	public void insertOrdine() {
 
@@ -217,9 +254,9 @@ public class OrdiniBean implements Serializable {
 			carrelloBean.getArticoliBean().init(); 
 
 			ordineEffettuato = true;
-			
+
 			fillDataForReport();
-			
+
 			fillOrdineEffettuatoMessage();
 
 			PrimeFaces.current().ajax().update("menuForm:tabView:tabOrdine");
@@ -240,17 +277,17 @@ public class OrdiniBean implements Serializable {
 	}
 
 	private void fillDataForReport() {
-		
+
 		ordineEDettagliReport = new OrdineReport();
-		
+
 		log.info("#### id dell'ordine : " + addOrdine.getId_ordine());
 		OrdinePOJO ordineDelCliente = OrdineDAO.getInstance().findPOJOFromId(addOrdine);
 		log.info("###### ordine del cliente: " + ordineDelCliente.toString());
 		ordineEDettagliReport.setOrdine(ordineDelCliente);
 		List<DettagliOrdinePOJO> dettagliOrdineCliente = DettagliOrdineDAO.getInstance().findFromIdOrdine(addOrdine);
 		ordineEDettagliReport.setDettagliOrdine(dettagliOrdineCliente);
-		
-		
+
+
 	}
 
 	private void fillOrdineEffettuatoMessage() {
@@ -534,16 +571,16 @@ public class OrdiniBean implements Serializable {
 			cartaDiCreditoSelezionata = new CartaDiCreditoPOJO();
 		}else {			
 			/*Casting manuale da dto a pojo*/
-			
+
 			IndirizzoPOJO indirizzoPOJO = new IndirizzoPOJO();
 			indirizzoPOJO.setIdIndirizzo(indirizzo.getId_indirizzo());
 			indirizzoPOJO.setNCivico(indirizzo.getN_civico());
 			indirizzoPOJO.setCap(indirizzo.getCap());
 			indirizzoPOJO.setVia(indirizzo.getVia());
-			
+
 			ProvinciaPOJO provinciaPOJO = new ProvinciaPOJO();
 			provinciaPOJO.setIdProvincia(indirizzo.getId_provincia());
-			
+
 			indirizzoPOJO.setProvinciaAppartenente(provinciaPOJO);
 
 			cartaDiCreditoSelezionata.setIndirizzoFatturazione(indirizzoPOJO);
@@ -599,6 +636,14 @@ public class OrdiniBean implements Serializable {
 		this.allOrdiniAndDettagliEntry = allOrdiniAndDettagliEntry;
 	}
 
+	public List<OrdineReport> getAllOrdiniReport() {
+		return allOrdiniReport;
+	}
+
+	public void setAllOrdiniReport(List<OrdineReport> allOrdiniReport) {
+		this.allOrdiniReport = allOrdiniReport;
+	}
+
 	public Ordine getAddOrdine() {
 		return addOrdine;
 	}
@@ -634,7 +679,7 @@ public class OrdiniBean implements Serializable {
 		this.indirizziSpedizioneUtente = indirizziSpedizioneUtente;
 	}
 
-	
+
 	public Map<Indirizzo, IndirizzoDiSpedizione> getIndirizzoEIndirizzoSpedizioneUtente() {
 		return indirizzoEIndirizzoSpedizioneUtente;
 	}
@@ -681,18 +726,18 @@ public class OrdiniBean implements Serializable {
 			indirizzoDiSpedizioneSelezionato = new IndirizzoDiSpedizionePOJO();
 		}else {
 			/*Casting manuale da dto a pojo*/
-			
+
 			IndirizzoPOJO indirizzoPOJO = new IndirizzoPOJO();
 			indirizzoPOJO.setIdIndirizzo(indirizzo.getId_indirizzo());
 			indirizzoPOJO.setNCivico(indirizzo.getN_civico());
 			indirizzoPOJO.setCap(indirizzo.getCap());
 			indirizzoPOJO.setVia(indirizzo.getVia());
-			
+
 			ProvinciaPOJO provinciaPOJO = new ProvinciaPOJO();
 			provinciaPOJO.setIdProvincia(indirizzo.getId_provincia());
-			
+
 			indirizzoPOJO.setProvinciaAppartenente(provinciaPOJO);
-			
+
 			indirizzoDiSpedizioneSelezionato.setIndirizzoDiRiferimento(indirizzoPOJO);
 			indirizzoDiSpedizioneSelezionato.setUtenteDiRiferimento(sessionBean.getLoggedUser());
 			indirizzoDiSpedizioneSelezionato.setId(indirizzoDiSpedizione.getId_indirizzo_spedizione());
