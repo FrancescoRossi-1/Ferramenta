@@ -63,7 +63,7 @@
 				value="Clicca qui per scaricare il report dell'ordine: " />
 			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
 				draggable="false" closable="false" resizable="false" />
-			<p:commandButton value="Download" ajax="false" actionListener="#{reportBean.generateReportPerUtente()}"
+			<p:commandButton value="Download" ajax="false" actionListener="#{reportBean.generateReportUtente()}"
 				onclick="PrimeFaces.monitorDownload(start, stop);"
 				icon="pi pi-arrow-down">
 				<p:fileDownload value="#{reportBean.file}" />

@@ -65,10 +65,14 @@ public class ReportBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		file = convertByteToStreamedContent(generateReportPerUtente());
+		file = null;
+	}
+	
+	public void generateReportUtente() {
+		file = convertByteToStreamedContent(reportUtente());
 	}
 
-	public byte[] generateReportPerUtente() {
+	public byte[] reportUtente() {
 
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
@@ -130,7 +134,6 @@ public class ReportBean implements Serializable {
 			colNum = 0; //riinizializza a 0 numero di colonne
 
 			/*Riempimento*/
-			
 			OrdineReport reportData = ordiniBean.getOrdineEDettagliReport();
 			XSSFRow valueRow = sheet.createRow(++rowNum);
 			XSSFCell columnsCell [] = new XSSFCell[maxColNum];
@@ -147,7 +150,6 @@ public class ReportBean implements Serializable {
 				}
 				count++;
 			}
-			
 
 			for (int col = 0; col < maxColNum; col++) {				
 				sheet.autoSizeColumn(col); //aggiusta il width delle colonne automaticamente
@@ -162,9 +164,6 @@ public class ReportBean implements Serializable {
 			log.info(e.getMessage(), e);
 		}
 		
-		//TODO RISOLVERE PROBLEMA DOPPIO ORDINE IN UNA SESSIONE DOWNLOAD DELLO STESSO FILE
-
-
 		return bos.toByteArray();
 	}
 
@@ -175,16 +174,15 @@ public class ReportBean implements Serializable {
 			columnsCell[i] = row.createCell(i);
 		}
 		
-		log.info("#### id ordine: " + ordineData.getId());
-		log.info("#### nome cliente: " + ordineData.getAcquirente().getNome());
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		
 		columnsCell[0].setCellValue(ordineData.getId());
 		columnsCell[1].setCellValue(ordineData.getAcquirente().getNome());
 		columnsCell[2].setCellValue(ordineData.getAcquirente().getCognome());
 		columnsCell[3].setCellValue(ordineData.getAcquirente().getEmail());
 		columnsCell[4].setCellValue(ordineData.getTotaleOrdine());
-		columnsCell[5].setCellValue(ordineData.getDataOrdine());
-		columnsCell[6].setCellValue(ordineData.getDataConsegna());
+		columnsCell[5].setCellValue(formatter.format(ordineData.getDataOrdine()));
+		columnsCell[6].setCellValue(formatter.format(ordineData.getDataConsegna()));
 		columnsCell[7].setCellValue(ordineData.getIndirizzoDiSpedizione().getIndirizzoDiRiferimento().getVia());
 		columnsCell[8].setCellValue(ordineData.getIndirizzoDiSpedizione().getIndirizzoDiRiferimento().getNCivico());
 		columnsCell[9].setCellValue(ordineData.getIndirizzoDiSpedizione().getIndirizzoDiRiferimento().getCap());
@@ -220,8 +218,6 @@ public class ReportBean implements Serializable {
 		
 	}
 
-
-
 	private XSSFCellStyle generateTitleStyle(XSSFWorkbook workbook) {
 		XSSFCellStyle style = workbook.createCellStyle();
 		style.setBorderTop(BorderStyle.MEDIUM);
@@ -253,13 +249,6 @@ public class ReportBean implements Serializable {
 		font.setFontHeightInPoints((short) 14);
 		font.setBold(true);
 		style.setFont(font);       
-		return style;
-	}
-
-	private XSSFCellStyle generateDateFormatStyle(XSSFWorkbook workbook) {
-		XSSFCellStyle style = workbook.createCellStyle();
-		CreationHelper creationHelper = workbook.getCreationHelper();
-		style.setDataFormat(creationHelper.createDataFormat().getFormat("dd/MM/yyyy"));
 		return style;
 	}
 
