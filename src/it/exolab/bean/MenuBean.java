@@ -62,10 +62,6 @@ public class MenuBean implements Serializable {
 			this.tabIndex = Constants.Tabs.ID_TAB_SIGNUP;
 		}
 
-		if (Constants.Tabs.TAB_CATEGORIE.equals(currentTabId) ) {
-			this.tabIndex = Constants.Tabs.ID_TAB_CATEGORIE;
-		}
-
 		if (Constants.Tabs.TAB_ARTICOLI.equals(currentTabId)) {
 			this.tabIndex = Constants.Tabs.ID_TAB_ARTICOLI;
 		}

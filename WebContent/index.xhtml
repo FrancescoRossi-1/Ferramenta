@@ -46,10 +46,6 @@ function stop() {
 								rendered="#{sessionBean.loggedUser eq null}">
 								<ui:include src="/pages/signup.xhtml" />
 							</p:tab>
-							<p:tab title="Categorie" id="tabCategorie"
-								rendered="#{sessionBean.loggedUser != null}" icon="pi pi-star">
-								<ui:include src="/pages/categorie.xhtml" />
-							</p:tab>
 							<p:tab title="Articoli" id="tabArticoli" icon="pi pi-star"
 								rendered="#{sessionBean.loggedUser != null}">
 								<ui:include src="/pages/articoli.xhtml" />

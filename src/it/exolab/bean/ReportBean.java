@@ -2,20 +2,13 @@ package it.exolab.bean;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -25,8 +18,6 @@ import javax.faces.bean.SessionScoped;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.Header;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -38,24 +29,21 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfDocument;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.Cell;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.Table;
+import com.lowagie.text.pdf.PdfWriter;
 
 import it.exolab.constants.Constants;
-import it.exolab.dto.Articolo;
-import it.exolab.dto.IndirizzoDiSpedizione;
-import it.exolab.dto.Ordine;
-import it.exolab.pojo.CartaDiCreditoPOJO;
+import it.exolab.pojo.ArticoloPOJO;
 import it.exolab.pojo.DettagliOrdinePOJO;
-import it.exolab.pojo.IndirizzoDiSpedizionePOJO;
 import it.exolab.pojo.OrdinePOJO;
 import it.exolab.pojo.OrdineReport;
 import it.exolab.pojo.UtentePOJO;
-
 
 @SuppressWarnings("deprecation")
 @ManagedBean
@@ -418,14 +406,46 @@ public class ReportBean implements Serializable {
 		
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		
-		Document doc = new Document();
+		 Document doc = new Document();
 		try {
-			PdfWriter.getInstance(doc, bos);
-			doc.addTitle("Il mio primo PDF");
 			
+			PdfWriter writer = PdfWriter.getInstance(doc, bos);
+			
+			/*Meta dati*/
+			generateTitlePDF(doc, Constants.PDFReport.TITLE_FOR_ORDINE, Constants.PDFReport.SUBJECT_FOR_ORDINE, "Francesco Rossi" );
+			
+			doc.open();
+			
+			/*Title page*/
+			Paragraph preface = new Paragraph(Constants.PDFReport.TITLE_FOR_ALL_ORDINI, Constants.Fonts.CAT_FONT);
+			preface.setAlignment(Element.ALIGN_CENTER);
+			
+			addEmptyLine(preface, 1);
+		
+			preface.add(new Paragraph(Constants.PDFReport.TESTO_DESCRIZIONE_ORDINE,Constants.Fonts.MEDIUM_BOLD));
+			
+			addEmptyLine(preface, 1 );
+			
+			Paragraph tabs = new Paragraph();  
+			
+			Table table = new Table(Constants.PDFReport.TABLE_TITLES_ALL_ORDINI_AND_ORDINI.size());
+			
+			table.setWidth((float) 100);
+			
+			addTableHeaders(table, Constants.PDFReport.TABLE_TITLES_ALL_ORDINI_AND_ORDINI);
+			
+			OrdineReport report = ordiniBean.getOrdineEDettagliReport();
+			OrdinePOJO ordine = report.getOrdine();
+			insertRowInPDF(table, ordine, report.getDettagliOrdine());
+			
+			doc.add(preface);
+			tabs.setAlignment(Element.ALIGN_CENTER);
+			tabs.add(table);
+			doc.add(tabs);
+			doc.close();
+			writer.close();
 			
 		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -439,7 +459,7 @@ public class ReportBean implements Serializable {
 		
 		Document doc = new Document();
 		try {
-			PdfWriter.getInstance(doc, bos);
+			PdfWriter writer = PdfWriter.getInstance(doc, bos);
 			
 			/*Meta dati*/
 			generateTitlePDF(doc, Constants.PDFReport.TITLE_FOR_ALL_ORDINI, Constants.PDFReport.SUBJECT_FOR_ALL_ORDINI, "Francesco Rossi" );
@@ -454,30 +474,195 @@ public class ReportBean implements Serializable {
 		
 			preface.add(new Paragraph(Constants.PDFReport.TESTO_DESCRIZIONE_ALL_ORDINI,Constants.Fonts.MEDIUM_BOLD));
 			
-			 addEmptyLine(preface, 3);
+			addEmptyLine(preface, 1 );
 			
-			 Paragraph body = new Paragraph();  
-			 
-			 doc.add(preface);
+			Paragraph tabs = new Paragraph();  
 			
+			Table table = new Table(Constants.PDFReport.TABLE_TITLES_ALL_ORDINI_AND_ORDINI.size());
+			
+			table.setWidth((float) 100);
+			
+			addTableHeaders(table, Constants.PDFReport.TABLE_TITLES_ALL_ORDINI_AND_ORDINI);
+			
+			List<OrdineReport> allOrdiniReport = ordiniBean.getAllOrdiniReport();
+			
+			for (OrdineReport ordineReport : allOrdiniReport) {
+				List<DettagliOrdinePOJO> dettagliList = new ArrayList<>();
+				OrdinePOJO ordine = ordineReport.getOrdine();
+				insertRowInPDF(table, ordine, ordineReport.getDettagliOrdine());
+				
+			}
+			
+			doc.add(preface);
+			tabs.setAlignment(Element.ALIGN_CENTER);
+			tabs.add(table);
+			doc.add(tabs);
 			doc.close();
+			writer.close();
 			
 		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
 		return bos.toByteArray();
 	}
-	
-    private void generateTitlePDF(Document doc, String title, String subject, String author) {
+
+	private void generateTitlePDF(Document doc, String title, String subject, String author) {
     	doc.addTitle(title);
 		doc.addSubject(subject);
 		doc.addAuthor(author);
 		doc.addCreator(Constants.PDFReport.CREATOR);
 	}
+	
+    private void addTableHeaders(Table table, List<String> headers) {
+    	
+    	for (String text : headers) {
+    		Cell cell = new Cell();
+    		Phrase ph = new Phrase();
+    		ph.add(text);
+    		ph.setFont(Constants.Fonts.MEDIUM_BOLD);
+			cell.add(ph);
+			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			cell.setVerticalAlignment(Element.ALIGN_CENTER);
+			table.addCell(cell);
+		}
+		
+	}
+    
+	private void insertRowInPDF(Table table, OrdinePOJO ordine, List<DettagliOrdinePOJO> dettagliOrdine) {
+				
+		Cell [] tableCells = new Cell[table.getColumns()];
+		
+		tableCells[0] = createCellOrdine(ordine);
+		tableCells[1] = createCellCliente(ordine.getAcquirente());
+		tableCells[2] = createCellArticoli(dettagliOrdine);
+		
+		/*inserimento celle in tabella*/
+		for(int i = 0; i<tableCells.length; i++) {
+			table.addCell(tableCells[i]);
+		}
+		
+	}
 
+	private Cell createCellArticoli(List<DettagliOrdinePOJO> dettagliOrdine) {
+		
+		Cell cell = new Cell();
+		Phrase texts [] = new Phrase[ (Constants.PDFReport.NUMERO_CAMPI_ARTICOLI * dettagliOrdine.size()) * 2];
+		
+		int count = 1;
+		int index = 0;
+		
+		inizializzaParagrafi( texts );
+		
+		for (DettagliOrdinePOJO dettagli : dettagliOrdine) {
+			
+			ArticoloPOJO articolo = dettagli.getArticoloAcquistato();
+			texts[index++].add("Articolo numero: ");
+			texts[index++].add( String.valueOf(count) + "\n");
+
+			texts[index++].add("Nome articolo: ");
+			texts[index++].add(articolo.getTitolo() + "\n");
+
+			texts[index++].add("Marca: ");
+			texts[index++].add(articolo.getMarchio() + "\n");
+			
+			texts[index++].add("Prezzo: ");
+			texts[index++].add(String.valueOf(articolo.getPrezzoUnitario()) + "\n");
+			
+			texts[index++].add("Colore: " );
+			texts[index++].add(articolo.getColore() + "\n");
+			
+			texts[index++].add("Descrizione: ");
+			texts[index++].add(articolo.getDescrizione() + "\n");
+			
+			texts[index++].add("Categoria: ");
+			texts[index++].add(articolo.getCategoriaDiAppartenenza().getNome_categoria() + "\n");
+			
+			texts[index++].add("Quantità: ");
+			texts[index++].add(String.valueOf(dettagli.getQuantitaArticolo()) + "\n");
+			
+			count++;
+			
+		} 
+		
+		riempiCella( texts, cell );
+		
+		return cell;
+		
+	}
+
+	private Cell createCellCliente(UtentePOJO acquirente) {
+		
+		Cell cell = new Cell();
+		Phrase [] texts = new Phrase[Constants.PDFReport.NUMERO_CAMPI_CLIENTE * 2];
+		
+		inizializzaParagrafi ( texts );
+		
+		texts[0].add("Nome: ");
+		texts[1].add(acquirente.getNome() + "\n");
+		texts[2].add("Cognome: ");
+		texts[3].add(acquirente.getCognome() + "\n");
+		texts[4].add("Email: ");
+		texts[5].add(acquirente.getEmail() + "\n"); 
+		
+		riempiCella( texts, cell );
+		
+		return cell;
+	}
+
+	private Cell createCellOrdine(OrdinePOJO ordine) {
+		
+		Cell cell = new Cell();
+
+		Phrase [] texts = new Phrase[Constants.PDFReport.NUMERO_CAMPI_ORDINE * 2];
+		
+		inizializzaParagrafi ( texts );
+		
+		
+		texts[0].add("Id Ordine: ");
+		texts[1].add(String.valueOf(ordine.getId()) + "\n");
+		texts[2].add("Data Creazione: " );
+		texts[3].add(new SimpleDateFormat(Constants.DateFormats.DDMMYYYY).format(ordine.getDataOrdine()) + "\n");
+		texts[4].add("Data Consegna: ");
+		texts[5].add(new SimpleDateFormat(Constants.DateFormats.DDMMYYYY).format(ordine.getDataConsegna()) + "\n");
+		
+		riempiCella( texts, cell );
+		
+		return cell;
+	}
+	
+	private void inizializzaParagrafi(Phrase[] texts) {
+		
+		for (int i = 0; i < texts.length; i++) {
+			texts[i] = new Phrase();
+			if( i%2 == 0 ) {
+			texts[i].setFont(Constants.Fonts.SMALL_BOLD);
+			}
+		}
+		
+	}
+	
+	private void riempiCella(Phrase[] texts, Cell cell) {
+		
+		Boolean goAhead = false;
+		for (Phrase phrase : texts) {
+			cell.add(phrase);
+			
+			if(goAhead) {
+				cell.add(new Phrase("\n"));
+				goAhead = false;
+			}
+			
+			if(phrase.getContent().contains("Quantità: ") ) {
+				goAhead = true;
+			}
+
+		}
+
+		
+	}
+	
 	private static void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));

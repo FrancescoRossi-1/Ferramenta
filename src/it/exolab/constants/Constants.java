@@ -1,5 +1,6 @@
 package it.exolab.constants;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,9 +10,8 @@ import javax.servlet.ServletContext;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Font;
+import com.lowagie.text.Font;
+
 
 public class Constants {
 
@@ -61,7 +61,6 @@ public class Constants {
 		public static final String TAB_HOMEPAGE = "tabHome";
 		public static final String TAB_LOGIN = "tabLogin";
 		public static final String TAB_SIGNUP = "tabRegistrazione";
-		public static final String TAB_CATEGORIE = "tabCategorie";
 		public static final String TAB_ARTICOLI = "tabArticoli";
 		public static final String TAB_AREA_RISERVATA = "tabAreaRiservata";
 		public static final String TAB_CARRELLO = "tabCarrello";
@@ -70,12 +69,11 @@ public class Constants {
 		public static final int ID_TAB_HOMEPAGE = 0;
 		public static final int ID_TAB_LOGIN = 1;
 		public static final int ID_TAB_SIGNUP = 2;
-		public static final int ID_TAB_CATEGORIE = 1;
-		public static final int ID_TAB_ARTICOLI = 2;
-		public static final int ID_TAB_AREA_RISERVATA = 3;
-		public static final int ID_TAB_CARRELLO = 4;
-		public static final int ID_TAB_ORDINE = 5;
-		public static final int ID_TAB_LOGOUT = 6;
+		public static final int ID_TAB_ARTICOLI = 1;
+		public static final int ID_TAB_AREA_RISERVATA = 2;
+		public static final int ID_TAB_CARRELLO = 3;
+		public static final int ID_TAB_ORDINE = 4;
+		public static final int ID_TAB_LOGOUT = 5;
 	}
 
 	public static class File {
@@ -109,11 +107,11 @@ public class Constants {
 	}
 
 	public static class Fonts {
-		public static final Font CAT_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 22, Font.BOLD);
-		public static final Font MEDIUM_BOLD = new Font(Font.FontFamily.TIMES_ROMAN, 15, Font.BOLD);
-		public static final Font RED_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.RED);
-		public static Font SUB_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
-		public static final Font SMALL_BOLD = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+		public static final Font CAT_FONT = new Font(Font.TIMES_ROMAN, 22, Font.BOLD);
+		public static final Font MEDIUM_BOLD = new Font(Font.TIMES_ROMAN, 15, Font.BOLD);
+		public static final Font RED_FONT = new Font(Font.TIMES_ROMAN, 12, Font.NORMAL, Color.RED);
+		public static Font SUB_FONT = new Font(Font.TIMES_ROMAN, 16, Font.BOLD);
+		public static final Font SMALL_BOLD = new Font(Font.TIMES_ROMAN, 12, Font.BOLD);
 	}
 	
 	public static class PDFReport {
@@ -121,7 +119,13 @@ public class Constants {
 		public static final String TITLE_FOR_ORDINE = "Resoconto Ordine";
 		public static final String CREATOR = "Francesco Rossi";
 		public static final String SUBJECT_FOR_ALL_ORDINI = "Resosconto degli ordini di tutti i clienti.";
+		public static final String SUBJECT_FOR_ORDINE = "Resosconto del Suo ordine";
 		public static final String TESTO_DESCRIZIONE_ALL_ORDINI = "In questo documento troverai tutti gli ordini effettuati dai clienti con i loro relativi dettagli.";
+		public static final String TESTO_DESCRIZIONE_ORDINE = "In questo documento troverà il resoconto del suo ordine.";
+		public static final List<String> TABLE_TITLES_ALL_ORDINI_AND_ORDINI = new ArrayList<>(Arrays.asList("Ordine","Cliente","Articoli Acquistati"));
+		public static final int NUMERO_CAMPI_ORDINE = 3;
+		public static final int NUMERO_CAMPI_CLIENTE = 3;
+		public static final int NUMERO_CAMPI_ARTICOLI = 8;
 		
 	}
 
@@ -138,6 +142,12 @@ public class Constants {
 		public static final List<String> FIELDS_FOR_ALL_ORDINI = new ArrayList<>(Arrays.asList("ID Ordine", "Nome", "Cognome", "Email", "Totale Ordine", "Data", "Data consegna", "Via", "Numero Civico", "CAP", "Scala", "Interno", "Numero Carta", "Data Scadenza", "CVV", "Intestatario", "INFO" ));
 		public static final int [] ROW_NUMBER_OF_ALL_ORDINI = { 3, 6, 11, 15, 15 };
 		public static final String INFO_ARTICOLI_ACQUISTATI = "Per consultare gli articoli acquistati rivolgersi al foglio 2";
+	}
+	
+	public class DateFormats {
+
+		public static final String DDMMYYYY = "dd/MM/yyyy";
+		
 	}
 
 }
