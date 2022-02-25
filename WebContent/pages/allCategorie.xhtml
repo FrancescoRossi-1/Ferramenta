@@ -6,27 +6,24 @@
 
 <h:body>
 
-	<h1>Visualizza Categorie</h1>
+	<h1>#{label['areaRiservata.gestisciCategorie']}</h1>
 
 	<p:dataTable id="gestioneCategorie" var="categoria"
 		value="#{categorieBean.allCategorie}">
-		<p:column headerText="Id">
-			<h:outputText value="#{categoria.id_categoria}" />
-		</p:column>
 
-		<p:column headerText="Nome">
+		<p:column headerText="#{label['categoria.nome']}">
 			<h:outputText value="#{categoria.nome_categoria}" />
 		</p:column>
 
-		<p:column headerText="Descrizione">
+		<p:column headerText="#{label['categoria.descrizione']}">
 			<h:outputText value="#{categoria.descrizione_categoria}" />
 		</p:column>
 
-		<p:column headerText="Elimina">
+		<p:column headerText="#{label['generic.azioni']}">
 
 			<p:growl id="deleteCategoriaMessage" showDetail="true" />
 
-			<p:commandButton value="Elimina"
+			<p:commandButton value="#{label['actions.elimina']}"
 				action="#{categorieBean.deleteCategoria(categoria.id_categoria)}" update="deleteCategoriaMessage">
 				<p:confirm header="Confirmation" message="Eliminando questa categoria eliminerai tutti gli articoli che gli appartengono, vuoi proseguire?"
 					icon="pi pi-exclamation-triangle" />

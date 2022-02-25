@@ -6,7 +6,9 @@
 
 
 <h:head>
+	<title>#{label['app.htmlpage.title']}</title>
 	<h:outputStylesheet name="style.css" library="css" />
+	<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
 	<link rel="stylesheet" href="css/style.css" />
 	<script type="text/javascript">
     //<![CDATA[
@@ -23,59 +25,64 @@ function stop() {
 
 <h:body>
 	<div id="pageLayout">
-		<p:layout fullPage="true"  styleClass="borderless">
-		
-			<p:layoutUnit position="north" style="border-color: transparent; background: #06c" gutter="0"  size="136">
-				<ui:include src="/pages/header.xhtml" />
-			</p:layoutUnit>
+		<h:form id="menuForm" enctype="multipart/form-data">
+			<p:layout fullPage="true" styleClass="borderless">
 
-			<p:layoutUnit position="center" style="border-color: transparent;" gutter="1" size="5000" maxSize="5000">
+				<p:layoutUnit position="north"
+					style="border-color: transparent; background: #06c" gutter="0"
+					size="136">
+					<ui:include src="/pages/header.xhtml" />
+				</p:layoutUnit>
 
-					<h:form id="menuForm" enctype="multipart/form-data">
-						<p:tabView id="tabView" activeIndex="#{menuBean.tabIndex}">
-							<p:ajax event="tabChange"
-								listener="#{menuBean.onTabChangeInserimento}" />
-							<p:tab title="Home" id="tabHome">
-								<ui:include src="/pages/homepage.xhtml" />
-							</p:tab>
-							<p:tab title="Login" id="tabLogin"
-								rendered="#{sessionBean.loggedUser eq null}">
-								<ui:include src="/pages/login.xhtml" />
-							</p:tab>
-							<p:tab title="Registrati" id="tabRegistrazione"
-								rendered="#{sessionBean.loggedUser eq null}">
-								<ui:include src="/pages/signup.xhtml" />
-							</p:tab>
-							<p:tab title="Articoli" id="tabArticoli" icon="pi pi-star"
-								rendered="#{sessionBean.loggedUser != null}">
-								<ui:include src="/pages/articoli.xhtml" />
-							</p:tab>
-							<p:tab title="Area Riservata" id="tabAreaRiservata"
-								icon="pi pi-star" rendered="#{sessionBean.loggedUser.isAdmin}">
-								<ui:include src="/pages/areaRiservata.xhtml" />
-							</p:tab>
-							<p:tab title="Carrello" id="tabCarrello" icon="pi shopping-cart"
-								rendered="#{sessionBean.loggedUser != null}">
-								<ui:include src="/pages/carrello.xhtml" />
-							</p:tab>
-							<p:tab title="Ordine" id="tabOrdine" icon="pi shopping-cart"
-								rendered="#{menuBean.visibileOrdine}">
-								<ui:include src="/pages/ordine.xhtml" />
-							</p:tab>
-							<p:tab title="Logout" icon="pi pi-star" id="tabLogout"
-								rendered="#{sessionBean.loggedUser != null}">
-							</p:tab>
-						</p:tabView>
-					</h:form>
-			</p:layoutUnit>
+				<p:layoutUnit position="center" style="border-color: transparent;"
+					gutter="1" size="5000" maxSize="5000">
 
-			<p:layoutUnit position="south" style="border-color: transparent;background: #5a5a5a" gutter="0" size="90">
-				<footer class="footer">
-					<h1>Ferramenta Footer</h1>
-				</footer>
+					<p:tabView id="tabView" activeIndex="#{menuBean.tabIndex}">
+						<p:ajax event="tabChange"
+							listener="#{menuBean.onTabChangeInserimento}" />
+						<p:tab title="#{label['menu.tab.homepage']}" id="tabHome">
+							<ui:include src="/pages/homepage.xhtml" />
+						</p:tab>
+						<p:tab title="#{label['menu.tab.login']}" id="tabLogin"
+							rendered="#{sessionBean.loggedUser eq null}">
+							<ui:include src="/pages/login.xhtml" />
+						</p:tab>
+						<p:tab title="#{label['menu.tab.signup']}" id="tabRegistrazione"
+							rendered="#{sessionBean.loggedUser eq null}">
+							<ui:include src="/pages/signup.xhtml" />
+						</p:tab>
+						<p:tab title="#{label['menu.tab.articoli']}" id="tabArticoli" icon="pi pi-star"
+							rendered="#{sessionBean.loggedUser != null}">
+							<ui:include src="/pages/articoli.xhtml" />
+						</p:tab>
+						<p:tab title="#{label['menu.tab.areaRiservata']}" id="tabAreaRiservata"
+							icon="pi pi-star" rendered="#{sessionBean.loggedUser.isAdmin}">
+							<ui:include src="/pages/areaRiservata.xhtml" />
+						</p:tab>
+						<p:tab title="#{label['menu.tab.carrello']}" id="tabCarrello" icon="pi pi-shopping-cart"
+							rendered="#{sessionBean.loggedUser != null}">
+							<ui:include src="/pages/carrello.xhtml" />
+						</p:tab>
+						<p:tab title="#{label['menu.tab.ordine']}" id="tabOrdine" icon="pi shopping-cart"
+							rendered="#{menuBean.visibileOrdine}">
+							<ui:include src="/pages/ordine.xhtml" />
+						</p:tab>
+						<p:tab title="#{label['menu.tab.logout']}" icon="pi pi-star" id="tabLogout"
+							rendered="#{sessionBean.loggedUser != null}">
+						</p:tab>
+					</p:tabView>
+				</p:layoutUnit>
 
-			</p:layoutUnit>
-		</p:layout>
+				<p:layoutUnit position="south"
+					style="border-color: transparent;background: #5a5a5a" gutter="0"
+					size="90">
+					<footer class="footer">
+						<h1>#{label['footer.title']}</h1>
+					</footer>
+
+				</p:layoutUnit>
+			</p:layout>
+		</h:form>
 	</div>
 
 </h:body>

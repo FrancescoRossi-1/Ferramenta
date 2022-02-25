@@ -5,12 +5,12 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:body>
-		<h2>Aggiungi articolo</h2>
+		<h2>#{label['areaRiservata.aggiungiArticolo']}</h2>
 		<p:panelGrid id="gridAddArticoli" cellpadding="2"
 			style="margin-left: auto; margin-right: auto;">
 			<p:row>
 				<p:column colspan="1">
-					<p:outputLabel for="titoloArticolo" value="Titolo articolo:" />
+					<p:outputLabel for="titoloArticolo" value="#{label['articoli.nomeArticolo']}" />
 				</p:column>
 				<p:column colspan="2">
 					<p:inputText id="titoloArticolo"
@@ -20,7 +20,7 @@
 			<p:row>
 				<p:column colspan="1">
 					<p:outputLabel for="descrizioneArticolo"
-						value="Descrizione Articolo:" />
+						value="#{label['articoli.descrizione']}" />
 				</p:column>
 				<p:column colspan="2">
 					<p:inputText id="descrizioneArticolo"
@@ -30,7 +30,7 @@
 			</p:row>
 			<p:row>
 				<p:column>
-					<p:outputLabel for="fileImmagine" value="Immagine:" />
+					<p:outputLabel for="fileImmagine" value="#{label['articoli.immagine']}" />
 				</p:column>
 				<p:column>
 					<p:fileUpload id="fileImmagine"
@@ -41,7 +41,7 @@
 			<p:row>
 				<p:column>
 					<p:outputLabel for="quantitaDisponibile"
-						value="Quantità disponibile:" />
+						value="#{label['articoli.quantitaDisponibile']}" />
 				</p:column>
 				<p:column>
 					<p:inputText id="quantitaDisponibile"
@@ -51,7 +51,7 @@
 			</p:row>
 			<p:row>
 				<p:column>
-					<p:outputLabel for="prezzo" value="Prezzo: €" />
+					<p:outputLabel for="prezzo" value="#{label['articoli.prezzo']} €" />
 				</p:column>
 				<p:column>
 					<p:inputText id="prezzo"
@@ -61,12 +61,12 @@
 			</p:row>
 			<p:row>
 				<p:column>
-					<p:outputLabel for="categoriaAddArticolo" value="Categoria:" />
+					<p:outputLabel for="categoriaAddArticolo" value="#{label['articoli.categoria']}" />
 				</p:column>
 				<p:column>
 					<p:selectOneMenu id="categoriaAddArticolo"
 						value="#{articoliBean.addArticolo.categoriaDiAppartenenza.id_categoria}">
-						<f:selectItem itemLabel="Seleziona una categoria."
+						<f:selectItem itemLabel="#{label['categoria.selezionaCategoria']}"
 							itemValue="#{null}" />
 						<f:selectItems value="#{categorieBean.allCategorie}"
 							var="item" itemLabel="#{item.nome_categoria}"
@@ -76,7 +76,7 @@
 			</p:row>
 			<p:row>
 				<p:column>
-					<p:outputLabel for="marhioAddArticolo" value="Marchio:" />
+					<p:outputLabel for="marhioAddArticolo" value="#{label['articoli.marca']}" />
 				</p:column>
 				<p:column>
 					<p:inputText id="marhioAddArticolo"
@@ -86,7 +86,7 @@
 			</p:row>
 			<p:row>
 				<p:column>
-					<p:outputLabel for="coloreAddArticolo" value="Colore:" />
+					<p:outputLabel for="coloreAddArticolo" value="#{label['articoli.colore']}" />
 				</p:column>
 				<p:column>
 					<p:inputText id="coloreAddArticolo"
@@ -96,7 +96,7 @@
 			</p:row>
 			<p:row>
 				<p:column colspan="3">
-					<p:commandButton value="Aggiungi Articolo" id="aggiungiArticolo"
+					<p:commandButton value="#{label['areaRiservata.aggiungiArticolo']}" id="aggiungiArticolo"
 						actionListener="#{articoliBean.insertArticolo}"
 						style="margin-right:20px;" styleClass="ui-priority-primary" ajax="false"
 						update="@form" />

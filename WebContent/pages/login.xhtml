@@ -12,7 +12,7 @@
 		style="margin-left: auto; margin-right: auto;">
 		<p:row>
 			<p:column colspan="1">
-				<p:outputLabel for="emailLogin" value="Email" />
+				<p:outputLabel for="emailLogin" value="#{label['user.email']}" />
 			</p:column>
 			<p:column colspan="2">
 				<p:inputText id="emailLogin" value="#{loginBean.loginUser.email}" />
@@ -20,7 +20,7 @@
 		</p:row>
 		<p:row>
 			<p:column colspan="1">
-				<p:outputLabel for="passwordLogin" value="Password" />
+				<p:outputLabel for="passwordLogin" value="#{label['user.password']}" />
 			</p:column>
 			<p:column colspan="2">
 				<p:password id="passwordLogin"
@@ -29,11 +29,11 @@
 		</p:row>
 		<p:row>
 			<p:column colspan="3">
-				<p:commandButton value="Login" id="login"
+				<p:commandButton value="#{label['login.loginButton']}" id="login"
 					actionListener="#{loginBean.loginUtente}"
 					style="margin-right:20px;" styleClass="ui-priority-primary"
 					update="@form" ajax="false" />
-				<p:commandButton value="Pulisci Campi" id="pulisciCampi"
+				<p:commandButton value="#{label['login.pulisciCampi']}" id="pulisciCampi"
 					actionListener="#{signUpBean.pulisciCampi}"
 					style="margin-right:20px;" styleClass="ui-priority-primary"
 					update="@form" />

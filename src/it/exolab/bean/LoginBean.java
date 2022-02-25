@@ -30,6 +30,9 @@ public class LoginBean implements Serializable {
 
 	@ManagedProperty("#{sessionBean}")
 	private SessionBean sessionBean;
+	
+	@ManagedProperty("#{menuBean}")
+	private MenuBean menuBean;
 
 	@PostConstruct
 	public void init() {
@@ -42,15 +45,16 @@ public class LoginBean implements Serializable {
 
 		try {
 			
-			log.info("######## inizio login");
-			
 			ValidationService.checkParametersLogin(loginUser);
 			ValidationService.checkExistingUserLogin(loginUser);
 			
 			UtentePOJO loggedUser = UtenteDAO.getInstance().selectUser(loginUser);
 			
 			sessionBean.setLoggedUser(loggedUser);			
+			
 			sessionBean.setSuccessMessage(Constants.Messages.LOGIN_AVVENUTO);
+			
+			menuBean.setTabIndex(Constants.Tabs.ID_TAB_HOMEPAGE);
 			
 			log.info("########## login OK");
 
@@ -87,7 +91,12 @@ public class LoginBean implements Serializable {
 		this.sessionBean = sessionBean;
 	}
 
+	public MenuBean getMenuBean() {
+		return menuBean;
+	}
 
-
+	public void setMenuBean(MenuBean menuBean) {
+		this.menuBean = menuBean;
+	}
 
 }

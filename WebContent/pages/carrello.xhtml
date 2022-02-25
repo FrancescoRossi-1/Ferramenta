@@ -28,10 +28,8 @@
 	<h1>Carrello</h1>
 
 	<p:panel rendered="#{carrelloBean.articoliEQuantita.size() == 0}">
-
 		<h:outputText
-			value="Al momento non sono presenti articoli nel tuo carrello, quando li aggiungerai saranno visibili in questa pagina." />
-
+			value="#{label['carrello.carrelloVuoto']}" />
 	</p:panel>
 
 	<p:panel rendered="#{carrelloBean.articoliEQuantita.size() > 0}">
@@ -40,7 +38,7 @@
 				type="ordered"
 				style="width:25%; float:right;display:inline-block;paddind-bottom:2%">
 				<f:facet name="header">
-				Totale : € #{ carrelloBean.carrelloUtente.totale_ordine }
+				#{label['carrello.totale']} € #{ carrelloBean.carrelloUtente.totale_ordine }
 			</f:facet>
 				<h:outputText
 					value="#{articolo.key.titolo_articolo} (#{articolo.value})" />
@@ -50,7 +48,7 @@
 					<f:convertNumber pattern="€0.00" locale="pt_BR" />
 				</h:outputText>
 				<f:facet name="footer">
-					<p:commandButton value="Procedi all'Ordine"
+					<p:commandButton value="#{label['carrello.procediAllOrdine']}"
 						actionListener="#{menuBean.setVisibileOrdine(true)}" ajax="false" />
 				</f:facet>
 			</p:dataList>
@@ -58,39 +56,18 @@
 			<div style="width: 70%;">
 				<p:dataView var="articoliEntry" value="#{carrelloBean.articoli}"
 					gridIcon="pi pi-th-large" listIcon="pi pi-bars">
-					<p:dataViewGridItem style="width:75%;">
-						<p:panel header="#{articoliEntry.key.id_articolo}"
-							style="text-align:center;height: 10%;" id="carrelloMenu">
-							<h:panelGrid columns="1">
-								<img
-									src="data:image/jpg;base64, #{articoliBean.articoloEImmagini.get(articoliEntry.key).get(0)}"
-									alt="Immagine non trovata" style="width: 250px; height: 250px;" />
-
-								<h:outputText value="#{articoliEntry.key.titolo_articolo}" />
-
-								<p:commandLink update="menuForm:tabView:articoloDetail"
-									oncomplete="PF('articoloDettaglio').show()"
-									title="Visualizza Dettagli">
-									<f:setPropertyActionListener value="#{articoliEntry.key}"
-										target="#{articoliBean.articoloSelezionato}" />
-								</p:commandLink>
-							</h:panelGrid>
-						</p:panel>
-					</p:dataViewGridItem>
-
 					<p:dataViewListItem>
 						<h:panelGrid columns="3" style="width:70%"
 							columnClasses="logo,detail" styleClass="tabellaCarrello">
 							<img
 								src="data:image/jpg;base64, #{articoliBean.articoloEImmagini.get(articoliEntry.key).get(0)}"
 								alt="Immagine non trovata" style="width: 250px; height: 250px;" />
-
 							<p:outputPanel>
 								<table>
 
 									<tr>
 										<td>
-											<h:outputText value="Nome:" />
+											<h:outputText value="#{label['articoli.nomeArticolo']}" />
 										</td>
 										<td>
 											<h:outputText value="#{articoliEntry.key.titolo_articolo}"
@@ -100,7 +77,7 @@
 
 									<tr>
 										<td>
-											<h:outputText value="Prezzo:" />
+											<h:outputText value="#{label['articoli.prezzo']}" />
 										</td>
 										<td>
 											<h:outputText value="€ #{articoliEntry.key.prezzo_unitario}"
@@ -110,7 +87,7 @@
 
 									<tr>
 										<td>
-											<h:outputText value="Quantità:" />
+											<h:outputText value="#{label['carrello.quantitaArticolo']}" />
 										</td>
 										<td>
 											<h:outputText value="#{articoliEntry.value}"
@@ -130,7 +107,7 @@
 
 									<tr>
 										<td>
-											<h:outputText value="Quantità disponibile:" />
+											<h:outputText value="#{label['articoli.quantitaDisponibile']}" />
 										</td>
 										<td>
 											<h:outputText
@@ -142,20 +119,13 @@
 									<tr>
 
 										<td>
-											<p:commandButton value="Rimuovi" ajax="false"
+											<p:commandButton value="#{label['actions.rimuovi']}" ajax="false"
 												action="#{carrelloBean.rimuoviArticolo(articoliEntry.key)}">
 
 											</p:commandButton>
 										</td>
 
 									</tr>
-
-
-
-
-
-
-
 								</table>
 							</p:outputPanel>
 

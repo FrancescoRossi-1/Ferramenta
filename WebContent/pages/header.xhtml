@@ -8,8 +8,16 @@
 <h:body>
 
 	<header class="header">
-		<h1>Il Ferramenta</h1>
-		<p>Dove il fai-da-te arriva a casa tua</p>
+		<div class="Linguaggio" style="float: right">
+		#{label['generic.lingua']} :
+		<h:selectOneMenu value="#{languageBean.localeCode}" onchange="submit()"
+			valueChangeListener="#{languageBean.countryLocaleCodeChanged}">
+   			<f:selectItems value="#{languageBean.countriesInMap}" /> 
+   		</h:selectOneMenu>
+		</div>
+	
+		<h1>#{label['header.title']}</h1>
+		<p>#{label['header.subtitle']}</p>
 	</header>
 
 </h:body>

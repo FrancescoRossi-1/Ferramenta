@@ -7,53 +7,48 @@
 <h:body>
 
 	<div class="indirizziSpedizione">
-
-
-		<h3>Indirizzo Di Spedizione</h3>
-
 		<p:accordionPanel id="accorditionIndirizziSpedizione"
 			rendered="#{ordiniBean.indirizzoDiSpedizioneSelezionato.id == null}" activeIndex="null">
 
-			<p:tab title="Seleziona un'indirizzo" id="tabIndirizziSpedizione"
+			<p:tab title="#{label['indirizzoSpedizione.selezionaIndirizzo']}" id="tabIndirizziSpedizione"
 				rendered="#{ordiniBean.indirizziSpedizioneUtente != null}">
 				<p:outputPanel>
-					<p>Seleziona un indirizzo di spedizione</p>
 
 					<p:dataScroller value="#{ordiniBean.indirizziMap}"
 						var="item" chunkSize="10" id="scrollerIndirizziSpedizione">
 						<f:facet name="header">
-          					  Indirizzi di spedizione collegati
+          					  #{label['indirizzoSpedizione.indirizziCollegati']}
         				</f:facet>
 						<h:panelGrid columns="2" style="width:100%"
 							columnClasses="logo,detail">
 
 							<p:outputPanel id="panelIndirizziSpedizione">
 								<h:panelGrid columns="12" cellpadding="7">
-									<h:outputText value="Via:" />
+									<h:outputText value="#{label['indirizzo.via']}" />
 									<h:outputText value="#{item.key.via}" style="font-weight: bold" />
 
-									<h:outputText value="Numero civico:" />
+									<h:outputText value="#{label['indirizzo.nCivico']}" />
 									<h:outputText value="#{item.key.n_civico}"
 										style="font-weight: bold" />
 
-									<h:outputText value="CAP:" />
+									<h:outputText value="#{label['indirizzo.cap']}" />
 									<h:outputText value="#{item.key.cap}" style="font-weight: bold" />
 
-									<h:outputText value="SCALA:"
+									<h:outputText value="#{label['indirizzoSpedizione.scala']}"
 										rendered="#{item.value.scala.length() > 0}" />
 									<h:outputText value="#{item.value.scala}"
 										style="font-weight: bold"
 										rendered="#{item.value.scala.length() > 0}" />
 
-									<h:outputText value="Interno:" />
+									<h:outputText value="#{label['indirizzoSpedizione.interno']}" />
 									<h:outputText value="#{item.value.interno}"
 										style="font-weight: bold" />
 
-									<p:commandButton value="Seleziona"
+									<p:commandButton value="#{label['actions.seleziona']}"
 										actionListener="#{ordiniBean.setIndirizzoDiSpedizioneSelezionato(item.key,item.value)}"
 										ajax="false" />
 
-									<p:commandButton value="Elimina"
+									<p:commandButton value="#{label['actions.elimina']}"
 										actionListener="#{ordiniBean.deleteIndirizzoDiSpedizione(item.value)}"
 										ajax="false" />
 
@@ -65,17 +60,16 @@
 				</p:outputPanel>
 
 			</p:tab>
-			<p:tab title="Aggiungi un indirizzo">
-				<p>Inserisci un nuovo indirizzo di spedizione</p>
+			<p:tab title="#{label['indirizzoSpedizione.aggiungiIndirizzoDiSpedizione']}">
 				<p:panelGrid id="gridIndirizzoDiSpedizione">
 				<p:row>
 					<p:column>
-						<p:outputLabel for="provinciaIndirizzoDiSpedizione" value="Provincia" />
+						<p:outputLabel for="provinciaIndirizzoDiSpedizione" value="#{label['provincia.nome']}" />
 					</p:column>
 					<p:column>
 						<p:selectOneMenu id="provinciaIndirizzoDiSpedizione"
 							value="#{ordiniBean.addIndirizzoSpedizione.id_provincia}">
-							<f:selectItem itemLabel="Seleziona una scelta"
+							<f:selectItem itemLabel="#{label['provincia.selezionaProvincia']}"
 								itemValue="#{null}" />
 							<f:selectItems value="#{provinceBean.allProvince}" var="item"
 								itemLabel="#{item.nome_province}"
@@ -85,7 +79,7 @@
 				</p:row>
 				<p:row>
 					<p:column>
-						<p:outputLabel for="viaIndirizzoDiSpedizione" value="Via" />
+						<p:outputLabel for="viaIndirizzoDiSpedizione" value="#{label['indirizzo.via']}" />
 					</p:column>
 					<p:column>
 						<p:inputText id="viaIndirizzoDiSpedizione"
@@ -95,7 +89,7 @@
 				<p:row>
 					<p:column>
 						<p:outputLabel for="nCivicoIndirizzoDiSpedizione"
-							value="Numero Civico" />
+							value="#{label['indirizzo.nCivico']}" />
 					</p:column>
 					<p:column>
 						<p:inputText id="nCivicoIndirizzoDiSpedizione"
@@ -104,7 +98,7 @@
 				</p:row>
 				<p:row>
 					<p:column>
-						<p:outputLabel for="capIndirizzoDiSpedizione" value="CAP" />
+						<p:outputLabel for="capIndirizzoDiSpedizione" value="#{label['indirizzo.cap']}" />
 					</p:column>
 					<p:column>
 						<p:inputText id="capIndirizzoDiSpedizione"
@@ -113,7 +107,7 @@
 				</p:row>
 					<p:row>
 						<p:column>
-							<p:outputLabel for="scalaIndirizzoSpedizione" value="Scala" />
+							<p:outputLabel for="scalaIndirizzoSpedizione" value="#{label['indirizzoSpedizione.scala']}" />
 						</p:column>
 						<p:column>
 							<p:inputText id="scalaIndirizzoSpedizione"
@@ -122,7 +116,7 @@
 					</p:row>
 					<p:row>
 						<p:column>
-							<p:outputLabel for="internoIndirizzoSpedizione" value="Interno" />
+							<p:outputLabel for="internoIndirizzoSpedizione" value="#{label['indirizzoSpedizione.interno']}" />
 						</p:column>
 						<p:column>
 							<p:inputText id="internoIndirizzoSpedizione"
@@ -132,7 +126,7 @@
 					<p:row>
 						<p:column>
 							<p:commandButton id="insertIndirizzoSpedizione"
-								value="Aggiungi Indirizzo"
+								value="#{lable['actions.aggiungi']}"
 								action="#{ordiniBean.insertIndirizzoDiSpedizione}"
 								ajax="false"/>
 						</p:column>
@@ -146,37 +140,35 @@
 		<p:dataTable var="item"
 			rendered="#{ordiniBean.indirizzoDiSpedizioneSelezionato.id != null}"
 			value="#{ordiniBean.indirizzoDiSpedizioneSelezionato}">
-			<p:column headerText="Via">
+			<p:column headerText="#{label['indirizzo.via']}">
 				<h:outputText value="#{item.indirizzoDiRiferimento.via}" />
 			</p:column>
 
-			<p:column headerText="Numero Civico">
+			<p:column headerText="#{label['indirizzo.nCivico']}">
 				<h:outputText value="#{item.indirizzoDiRiferimento.NCivico}" />
 			</p:column>
 
-			<p:column headerText="CAP">
+			<p:column headerText="#{label['indirizzo.cap']}">
 				<h:outputText value="#{item.indirizzoDiRiferimento.cap}" />
 			</p:column>
 
-			<p:column headerText="Scala">
+			<p:column headerText="#{label['indirizzoSpedizione.scala']}">
 				<h:outputText value="#{item.scala}"
 					rendered="#{item.scala.length() != 0}" />
-				<h:outputText value="n/d" rendered="#{item.scala.length() == 0}" />
+				<h:outputText value="#{label['generics.nd']}" rendered="#{item.scala.length() == 0}" />
 			</p:column>
 
-			<p:column headerText="Interno">
+			<p:column headerText="#{label['indirizzoSpedizione.interno']}">
 				<h:outputText value="#{item.interno}" />
 			</p:column>
 
-			<p:column headerText="Azioni">
-				<p:commandButton value="Cambia Indirizzo" style="margin-top: 10px;"
+			<p:column headerText="#{label['generic.azioni']}">
+				<p:commandButton value="#{label['indirizzoSpedizione.cambiaIndirizzo']}" style="margin-top: 10px;"
 					action="#{ordiniBean.setIndirizzoDiSpedizioneSelezionato(null,null)}"
 					ajax="false" 
 					update="menuForm:tabView:accorditionIndirizziSpedizione:scrollerIndirizziSpedizione" />
 			</p:column>
 		</p:dataTable>
-
-
 
 	</div>
 

@@ -34,7 +34,7 @@ import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
+import com.lowagie.text.Paragraph;
 import com.lowagie.text.Table;
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -420,7 +420,7 @@ public class ReportBean implements Serializable {
 			Paragraph preface = new Paragraph(Constants.PDFReport.TITLE_FOR_ALL_ORDINI, Constants.Fonts.CAT_FONT);
 			preface.setAlignment(Element.ALIGN_CENTER);
 			
-			addEmptyLine(preface, 1);
+			addEmptyLine( preface, 1 );
 		
 			preface.add(new Paragraph(Constants.PDFReport.TESTO_DESCRIZIONE_ORDINE,Constants.Fonts.MEDIUM_BOLD));
 			
@@ -519,7 +519,7 @@ public class ReportBean implements Serializable {
     	
     	for (String text : headers) {
     		Cell cell = new Cell();
-    		Phrase ph = new Phrase();
+    		Paragraph ph = new Paragraph();
     		ph.add(text);
     		ph.setFont(Constants.Fonts.MEDIUM_BOLD);
 			cell.add(ph);
@@ -548,7 +548,9 @@ public class ReportBean implements Serializable {
 	private Cell createCellArticoli(List<DettagliOrdinePOJO> dettagliOrdine) {
 		
 		Cell cell = new Cell();
-		Phrase texts [] = new Phrase[ (Constants.PDFReport.NUMERO_CAMPI_ARTICOLI * dettagliOrdine.size()) * 2];
+		Paragraph texts [] = new Paragraph[ ((Constants.PDFReport.NUMERO_CAMPI_ARTICOLI + 2) * dettagliOrdine.size())];
+		
+		log.info("Len : " + texts.length);
 		
 		int count = 1;
 		int index = 0;
@@ -558,29 +560,23 @@ public class ReportBean implements Serializable {
 		for (DettagliOrdinePOJO dettagli : dettagliOrdine) {
 			
 			ArticoloPOJO articolo = dettagli.getArticoloAcquistato();
-			texts[index++].add("Articolo numero: ");
-			texts[index++].add( String.valueOf(count) + "\n");
+			texts[index++].add("Articolo numero: " + count );
 
-			texts[index++].add("Nome articolo: ");
-			texts[index++].add(articolo.getTitolo() + "\n");
+			texts[index++].add("Nome articolo: " + articolo.getTitolo());
 
-			texts[index++].add("Marca: ");
-			texts[index++].add(articolo.getMarchio() + "\n");
+			texts[index++].add("Marca: " + articolo.getMarchio());
 			
-			texts[index++].add("Prezzo: ");
-			texts[index++].add(String.valueOf(articolo.getPrezzoUnitario()) + "\n");
+			texts[index++].add("Prezzo: " + articolo.getPrezzoUnitario());
 			
-			texts[index++].add("Colore: " );
-			texts[index++].add(articolo.getColore() + "\n");
+			texts[index++].add("Colore: " + articolo.getColore());
 			
-			texts[index++].add("Descrizione: ");
-			texts[index++].add(articolo.getDescrizione() + "\n");
+			texts[index++].add("Descrizione: " + articolo.getDescrizione());
 			
-			texts[index++].add("Categoria: ");
-			texts[index++].add(articolo.getCategoriaDiAppartenenza().getNome_categoria() + "\n");
+			texts[index++].add("Categoria: " + articolo.getCategoriaDiAppartenenza().getNome_categoria());
 			
-			texts[index++].add("Quantità: ");
-			texts[index++].add(String.valueOf(dettagli.getQuantitaArticolo()) + "\n");
+			texts[index++].add("Quantità: " + dettagli.getQuantitaArticolo());
+			
+			addEmptyLine(texts[index++], 1);
 			
 			count++;
 			
@@ -595,16 +591,13 @@ public class ReportBean implements Serializable {
 	private Cell createCellCliente(UtentePOJO acquirente) {
 		
 		Cell cell = new Cell();
-		Phrase [] texts = new Phrase[Constants.PDFReport.NUMERO_CAMPI_CLIENTE * 2];
+		Paragraph [] texts = new Paragraph[Constants.PDFReport.NUMERO_CAMPI_CLIENTE];
 		
 		inizializzaParagrafi ( texts );
 		
-		texts[0].add("Nome: ");
-		texts[1].add(acquirente.getNome() + "\n");
-		texts[2].add("Cognome: ");
-		texts[3].add(acquirente.getCognome() + "\n");
-		texts[4].add("Email: ");
-		texts[5].add(acquirente.getEmail() + "\n"); 
+		texts[0].add("Nome: " + acquirente.getNome());
+		texts[1].add("Cognome: " + acquirente.getCognome());
+		texts[2].add("Email: " + acquirente.getEmail()); 
 		
 		riempiCella( texts, cell );
 		
@@ -615,50 +608,36 @@ public class ReportBean implements Serializable {
 		
 		Cell cell = new Cell();
 
-		Phrase [] texts = new Phrase[Constants.PDFReport.NUMERO_CAMPI_ORDINE * 2];
+		Paragraph [] texts = new Paragraph[Constants.PDFReport.NUMERO_CAMPI_ORDINE];
 		
 		inizializzaParagrafi ( texts );
 		
-		
-		texts[0].add("Id Ordine: ");
-		texts[1].add(String.valueOf(ordine.getId()) + "\n");
-		texts[2].add("Data Creazione: " );
-		texts[3].add(new SimpleDateFormat(Constants.DateFormats.DDMMYYYY).format(ordine.getDataOrdine()) + "\n");
-		texts[4].add("Data Consegna: ");
-		texts[5].add(new SimpleDateFormat(Constants.DateFormats.DDMMYYYY).format(ordine.getDataConsegna()) + "\n");
-		
+		texts[0].add("Id Ordine: "+ ordine.getId());
+		texts[1].add("Data Creazione: " + new SimpleDateFormat(Constants.DateFormats.DDMMYYYY).format(ordine.getDataOrdine()));
+		texts[2].add("Data Consegna: "+ new SimpleDateFormat(Constants.DateFormats.DDMMYYYY).format(ordine.getDataConsegna()));
+				
 		riempiCella( texts, cell );
 		
 		return cell;
 	}
 	
-	private void inizializzaParagrafi(Phrase[] texts) {
+	private void inizializzaParagrafi(Paragraph[] texts) {
 		
 		for (int i = 0; i < texts.length; i++) {
-			texts[i] = new Phrase();
-			if( i%2 == 0 ) {
+			texts[i] = new Paragraph();
+			texts[i].setAlignment(Element.ALIGN_RIGHT);
 			texts[i].setFont(Constants.Fonts.SMALL_BOLD);
-			}
 		}
 		
 	}
 	
-	private void riempiCella(Phrase[] texts, Cell cell) {
-		
-		Boolean goAhead = false;
-		for (Phrase phrase : texts) {
-			cell.add(phrase);
-			
-			if(goAhead) {
-				cell.add(new Phrase("\n"));
-				goAhead = false;
-			}
-			
-			if(phrase.getContent().contains("Quantità: ") ) {
-				goAhead = true;
-			}
+	private void riempiCella(Paragraph[] texts, Cell cell) {
 
+		for (Paragraph Paragraph : texts) {
+			cell.add(Paragraph);
 		}
+		
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
 		
 	}

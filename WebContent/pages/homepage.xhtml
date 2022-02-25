@@ -6,11 +6,17 @@
 
 <h:body>
 
-	<h1>Homepage</h1>
+	<h1>#{label['homepage.title']}</h1>
 	
-	<h:outputText value="Benvenuto guest!" rendered="#{sessionBean.loggedUser.id == null}" />
-	<h:outputText value="Benvenuto #{sessionBean.loggedUser.nome} #{sessionBean.loggedUser.cognome}" rendered="#{sessionBean.loggedUser.id != null}" />
-	<p>La nostra ferramenta aspetta solo te, siamo nel nostro campo da più di 50 anni e siamo lieti di presentare alla clientela il nostro sito web per permettere di effettuare ordini senza presentarsi nel nostro edificio</p>
+	<h:outputText value="#{label['homepage.welcomeGuest']}" rendered="#{sessionBean.loggedUser.id == null}" />
+	<br />
+	<h:outputText value="#{label['homepage.istruzioniGuest']}"  rendered="#{sessionBean.loggedUser.id == null}" />
+	<br />
+	<h:outputText value="#{label['homepage.welcome']} #{sessionBean.loggedUser.nome} #{sessionBean.loggedUser.cognome}! " rendered="#{sessionBean.loggedUser.id != null}" />
+	<br />
+	<h:outputText value="#{label['homepage.istruzioniLoggedUser']}" rendered="#{sessionBean.loggedUser.id != null}" />
+	<br />
+	<h:outputText value="#{label['homepage.motto']}" />
 
 
 </h:body>

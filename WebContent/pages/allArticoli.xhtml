@@ -6,21 +6,21 @@
 
 <h:body>
 
-	<h1>Gestione Articoli</h1>
+	<h1>#{label['areaRiservata.gestisciArticoli']}</h1>
 
 	<table class="tabellaArticoliAreaRiservata" style="width: 100%;border: 2px solid;" cellspacing="10">
 
 		<thead>
 
 			<tr>
-				<th>Nome</th>
-				<th>Quantità</th>
-				<th>N. Immagini</th>
-				<th>Prezzo</th>
-				<th>Categoria</th>
-				<th>Marca</th>
-				<th>Colore</th>
-				<th colspan="2">Azioni</th>
+				<th>#{label['articoli.nomeArticolo']}</th>
+				<th>#{label['articoli.quantitaDisponibile']}</th>
+				<th>#{label['articoli.numeroImmagini']}</th>
+				<th>#{label['articoli.prezzo']}</th>
+				<th>#{label['articoli.categoria']}</th>
+				<th>#{label['articoli.marca']}</th>
+				<th>#{label['articoli.colore']}</th>
+				<th colspan="2">#{label['generic.azioni']}</th>
 			</tr>
 
 		</thead>
@@ -43,11 +43,11 @@
 							value="#{articolo.categoriaDiAppartenenza.nome_categoria}" /></td>
 					<td><h:outputText value="#{articolo.marchio}" /></td>
 					<td><h:outputText value="#{articolo.colore}" /></td>
-					<td><p:commandButton value="Elimina"
+					<td><p:commandButton value="#{label['actions.elimina']}"
 							action="#{articoliBean.deleteArticolo(articolo.id_articolo)}" /></td>
 					<td><p:spinner id="quantArticolo"
 							value="#{articolo.quantita_disponibile}" style="width: 50%"  />
-						<p:commandButton for="quantArticolo" value="Aggiungi quantità"
+						<p:commandButton for="quantArticolo" value="#{label['actions.aggiungi']}"
 							action="#{articoliBean.aggiungiQuantitaArticolo(articolo)}"
 							ajax="false" /></td>
 				</tr>

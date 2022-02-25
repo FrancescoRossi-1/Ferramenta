@@ -6,25 +6,25 @@
 
 <h:body>
 
-	<h1>Area Riservata Admin</h1>
+	<h1>#{label['areaRiservata.title']}</h1>
 
 	<p:accordionPanel id="menuAreaRiservata" style="width:90%;margin-left:auto;margin-right:auto;">
-		<p:tab title="Aggiungi Articolo">
+		<p:tab title="#{label['areaRiservata.aggiungiArticolo']}">
 			<ui:include src="addArticoli.xhtml" />
 		</p:tab>
-		<p:tab title="Gestisci Articoli">
+		<p:tab title="#{label['areaRiservata.gestisciArticoli']}">
 			<ui:include src="allArticoli.xhtml" />
 		</p:tab>
-		<p:tab title="Aggiungi Categoria">
+		<p:tab title="#{label['areaRiservata.aggiungiCategoria']}">
 			<ui:include src="addCategorie.xhtml" />
 		</p:tab>
-		<p:tab title="Gestisci Categorie">
+		<p:tab title="#{label['areaRiservata.gestisciCategorie']}">
 			<ui:include src="allCategorie.xhtml" />
 		</p:tab>
-		<p:tab title="Gestisci Utenti">
+		<p:tab title="#{label['areaRiservata.gestisciUtenti']}">
 			<ui:include src="allUtenti.xhtml" />
 		</p:tab>
-		<p:tab title="Gestisci Ordini">
+		<p:tab title="#{label['areaRiservata.gestisciOrdini']}">
 			<ui:include src="allOrdini.xhtml" />
 		</p:tab>
 	</p:accordionPanel>

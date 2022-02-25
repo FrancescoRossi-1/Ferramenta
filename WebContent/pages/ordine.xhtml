@@ -11,21 +11,21 @@
 <div>
 
 	<p:panel rendered="#{!ordiniBean.ordineEffettuato}">
-		<p:fieldset legend="Indirizzo Di Spedizione" toggleable="true"
+		<p:fieldset legend="#{label['indirizzoSpedizione.title']}" toggleable="true"
 			toggleSpeed="500" style="margin-bottom:2%;">
 
 			<ui:include src="ordineIndirizzoDiSpedizione.xhtml" />
 
 		</p:fieldset>
 
-		<p:fieldset legend="Metodo Di Pagamento" toggleable="true"
+		<p:fieldset legend="#{label['metodoPagamento.title']}" toggleable="true"
 			toggleSpeed="500" style="margin-bottom:2%;">
 
 			<ui:include src="ordineMetodoDiPagamento.xhtml" />
 
 		</p:fieldset>
 
-		<p:fieldset legend="Riepilogo Articoli" toggleable="true"
+		<p:fieldset legend="#{label['ordine.riepilogoArticoli']}" toggleable="true"
 			toggleSpeed="500">
 
 			<ui:include src="riepilogoCarrello.xhtml" />
@@ -34,16 +34,15 @@
 
 		<div>
 
-			<p:panel id="basic" header="Effettua ordine" footer="Effettua ordine"
+			<p:panel id="basic" header="#{label['ordine.finalizzaOrdine']}"
 				style="margin-bottom:20px;margin-top:4%">
 				<h:panelGrid columns="2" cellpadding="10">
-					<h:outputText value="Data di consegna prevista: " />
+					<h:outputText value="#{label['ordine.dataConsegna']}" />
 					<h:outputText value="#{ordiniBean.dataConsegna}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 
-
-					<p:commandButton value="Procedi al checkout"
+					<p:commandButton value="#{label['ordine.procediCheckout']}"
 						styleClass="downloadReport"
 						actionListener="#{ordiniBean.insertOrdine}" ajax="false" />
 
@@ -61,7 +60,7 @@
 			<h:outputText value="#{ordiniBean.ordineEffettuatoMessage}"
 				styleClass="preformatted" />
 			<h:outputText
-				value="Clicca qui per scaricare il report dell'ordine in formato XSLX: " />
+				value="#{label['download.ordineExcel']}" />
 			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
 				draggable="false" closable="false" resizable="false" />
 			<p:commandButton value="Download" ajax="false"
@@ -70,9 +69,9 @@
 				icon="pi pi-arrow-down">
 				<p:fileDownload value="#{reportBean.file}" />
 			</p:commandButton>
-			<br />
+			<br /> 
 			<h:outputText
-				value="Clicca qui per scaricare il report dell'ordine in formato PDF: " />
+				value="#{label['download.ordinePDF']}" />
 			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
 				draggable="false" closable="false" resizable="false" />
 			<p:commandButton value="Download" ajax="false"

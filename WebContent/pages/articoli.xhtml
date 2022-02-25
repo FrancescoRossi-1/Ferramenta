@@ -16,7 +16,7 @@
 	rowsPerPageTemplate="6,12,16">
 
 	<f:facet name="header">
-            Articoli in vendita
+            #{label['articoli.title']}
         </f:facet>
 
 	<p:panel header="#{articolo.key.titolo_articolo}"
@@ -27,15 +27,15 @@
 			<h:outputText value="#{articolo.key.descrizione_articolo}"
 				width="100" height="100" />
 			<h:outputText
-				value="Quantità disponibile: #{articolo.key.quantita_disponibile}"
+				value="#{label['articoli.quantitaDisponibile']} #{articolo.key.quantita_disponibile}"
 				rendered="#{articolo.key.quantita_disponibile > 0}" />
-			<h:outputText value="Prodotto momentaneamente non disponibile"
+			<h:outputText value="#{label['articoli.prodottoNonDisponibile']}"
 				style="color: red"
 				rendered="#{articolo.key.quantita_disponibile == 0}" />
 			<p:commandLink update="menuForm:tabView:articoloDetail"
 				oncomplete="PF('articoloDettaglio').show()"
 				title="Visualizza Dettagli">
-				<h:outputText value="Vai alla pagina dell'articolo"
+				<h:outputText value="#{label['articoli.buttonPaginaArticolo']}"
 					styleClass="pi pi-search" style="margin:0 auto;" />
 				<f:setPropertyActionListener value="#{articolo.key}"
 					target="#{articoliBean.articoloSelezionato}" />
@@ -67,33 +67,33 @@
 		<p:panelGrid columns="2"
 			rendered="#{articoliBean.articoloSelezionato != null }"
 			columnClasses="label,value">
-			<h:outputText value="Prezzo:" />
+			<h:outputText value="#{label['articoli.prezzo']} " />
 			<h:outputText
 				value="€ #{articoliBean.articoloSelezionato.prezzo_unitario}" />
 
-			<h:outputText value="Marca:" />
+			<h:outputText value="#{label['articoli.marca']}" />
 			<h:outputText value="#{articoliBean.articoloSelezionato.marchio}" />
 
-			<h:outputText value="Quantità Disponibile: " />
+			<h:outputText value="#{label['articoli.quantitaDisponibile']}" />
 			<h:outputText
 				value="#{ articoliBean.articoloSelezionato.quantita_disponibile}" rendered="#{articoliBean.articoloSelezionato.quantita_disponibile > 0}"/>
 			<h:outputText
-				value="Non disponibile" rendered="#{articoliBean.articoloSelezionato.quantita_disponibile == 0}" style="color: red"/>
+				value="#{label['articoli.prodottoNonDisponibile']}" rendered="#{articoliBean.articoloSelezionato.quantita_disponibile == 0}" style="color: red"/>
 				
 
-			<h:outputText value="Colore:" />
+			<h:outputText value="#{label['articoli.colore']}" />
 			<h:outputText value="#{articoliBean.articoloSelezionato.colore}"
 				style="color:#{articoliBean.articoloSelezionato.colore}" />
 
-			<h:outputText value="Descrizione:" />
+			<h:outputText value="#{label['articoli.descrizione']}" />
 			<h:outputText
 				value="#{articoliBean.articoloSelezionato.descrizione_articolo}" />
 
-			<h:outputText value="Categoria:" />
+			<h:outputText value="#{label['articoli.categoria']}" />
 			<h:outputText
 				value="#{articoliBean.articoloSelezionato.categoriaDiAppartenenza.nome_categoria}" />
 
-			<h:outputText value="Quantità da acquistare:"
+			<h:outputText value="#{label['articoli.quantitaDaAcquistare']}"
 				rendered="#{articoliBean.articoloSelezionato.quantita_disponibile > 0}" />
 			<p:spinner id="minMax" value="#{articoliBean.quantitaArticolo}"
 				min="1"
@@ -101,7 +101,7 @@
 				style="width: 25%"
 				rendered="#{articoliBean.articoloSelezionato.quantita_disponibile > 0}" />
 
-			<p:commandButton value="Aggiungi al carrello" 
+			<p:commandButton value="#{label['articoli.buttonAggiungiAlCarrello']}" 
 				actionListener="#{carrelloBean.insertArticoloInCarrello}"
 				ajax="false"
 				rendered="#{articoliBean.articoloSelezionato.quantita_disponibile > 0}" />

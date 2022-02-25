@@ -9,7 +9,7 @@
 				style="margin-left: auto; margin-right: auto;">
 				<p:row>
 					<p:column colspan="1">
-						<p:outputLabel for="nomeSignUp" value="Nome" />
+						<p:outputLabel for="nomeSignUp" value="#{label['user.nome']}" />
 					</p:column>
 					<p:column colspan="2">
 						<p:inputText id="nomeSignUp" value="#{signUpBean.user.nome}"
@@ -18,7 +18,7 @@
 				</p:row>
 				<p:row>
 					<p:column colspan="1">
-						<p:outputLabel for="cognomeSignUp" value="Cognome" />
+						<p:outputLabel for="cognomeSignUp" value="#{label['user.cognome']}" />
 					</p:column>
 					<p:column colspan="2">
 						<p:inputText id="cognomeSignUp" value="#{signUpBean.user.cognome}"
@@ -27,7 +27,7 @@
 				</p:row>
 				<p:row>
 					<p:column colspan="1">
-						<p:outputLabel for="emailSignUp" value="Email"  />
+						<p:outputLabel for="emailSignUp" value="#{label['user.email']}"  />
 					</p:column>
 					<p:column colspan="2">
 						<p:inputText id="emailSignUp" value="#{signUpBean.user.email}"
@@ -36,7 +36,7 @@
 				</p:row>
 				<p:row>
 					<p:column colspan="1">
-						<p:outputLabel for="passwordSignUp" value="Password"
+						<p:outputLabel for="passwordSignUp" value="#{label['user.password']}"
 							 />
 					</p:column>
 					<p:column colspan="2">
@@ -47,7 +47,7 @@
 				</p:row>
 				<p:row>
 					<p:column colspan="1">
-						<p:outputLabel for="dataNascitaSignUp" value="Data Di Nascita" />
+						<p:outputLabel for="dataNascitaSignUp" value="#{label['user.dataNascita']}" />
 					</p:column>
 					<p:column colspan="2">
 						<p:datePicker id="dataNascitaSignUp" pattern="dd/MM/yyyy"
@@ -57,7 +57,7 @@
 				</p:row>
 				<p:row>
 					<p:column colspan="1">
-						<p:outputLabel for="codFiscaleSignUp" value="Codice Fiscale" />
+						<p:outputLabel for="codFiscaleSignUp" value="#{label['user.codiceFiscale']}" />
 					</p:column>
 					<p:column colspan="2">
 						<p:inputText id="codFiscaleSignUp"
@@ -66,12 +66,12 @@
 				</p:row>
 				<p:row>
 					<p:column colspan="1">
-						<p:outputLabel for="provinciaSignUp" value="Provincia" />
+						<p:outputLabel for="provinciaSignUp" value="#{label['user.provincia']}" />
 					</p:column>
 					<p:column colspan="2">
 						<p:selectOneMenu id="provinciaSignUp"
 							value="#{provinceBean.idProvinciaSelezionata}">
-							<f:selectItem itemLabel="Seleziona una scelta" itemValue="-1" />
+							<f:selectItem itemLabel="#{label['signup.scegliProvincia']}" itemValue="-1" />
 							<f:selectItems value="#{provinceBean.allProvince}"
 								var="item" itemLabel="#{item.nome_province}"
 								itemValue="#{item.id_province}" />
@@ -80,7 +80,7 @@
 				</p:row>
 				<p:row>
 					<p:column colspan="1">
-						<p:outputLabel for="viaSignUp" value="Via" />
+						<p:outputLabel for="viaSignUp" value="#{label['indirizzo.via']}" />
 					</p:column>
 					<p:column colspan="2">
 						<p:inputText id="viaSignUp"
@@ -89,7 +89,7 @@
 				</p:row>
 				<p:row>
 					<p:column colspan="1">
-						<p:outputLabel for="nCivicoSignUp" value="Numero Civico" />
+						<p:outputLabel for="nCivicoSignUp" value="#{label['indirizzo.nCivico']}" />
 					</p:column>
 					<p:column colspan="2">
 						<p:inputText id="nCivicoSignUp"
@@ -98,7 +98,7 @@
 				</p:row>
 				<p:row>
 					<p:column colspan="1">
-						<p:outputLabel for="capSignUp" value="CAP" />
+						<p:outputLabel for="capSignUp" value="#{label['indirizzo.cap']}" />
 					</p:column>
 					<p:column colspan="2">
 						<p:inputText id="capSignUp"
@@ -107,10 +107,10 @@
 				</p:row>
 				<p:row>
 					<p:column colspan="3">
-						<p:commandButton value="Registrati" id="registrazione"
+						<p:commandButton value="#{label['signup.signupButton']}" id="registrazione"
 							actionListener="#{signUpBean.registraUtente}"
 							style="margin-right:20px;" styleClass="ui-priority-primary" update="@form"/>
-						<p:commandButton value="Pulisci Campi" id="pulisciCampiSignUp"
+						<p:commandButton value="#{label['signup.pulisciCampi']}" id="pulisciCampiSignUp"
 						ajax="false" actionListener="#{signUpBean.pulisciCampi}"
 							style="margin-right:20px;" styleClass="ui-priority-primary" async="true"  update="@form"/>
 					</p:column>

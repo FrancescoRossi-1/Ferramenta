@@ -48,6 +48,7 @@ public class MenuBean implements Serializable {
 		if(Constants.Tabs.TAB_LOGOUT.equals(currentTabId)) {
 			sessionBean.logout();
 			PrimeFaces.current().ajax().update("menuForm:tabView");
+			this.tabIndex = Constants.Tabs.ID_TAB_HOMEPAGE;
 		}
 
 		if (Constants.Tabs.TAB_HOMEPAGE.equals(currentTabId) ) {
@@ -71,11 +72,19 @@ public class MenuBean implements Serializable {
 		}
 		
 		if (Constants.Tabs.TAB_CARRELLO.equals(currentTabId)) {
-			this.tabIndex = Constants.Tabs.ID_TAB_CARRELLO;
+			if(sessionBean.getLoggedUser().getIsAdmin()) {
+				this.tabIndex = Constants.Tabs.ID_TAB_CARRELLO_ADMIN;
+			} else {
+				this.tabIndex = Constants.Tabs.ID_TAB_CARRELLO_UTENTE;
+			}
 		}
 		
 		if(Constants.Tabs.TAB_ORDINE.equals(currentTabId)) {
-			this.tabIndex = Constants.Tabs.ID_TAB_ORDINE;
+			if(sessionBean.getLoggedUser().getIsAdmin()) {
+				this.tabIndex = Constants.Tabs.ID_TAB_ORDINE_ADMIN;
+			} else {
+				this.tabIndex = Constants.Tabs.ID_TAB_ORDINE_UTENTE;
+			}
 		}
 
 	}
@@ -100,7 +109,11 @@ public class MenuBean implements Serializable {
 			OrdiniBean ordiniBean = (OrdiniBean) FacesContext.getCurrentInstance().getApplication()
 			    .getELResolver().getValue(elContext, null, "ordiniBean");
 			ordiniBean.init();
-			this.tabIndex = Constants.Tabs.ID_TAB_ORDINE;
+			if(sessionBean.getLoggedUser().getIsAdmin()) {
+				this.tabIndex = Constants.Tabs.ID_TAB_ORDINE_ADMIN;
+			} else {
+				this.tabIndex = Constants.Tabs.ID_TAB_ORDINE_UTENTE;
+			}
 		}
 		
 	}

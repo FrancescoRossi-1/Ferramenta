@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -61,8 +62,11 @@ public class OrdiniBean implements Serializable {
 	@ManagedProperty("#{carrelloBean}")
 	private CarrelloBean carrelloBean;
 
-	@ManagedProperty ( "#{indirizziBean}" )
+	@ManagedProperty("#{indirizziBean}")
 	private IndirizziBean indirizziBean;
+	
+	@ManagedProperty("#{languageBean}")
+	private LanguageBean languageBean;
 
 	private Indirizzo addIndirizzoOrdine;
 	private Indirizzo addIndirizzoSpedizione;
@@ -291,20 +295,36 @@ public class OrdiniBean implements Serializable {
 	}
 
 	private void fillOrdineEffettuatoMessage() {
-		String message = "Complimenti " + sessionBean.getLoggedUser().getNome() + " il tuo ordine è stato confermato!\n";
-
-		if(carrelloBean.getArticoliEQuantita().size() > 1) {
-			message += "I tuoi articoli saranno recapitati ";
-		}else {
-			message += "Il tuo articolo sarà recapitato ";
-		}
-
+		
+		String locale = languageBean.getLocaleCode();
+		
+		String message = null;
+		
 		IndirizzoPOJO indirizzo = indirizzoDiSpedizioneSelezionato.getIndirizzoDiRiferimento();
-
-		message += "presso il seguente indirizzo: " + indirizzo.getVia() + " " + indirizzo.getNCivico() + " , " +  indirizzo.getCap() + ".\n" ;
-
-
-		message += "La data prevista per la consegna è per il: " + new SimpleDateFormat().format(dataConsegna) + ".\n" ;
+		
+		if(locale.equals(Locale.ITALIAN.toString())) {			
+			message = "Complimenti " + sessionBean.getLoggedUser().getNome() + " il tuo ordine è stato confermato!\n";
+			
+			if(carrelloBean.getArticoliEQuantita().size() > 1) {
+				message += "I tuoi articoli saranno recapitati ";
+			}else {
+				message += "Il tuo articolo sarà recapitato ";
+			}
+			message += "presso il seguente indirizzo: " + indirizzo.getVia() + " " + indirizzo.getNCivico() + " , " +  indirizzo.getCap() + ".\n" ;
+			message += "La data prevista per la consegna è per il: " + new SimpleDateFormat().format(dataConsegna) + ".\n" ;
+		}
+		
+		if(locale.equals(Locale.ENGLISH.toString())) {	
+			message = "Congratulations " + sessionBean.getLoggedUser().getNome() + "your order has been confirmed!\n";
+			
+			if(carrelloBean.getArticoliEQuantita().size() > 1) {
+				message += " Your articles will be delivered ";
+			}else {
+				message += " Your article will be delivered ";
+			}
+			message += "at the following address: " + indirizzo.getVia() + " " + indirizzo.getNCivico() + " , " +  indirizzo.getCap() + ".\n" ;
+			message += "The expected delivery date is: " + new SimpleDateFormat().format(dataConsegna) + ".\n" ;
+		}
 
 		ordineEffettuatoMessage = message;
 
@@ -464,6 +484,14 @@ public class OrdiniBean implements Serializable {
 
 	public void setIndirizziBean(IndirizziBean indirizziBean) {
 		this.indirizziBean = indirizziBean;
+	}
+
+	public LanguageBean getLanguageBean() {
+		return languageBean;
+	}
+
+	public void setLanguageBean(LanguageBean languageBean) {
+		this.languageBean = languageBean;
 	}
 
 	public List<CartaDiCredito> getAllCarteDiCredito() {

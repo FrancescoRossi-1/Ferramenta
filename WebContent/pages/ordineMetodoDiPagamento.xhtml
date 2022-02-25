@@ -6,56 +6,51 @@
 
 <h:body>
 
-	<h3>Metodo Di Pagamento</h3>
-
 	<p:accordionPanel id="accorditionMetodoPagamento" activeIndex="null"
 		rendered="#{ordiniBean.cartaDiCreditoSelezionata.id == null}">
-
-		<p:tab title="Seleziona Una Carta Di Credito"
+		<p:tab title="#{label['metodoPagamento.selezionaMetodo']}"
 			id="tabMetodoDiPagamento">
 			<p:outputPanel>
-				<p>Seleziona un metodo di pagamento</p>
-
 				<p:dataScroller value="#{ordiniBean.cartaDiCreditoMap}"
 					var="item" chunkSize="10" id="scrollerMetodoDiPagamento">
 					<f:facet name="header">
-						<p>Metodi di pagamento collegati</p>
+						<p>#{label['metodoPagamento.metodiCollegati']}</p>
 					</f:facet>
 
 					<h:panelGrid columns="2" style="width:100%"
 						columnClasses="logo,detail">
 
-						<p:outputPanel id="panelIndirizziSpedizione">
+						<p:outputPanel id="panelMetodoPagamento">
 							<h:panelGrid columns="14" cellpadding="5">
-								<h:outputText value="Numero carta:" />
+								<h:outputText value="#{label['metodoPagamento.numeroCarta']}" />
 								<h:outputText value="#{item.key.numero_carta}"
 									style="font-weight: bold" />
 
-								<h:outputText value="Scadenza:" />
+								<h:outputText value="#{label['metodoPagamento.dataScadenza']}" />
 								<h:outputText value="#{item.key.data_scadenza}"
 									style="font-weight: bold" />
 
-								<h:outputText value="CVV:" />
+								<h:outputText value="#{label['metodoPagamento.cvv']}" />
 								<h:outputText value="#{item.key.CVV}" style="font-weight: bold" />
 
-								<h:outputText value="Circuito:" />
+								<h:outputText value="#{label['metodoPagamento.circuito']}" />
 								<h:outputText value="#{item.key.nome_circuito}"
 									style="font-weight: bold" />
 
-								<h:outputText value="Intestatario:" />
+								<h:outputText value="#{label['metodoPagamento.intestatario']}" />
 								<h:outputText value="#{item.key.nominativo_proprietario}"
 									style="font-weight: bold" />
 
-								<h:outputText value="Indirizzo Di Fatturazione: " />
+								<h:outputText value="#{label['metodoPagamento.indirizzoFatturazione']}" />
 								<h:outputText
 									value="#{item.value.via} #{item.value.n_civico} , #{item.value.cap}"
 									style="font-weight: bold" />
 
-								<p:commandButton value="Seleziona"
+								<p:commandButton value="#{label['actions.seleziona']}"
 									actionListener="#{ordiniBean.setCartaDiCreditoSelezionata(item.key,item.value)}"
 									ajax="false" />
 
-								<p:commandButton value="Elimina"
+								<p:commandButton value="#{label['actions.elimina']}"
 									actionListener="#{ordiniBean.deleteCartaDiCredito(item.key)}"
 									ajax="false" />
 
@@ -67,14 +62,13 @@
 
 		</p:tab>
 
-		<p:tab title="Aggiungi un metodo di pagamento">
-			<p>Inserisci un nuovo indirizzo di spedizione</p>
+		<p:tab title="#{label['metodoPagamento.aggiungiMetodo']}">
 			<p:panelGrid id="gridMetodoDiPagamento">
 
 				<p:row>
 					<p:column>
 						<p:outputLabel for="numeroCartaMetodoDiPagamento"
-							value="Numero Carta" />
+							value="#{label['metodoPagamento.numeroCarta']}" />
 					</p:column>
 					<p:column>
 						<p:inputText id="numeroCartaMetodoDiPagamento"
@@ -83,7 +77,7 @@
 				</p:row>
 				<p:row>
 					<p:column>
-						<p:outputLabel value="Data Scadenza:" />
+						<p:outputLabel value="#{label['metodoPagamento.dataScadenza']}" />
 					</p:column>
 					<p:column>
 						<p:selectOneMenu id="meseMetodoDiPagamento"
@@ -103,7 +97,7 @@
 				</p:row>
 				<p:row>
 					<p:column>
-						<p:outputLabel for="cvvMetodoDiPagamento" value="CVV" />
+						<p:outputLabel for="cvvMetodoDiPagamento" value="#{label['metodoPagamento.cvv']}" />
 					</p:column>
 					<p:column>
 						<p:inputText id="cvvMetodoDiPagamento"
@@ -113,7 +107,7 @@
 				<p:row>
 					<p:column>
 						<p:outputLabel for="nominativoMetodoDiPagamento"
-							value="Nominativo Intestatario: (nome e cognome)" />
+							value="#{label['metodoPagamento.intestatario']}" />
 					</p:column>
 					<p:column>
 						<p:inputText id="nominativoMetodoDiPagamento"
@@ -123,7 +117,7 @@
 				<p:row>
 					<p:column>
 						<p:outputLabel for="circuitoMetodoDiPagamento"
-							value="Circuito: (VISA, AMERICAN EXPRESS O MASTER CARD)" />
+							value="#{label['metodoPagamento.circuito']} #{label['metodoPagamento.circuitiAccettati']}" />
 					</p:column>
 					<p:column>
 						<p:inputText id="circuitoMetodoDiPagamento"
@@ -132,17 +126,17 @@
 				</p:row>
 				<p:row>
 					<p:column>
-						<h4>Indirizzo di fatturazione</h4>
+						<h4>#{label['metodoPagamento.indirizzoFatturazione']}</h4>
 					</p:column>
 				</p:row>
 				<p:row>
 					<p:column>
-						<p:outputLabel for="provinciaMetodoDiPagamento" value="Provincia" />
+						<p:outputLabel for="provinciaMetodoDiPagamento" value="#{label['provincia.nome']}" />
 					</p:column>
 					<p:column>
 						<p:selectOneMenu id="provinciaMetodoDiPagamento"
 							value="#{ordiniBean.addIndirizzoOrdine.id_provincia}">
-							<f:selectItem itemLabel="Seleziona una scelta"
+							<f:selectItem itemLabel="#{label['provincia.selezionaProvincia']}"
 								itemValue="#{null}" />
 							<f:selectItems value="#{provinceBean.allProvince}" var="item"
 								itemLabel="#{item.nome_province}"
@@ -152,7 +146,7 @@
 				</p:row>
 				<p:row>
 					<p:column>
-						<p:outputLabel for="viaMetodoDiPagamento" value="Via" />
+						<p:outputLabel for="viaMetodoDiPagamento" value="#{label['indirizzo.via']}" />
 					</p:column>
 					<p:column>
 						<p:inputText id="viaMetodoDiPagamento"
@@ -162,7 +156,7 @@
 				<p:row>
 					<p:column>
 						<p:outputLabel for="nCivicoMetodoDiPagamento"
-							value="Numero Civico" />
+							value="#{label['indirizzo.nCivico']}" />
 					</p:column>
 					<p:column>
 						<p:inputText id="nCivicoMetodoDiPagamento"
@@ -171,7 +165,7 @@
 				</p:row>
 				<p:row>
 					<p:column>
-						<p:outputLabel for="capMetodoDiPagamento" value="CAP" />
+						<p:outputLabel for="capMetodoDiPagamento" value="#{label['indirizzo.cap']}" />
 					</p:column>
 					<p:column>
 						<p:inputText id="capMetodoDiPagamento"
@@ -181,7 +175,7 @@
 				<p:row>
 					<p:column>
 						<p:commandButton id="insertMetodoDiPagamento"
-							value="Aggiungi Metodo di Pagamento"
+							value="#{label['actions.aggiungi']}"
 							action="#{ordiniBean.insertCartaDiCredito}" ajax="false" />
 					</p:column>
 				</p:row>
@@ -193,32 +187,32 @@
 	<p:dataTable var="item"
 		rendered="#{ordiniBean.cartaDiCreditoSelezionata.id != null}"
 		value="#{ordiniBean.cartaDiCreditoSelezionata}">
-		<p:column headerText="Numero carta">
+		<p:column headerText="#{label['metodoPagamento.numeroCarta']}">
 			<h:outputText value="#{item.numeroCarta}" />
 		</p:column>
 
-		<p:column headerText="Data Scadenza">
+		<p:column headerText="#{label['metodoPagamento.dataScadenza']}">
 			<h:outputText value="#{item.dataScadenza}" />
 		</p:column>
 
-		<p:column headerText="CVV">
+		<p:column headerText="#{label['metodoPagamento.cvv']}">
 			<h:outputText value="#{item.CVV}" />
 		</p:column>
 
-		<p:column headerText="Intestatario">
+		<p:column headerText="#{label['metodoPagamento.intestatario']}">
 			<h:outputText value="#{item.nominativoProprietario}" />
 		</p:column>
 
-		<p:column headerText="Circuito">
+		<p:column headerText="#{label['metodoPagamento.circuito']}">
 			<h:outputText value="#{item.nomeCircuito}" />
 		</p:column>
 		
-		<p:column headerText="Indirizzo Fatturazione">
+		<p:column headerText="#{label['metodoPagamento.indirizzoFatturazione']}">
 			<h:outputText value="#{item.indirizzoFatturazione.via} #{item.indirizzoFatturazione.NCivico}, #{item.indirizzoFatturazione.cap}" />
 		</p:column>
 
-		<p:column headerText="Azioni">
-			<p:commandButton value="Cambia Indirizzo" style="margin-top: 10px;"
+		<p:column headerText="#{label['generic.azioni']}">
+			<p:commandButton value="#{label['metodoPagamento.cambiaMetodo']}" style="margin-top: 10px;"
 				action="#{ordiniBean.setCartaDiCreditoSelezionata(null,null)}"
 				ajax="false"
 				update="menuForm:tabView:accorditionIndirizziSpedizione:scrollerCartaDiCredito" />

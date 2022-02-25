@@ -71,9 +71,12 @@ public class Constants {
 		public static final int ID_TAB_SIGNUP = 2;
 		public static final int ID_TAB_ARTICOLI = 1;
 		public static final int ID_TAB_AREA_RISERVATA = 2;
-		public static final int ID_TAB_CARRELLO = 3;
-		public static final int ID_TAB_ORDINE = 4;
-		public static final int ID_TAB_LOGOUT = 5;
+		public static final int ID_TAB_CARRELLO_UTENTE = 2;
+		public static final int ID_TAB_CARRELLO_ADMIN = 3;
+		public static final int ID_TAB_ORDINE_UTENTE = 3;
+		public static final int ID_TAB_ORDINE_ADMIN = 4;
+		public static final int ID_TAB_LOGOUT_UTENTE = 4;
+		public static final int ID_TAB_LOGOUT_ADMIN = 5;
 	}
 
 	public static class File {

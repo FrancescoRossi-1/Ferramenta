@@ -6,13 +6,13 @@
 
 <h:body>
 
-	<h1>Aggiungi Categorie</h1>
+	<h1>#{label['areaRiservata.aggiungiCategoria']}</h1>
 
 	<p:panelGrid id="gridAddCategorie" cellpadding="2"
 		style="margin-left: auto; margin-right: auto;">
 		<p:row>
 			<p:column colspan="1">
-				<p:outputLabel for="nomeCategoria" value="Nome Categoria:" />
+				<p:outputLabel for="nomeCategoria" value="#{label['categoria.nome']}" />
 			</p:column>
 			<p:column colspan="2">
 				<p:inputText id="nomeCategoria"
@@ -22,7 +22,7 @@
 		<p:row>
 			<p:column colspan="1">
 				<p:outputLabel for="descrizioneCategoria"
-					value="Descrizione Categoria:" />
+					value="#{label['categoria.descrizione']}" />
 			</p:column>
 			<p:column colspan="2">
 				<p:inputText id="descrizioneCategoria"
@@ -32,7 +32,7 @@
 		</p:row>
 		<p:row>
 			<p:column colspan="3">
-				<p:commandButton value="Aggiungi Categoria" id="aggiungiCategoria"
+				<p:commandButton value="#{label['actions.aggiungi']}" id="aggiungiCategoria"
 					actionListener="#{categorieBean.insertCategoria}"
 					style="margin-right:20px;" styleClass="ui-priority-primary"
 					ajax="false" update="@form" />
