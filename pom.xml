@@ -401,7 +401,7 @@
 		<dependency>
 			<groupId>org.wildfly.security</groupId>
 			<artifactId>wildfly-elytron-realm</artifactId>
-			<version>1.12.1.Final</version>
+			<version>1.19.0.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.wildfly.security</groupId>
