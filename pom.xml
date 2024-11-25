@@ -421,7 +421,7 @@
 		<dependency>
 			<groupId>org.wildfly.security</groupId>
 			<artifactId>wildfly-elytron-sasl</artifactId>
-			<version>1.12.1.Final</version>
+			<version>2.1.0.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.wildfly.security</groupId>
